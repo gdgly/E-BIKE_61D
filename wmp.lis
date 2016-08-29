@@ -1,0 +1,1 @@
+LIB_SRCS_C   = main.c zt_main.c zt_smart_control.c zt_gsensor.c kfd_protocol.c
