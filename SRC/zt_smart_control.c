@@ -517,7 +517,7 @@ void zt_smart_check_lundong(void)
 		{
 			lundong_is_locking = 1;
 			controller_lock_bike();
-			zt_voice_play(VOICE_ALARM);
+		//	zt_voice_play(VOICE_ALARM);
 		}
 	}
 	
