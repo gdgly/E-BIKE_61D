@@ -268,11 +268,11 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 			*(update_data+1) = (cali_adc>>8)&0xff;
 			pre_adc = cali_adc;
 		}
-		else if(pre_adc)
+	/*	else if(pre_adc)
 		{
 			*update_data = pre_adc&0xff;
 			*(update_data+1) = (pre_adc>>8)&0xff;
-		}
+		}*/
 		else
 		{
 			curradc = zt_convert_adc((kal_uint16)zt_adc_get_aver_value());

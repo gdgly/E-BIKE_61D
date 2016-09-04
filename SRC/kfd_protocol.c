@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.04_HW1.0.0"
+#define GT_VER "SW1.0.05_HW1.0.0"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -812,20 +812,22 @@ void kfd_upload_data_package(void)
 	static kal_uint8 delay_index = 0;
 
 	//zt_trace(TPROT, "%s,delay_index=%d",__func__,delay_index);
-	kfd_upload_gps_package();
+
+	if(delay_index%3==0)
+	{
+		kfd_upload_gps_package();
+	}
 	
-	if((delay_index+1)%3==0)
+	if(delay_index%6==0)
 	{
 		kfd_upload_alarm_package();
-	}
-	if((delay_index+2)%6==0)
-	{
 		kfd_upload_ebike_package();
 	}
 	
 	delay_index++;
 	if(delay_index>255)
 		delay_index = 0;
+	
 	StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL*1000, kfd_upload_data_package);
 }
 /*****************************************************************************
@@ -1103,6 +1105,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 						zt_smart_proc_network_data(control_data->value_len,control_data->value);
 						if(control_data->value[0]==0x02)	//ªπ≥µ÷∏¡Ó
 						{
+							kfd_upload_gps_package();
 							kfd_upload_ebike_package();
 						}
 						break;
@@ -1210,7 +1213,6 @@ void kfd_connect_service(void)
 void kfd_protocol_init(void)
 {
 	S16 error;
-	int result;
 	
 	kfd_get_gps_data_per_period();
 	kfd_work_state = EN_INIT_STATE;	
