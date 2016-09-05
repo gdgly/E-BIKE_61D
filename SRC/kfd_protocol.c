@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.05_HW1.0.0"
+#define GT_VER "SW1.0.05_HW1.0.1"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -1023,7 +1023,6 @@ void kfd_dev_data_proc(gps_tracker_data_content_struct* data)
 kal_int32 kfd_protocol_proc(kal_uint8* buf )
 {	
 	gps_tracker_msg_head_struct* head;
-	static kal_bool first_login = KAL_TRUE;
 
 	if (buf == NULL)
 		return KAL_FALSE;
@@ -1038,11 +1037,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 			//zt_trace(TPROT, "login rsp sn ok");
 			kfd_work_state = EN_WORKING_STATE;
 
-			if(first_login)
-			{
-				kfd_calibration_time(buf);
-				first_login = KAL_FALSE;
-			}
+			kfd_calibration_time(buf);
 			kfd_upload_ver_package();
 			zt_led_open_gsm_led();
 			StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL, kfd_upload_hb_package);
