@@ -13,6 +13,7 @@
 
 work_state kfd_work_state = EN_INIT_STATE;
 kal_uint8 kfd_hb_send_times = 0;
+kal_uint8 kfd_login_times = 0;
 
 kal_uint16 kfd_sn = 0;
 
@@ -501,14 +502,25 @@ void kfd_upload_login_package(void)
 {
 	gps_tracker_login_req_content_struct login_package={0};
 	kal_uint8 imei[MAX_GT_IMEI_LEN]={0};
+
+	zt_trace(TPROT, "kfd_login_times=%d", kfd_login_times);
+	if(kfd_login_times >= 3)
+	{
+		zt_reset_system();
+	}
+	else
+	{
+		kfd_login_times++;
+		srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
+		//zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
+		login_package.dev_type = gps_tracker_config.dev_type;
+		login_package.auth_code = 0;
+		hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
+		kfd_work_state = EN_LOGING_STATE;
+		kfd_send_package(EN_GT_PT_LOGIN,(kal_uint8*)&login_package,sizeof(gps_tracker_login_req_content_struct));
+	}
 	
-	srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
-	//zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
-	login_package.dev_type = gps_tracker_config.dev_type;
-	login_package.auth_code = 0;
-	hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
-	kfd_work_state = EN_LOGING_STATE;
-	kfd_send_package(EN_GT_PT_LOGIN,(kal_uint8*)&login_package,sizeof(gps_tracker_login_req_content_struct));
+	StartTimer(GetTimerID(ZT_LOGIN_TIMER), 45000, kfd_upload_login_package);
 }
 /*****************************************************************************
  * FUNCTION
@@ -818,14 +830,17 @@ void kfd_upload_data_package(void)
 		kfd_upload_gps_package();
 	}
 	
-	if(delay_index%6==0)
+	if((delay_index+1)%6==0)
 	{
 		kfd_upload_alarm_package();
+	}
+	else if((delay_index+2)%6==0)
+	{
 		kfd_upload_ebike_package();
 	}
 	
 	delay_index++;
-	if(delay_index>255)
+	if(delay_index>252)
 		delay_index = 0;
 	
 	StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL*1000, kfd_upload_data_package);
@@ -1036,12 +1051,14 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 		{	
 			//zt_trace(TPROT, "login rsp sn ok");
 			kfd_work_state = EN_WORKING_STATE;
+			kfd_login_times = 0;
+			StopTimer(GetTimerID(ZT_LOGIN_TIMER));
 
 			kfd_calibration_time(buf);
 			kfd_upload_ver_package();
 			zt_led_open_gsm_led();
 			StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL, kfd_upload_hb_package);
-			StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL, kfd_upload_data_package);		
+			StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL, kfd_upload_data_package);	
 			break;																	
 		}		
 		case EN_GT_PT_GPS: 			
