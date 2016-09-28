@@ -40,5 +40,6 @@ extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_dat
 extern void zt_smart_update_network_data(kal_uint8* update_data);
 extern kal_uint16 zt_adc_get_value(void);
 extern void zt_smart_init(void);
+extern kal_uint8 get_electric_gate_status(void);
 
 #endif

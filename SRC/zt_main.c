@@ -50,6 +50,10 @@ void zt_main_wait_full_service(void)
 		StartTimer(GetTimerID(ZT_NETWORK_CHECK_TIMER),1000,zt_main_wait_full_service);
 	}
 }
+void zt_main_reset_system(void)
+{
+	zt_reset_system();
+}
 
 /*****************************************************************************
  * FUNCTION
@@ -68,6 +72,7 @@ void zt_ota_main(void)
 #ifdef ENABLE_LOG			
 	zt_trace(TMAIN, "%s",__func__); 
 #endif	  
+	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),300*1000,zt_main_reset_system);
 	kfd_protocol_init(); 
 	zt_gsensor_init();
 	zt_smart_init();

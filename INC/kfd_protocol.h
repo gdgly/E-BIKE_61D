@@ -278,5 +278,6 @@ extern void kfd_free_connect(void);
 extern void kfd_protocol_parse(kal_uint8* rcv_buf,kal_int32 buflen);
 extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
-
+extern void kfd_stop_gps_data_per_period(void);
+extern void kfd_get_gps_data_per_period(void);
 #endif

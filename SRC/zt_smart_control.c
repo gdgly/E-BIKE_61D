@@ -37,6 +37,10 @@ kal_uint16 zt_adc_get_aver_value(void)
 {
 	return aver_adc;
 }
+kal_uint8 get_electric_gate_status(void)
+{
+	return who_open_electric_gate;
+}
 void close_dianmen(void)
 {
 	//zt_trace(TPERI,"%s",__func__);
@@ -94,7 +98,10 @@ void unlock_bike(void)
 }
 void gprs_open_dianmen(void)
 {
+	S16 error;
+	
 	who_open_electric_gate |= GPRS_OPEN;
+	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
 	open_dianmen();
 }
 kal_bool zt_smart_check_hall_is_run(void)
@@ -143,7 +150,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 						{
 							close_dianmen();
 							tangze_is_locking = 1;
-							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	//zzt.20160725
+							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
 							who_open_electric_gate = 0;
 							WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
 						}
@@ -154,8 +161,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					if(!who_open_electric_gate)
 					{
 						unlock_bike();
-						StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,gprs_open_dianmen);	//zzt.20160725
-						WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+						StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,gprs_open_dianmen);
 						zt_voice_play(VOICE_UNLOCK);
 					}
 				}
@@ -567,6 +573,7 @@ void zt_smart_check_gps_pwr(void)
 		{
 			//zt_trace(TPERI,"gps pwr on");
 			zt_gps_power_on();
+			kfd_get_gps_data_per_period();
 		}
 	}
 	else if(zt_gsensor_check_is_motionless())
@@ -575,6 +582,7 @@ void zt_smart_check_gps_pwr(void)
 		{
 			//zt_trace(TPERI,"gps pwr off");
 			zt_gps_power_off();
+			kfd_stop_gps_data_per_period();
 		}
 	}
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
@@ -641,7 +649,7 @@ void zt_smart_init(void)
 	//zt_trace(TPERI,"%s",__func__);
 	zt_smart_dianmen_init();
 
-	zt_smart_key_detect_proc();
+//	zt_smart_key_detect_proc();
 
 /*×ÜÀï³Ì*/
 	zt_smart_read_hall();

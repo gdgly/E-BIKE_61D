@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.05_HW1.0.1"
+#define GT_VER "SW1.0.06_HW1.0.1"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -286,6 +286,13 @@ void kfd_get_gps_data_per_period(void)
 	StartTimer(GetTimerID(ZT_GPS_PERIOD_TIMER), 1000, kfd_get_gps_data_per_period);
 }
 
+void kfd_stop_gps_data_per_period(void)
+{
+	StopTimer(GetTimerID(ZT_GPS_PERIOD_TIMER));
+	memset(kfd_gps_data_array,0,sizeof(gps_info_struct)*DATA_INTERVAL);
+	kfd_gps_data_index = 0;
+}
+
 /*****************************************************************************
  * FUNCTION
  * kfd_get_best_hdop_gps_data
@@ -537,7 +544,7 @@ void kfd_upload_hb_package(void)
 	
 	kfd_send_package(EN_GT_PT_HB,NULL,0);
 
-	if(kfd_hb_send_times>=1)
+	if(kfd_hb_send_times>=2)
 	{
 		kfd_hb_send_times = 0;
 		zt_socket_reconnect(kfd_soc_app_id);
@@ -673,7 +680,7 @@ void kfd_upload_alarm_package(void)
 		gps_tracker_alarm.speed_ind = 0;
 	}
 //震动	
-	if(shake_value >= gps_tracker_config.vibr_thr)	
+	if(shake_value >= gps_tracker_config.vibr_thr && !get_electric_gate_status())	
 	{
 		//连续探测到N次震动，才告警
 		if(zt_gsensor_check_is_shake_sharp())
@@ -687,7 +694,7 @@ void kfd_upload_alarm_package(void)
 		gps_tracker_alarm.vibr_ind = 0;
 	}
 //断电
-	if(zt_adc_get_value()<300)	// 10.2V
+	if(zt_adc_get_value()<300)	// 10.2V=0.3x34
 	{
 		gps_tracker_alarm.pwr_off_ind =1;
 	}
@@ -1053,6 +1060,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 			kfd_work_state = EN_WORKING_STATE;
 			kfd_login_times = 0;
 			StopTimer(GetTimerID(ZT_LOGIN_TIMER));
+			StopTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER));
 
 			kfd_calibration_time(buf);
 			kfd_upload_ver_package();
