@@ -196,9 +196,6 @@ kal_uint8 zt_gsensor_get_shake_change(void)
 	a-=zt_acce.x;
 	b-=zt_acce.y;
 	c-=zt_acce.z;
-#ifdef ENABLE_LOG	
-	zt_trace(TSEN,"changed abs: x %d; y %d; z %d",abs_S8(a), abs_S8(b), abs_S8(c));
-#endif
 	
 	change = abs_S8(a) + abs_S8(b) + abs_S8(c);
 	
