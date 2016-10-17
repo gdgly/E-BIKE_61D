@@ -543,10 +543,14 @@ void zt_smart_key_detect_proc(void)
 			ztDelayms(100);
 			if(GPIO_ReadIO(KEY_DETECT_PIN)==0)
 			{
-				//zt_trace(TPERI,"%s,unlock",__func__);
-				who_open_electric_gate |= KEY_OPEN;
-				unlock_bike();
-				zt_voice_play(VOICE_UNLOCK);
+				ztDelayms(50);
+				if(GPIO_ReadIO(KEY_DETECT_PIN)==0)
+				{
+					//zt_trace(TPERI,"%s,unlock",__func__);
+					who_open_electric_gate |= KEY_OPEN;
+					unlock_bike();
+					zt_voice_play(VOICE_UNLOCK);
+				}
 			}
 		}
 		else if(value && who_open_electric_gate)
@@ -554,14 +558,18 @@ void zt_smart_key_detect_proc(void)
 			ztDelayms(100);
 			if(GPIO_ReadIO(KEY_DETECT_PIN))
 			{
-				//zt_trace(TPERI,"%s,lock",__func__);
-				who_open_electric_gate = 0;
-				zt_voice_play(VOICE_LOCK);
+				ztDelayms(50);
+				if(GPIO_ReadIO(KEY_DETECT_PIN))
+				{
+					//zt_trace(TPERI,"%s,lock",__func__);
+					who_open_electric_gate = 0;
+					zt_voice_play(VOICE_LOCK);
+				}
 			}
 		}
 	}
 	
-	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),150,zt_smart_key_detect_proc);
+	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),500,zt_smart_key_detect_proc);
 }
 
 void zt_smart_check_gps_pwr(void)
@@ -649,7 +657,7 @@ void zt_smart_init(void)
 	//zt_trace(TPERI,"%s",__func__);
 	zt_smart_dianmen_init();
 
-//	zt_smart_key_detect_proc();
+	zt_smart_key_detect_proc();
 
 /*×ÜÀï³Ì*/
 	zt_smart_read_hall();

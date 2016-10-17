@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.06_HW1.0.1"
+#define GT_VER "SW1.0.07_HW1.0.1"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
