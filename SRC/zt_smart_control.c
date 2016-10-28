@@ -189,6 +189,22 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					bluetooth_reset();
 				}
 				break;
+			case 0x07:	//»¹³µ
+				if(cmd->para[0]==1)
+				{
+					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
+					{
+						if(!zt_smart_check_hall_is_run())
+						{
+							close_dianmen();
+							tangze_is_locking = 1;
+							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
+							who_open_electric_gate = 0;
+							WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+						}
+					}
+					kfd_upload_give_back_package(who_open_electric_gate);
+				}
 			default:
 				break;
 		}	

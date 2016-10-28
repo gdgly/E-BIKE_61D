@@ -109,6 +109,7 @@ typedef enum
 	EN_GT_PT_ALARM,	
 	EN_GT_PT_DEV_DATA,	
 	EN_GT_PT_CONTROL,
+	EN_GT_PT_GIVE_BACK,
 	
 	EN_GT_PT_SRV_DATA = 0x20,
 
@@ -188,7 +189,7 @@ typedef struct
 	kal_uint8 reserv_satnum;	//前四位gps保留长度 + 后四位卫星数
 	gps_tracker_property_struct property;		//gps数据属性
 	kal_uint32 latitude;		//纬度
-	kal_uint32 longitude;		//精度
+	kal_uint32 longitude;		//经度
 	kal_uint16 speed;			//速度
 	kal_uint16 course;			//航向
 
@@ -271,6 +272,24 @@ typedef struct
 	kal_uint16 msl_altitude;
 	kal_uint16 hdop;
 }gps_tracker_gps_struct;
+
+/****************************0x08还车数据包******************************/
+typedef struct
+{
+	kal_uint8 reserv_satnum;	//前四位gps保留长度 + 后四位卫星数
+	gps_tracker_property_struct property;		//gps数据属性
+	kal_uint32 latitude;		//纬度
+	kal_uint32 longitude;		//经度
+	kal_uint16 speed;			//速度
+	kal_uint16 course;			//航向
+}gps_tracker_slim_struct;
+
+typedef struct
+{
+	kal_uint8 lock_state;
+	kal_uint8 gps_data_num;	//max 5
+	gps_tracker_slim_struct gps_array[5];
+}gps_tracker_give_back_struct;
 #pragma pack ()//强制字节对齐
 
 extern void kfd_upload_login_package(void);
@@ -280,4 +299,5 @@ extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
 extern void kfd_stop_gps_data_per_period(void);
 extern void kfd_get_gps_data_per_period(void);
+extern void kfd_upload_give_back_package(kal_uint8 gate);
 #endif

@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.07_HW1.0.1"
+#define GT_VER "SW1.0.08_HW1.0.1"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -20,15 +20,14 @@ kal_uint16 kfd_sn = 0;
 gps_tracker_config_struct gps_tracker_config;
 
 gps_info_struct kfd_gps_data_array[DATA_INTERVAL];
-kal_uint8 kfd_gps_data_index;
 
 kal_int8 kfd_soc_app_id;
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	2,	// 1 ip; 2 domain
+	 2,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain
-	{14,215,133,125},	//ip
+	{14,215,133,125},	//{139,224,67,207},	//ip 	//{14,215,133,125}
 	4,		//ip len
 	9000			//port
 	},
@@ -273,11 +272,16 @@ kal_int32 kfd_send_package(GT_PROT_TYPE_EN prot_type, kal_uint8* context,kal_uin
  *****************************************************************************/
 void kfd_get_gps_data_per_period(void)
 {
+	kal_uint8 i;
 	gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
-	if(kfd_gps_data_index>=DATA_INTERVAL)
-		kfd_gps_data_index = 0;
-	memcpy(&kfd_gps_data_array[kfd_gps_data_index], curr_gps_data, sizeof(gps_info_struct));	
-	kfd_gps_data_index++;
+
+	for(i=DATA_INTERVAL-1; i>=1; i--)
+	{
+		memcpy(&kfd_gps_data_array[i], &kfd_gps_data_array[i-1], sizeof(gps_info_struct));
+	}
+	
+	memcpy(&kfd_gps_data_array[0], curr_gps_data, sizeof(gps_info_struct));	
+	zt_trace(TPROT,"valid=%c,use=%d,view=%d",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view);
 
 	/*if(curr_gps_data->state=='A')
 		zt_led_open_gps_led();
@@ -290,7 +294,6 @@ void kfd_stop_gps_data_per_period(void)
 {
 	StopTimer(GetTimerID(ZT_GPS_PERIOD_TIMER));
 	memset(kfd_gps_data_array,0,sizeof(gps_info_struct)*DATA_INTERVAL);
-	kfd_gps_data_index = 0;
 }
 
 /*****************************************************************************
@@ -554,6 +557,69 @@ void kfd_upload_hb_package(void)
 		kfd_hb_send_times++;
 		StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL*1000, kfd_upload_hb_package);
 	}
+}
+void kfd_upload_give_back_package(kal_uint8 gate)
+{
+	kal_uint8 i,num=0;
+	gps_tracker_give_back_struct give_back_package;
+	gps_tracker_gps_struct gps_tracker_gps;
+	kal_uint8 len;
+
+	give_back_package.lock_state = gate>0?0:1;
+	for(i=0;i<DATA_INTERVAL;i++)
+	{
+		if(kfd_gps_data_array[i].state=='A')
+		{
+			memset(&gps_tracker_gps,0,sizeof(gps_tracker_gps_struct));
+			kfd_convert_gps_data_for_protocol(&kfd_gps_data_array[i],&gps_tracker_gps);
+			
+			give_back_package.gps_array[num].latitude = gps_tracker_gps.latitude;
+			give_back_package.gps_array[num].longitude = gps_tracker_gps.longitude;
+			give_back_package.gps_array[num].speed = gps_tracker_gps.speed;					
+			give_back_package.gps_array[num].course= gps_tracker_gps.course;
+			give_back_package.gps_array[num].reserv_satnum = gps_tracker_gps.sat_uesed;
+			if(gps_tracker_gps.lat_ind == EN_GT_SOUTH)
+			{
+				give_back_package.gps_array[num].property.lat_ind = 0;	
+			}
+			else if(gps_tracker_gps.lat_ind == EN_GT_NORTH)
+			{
+				give_back_package.gps_array[num].property.lat_ind = 1;
+			}
+
+			if(gps_tracker_gps.long_ind == EN_GT_WEST)
+			{
+				give_back_package.gps_array[num].property.long_ind = 0;	
+			}
+			else if(gps_tracker_gps.long_ind == EN_GT_EAST)
+			{
+				give_back_package.gps_array[num].property.long_ind = 1;
+			}
+
+			if(gps_tracker_gps.mode == EN_GT_GM_A)
+			{
+				give_back_package.gps_array[num].property.mode = 0;	
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_D)
+			{
+				give_back_package.gps_array[num].property.mode = 1;
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_E)
+			{
+				give_back_package.gps_array[num].property.mode = 2;
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_N)
+			{
+				give_back_package.gps_array[num].property.mode = 3;
+			}
+		
+			num++;
+		}
+	}
+	give_back_package.gps_data_num = num;
+	len = 2+sizeof(gps_tracker_slim_struct)*num;
+	
+	kfd_send_package(EN_GT_PT_GIVE_BACK,(kal_uint8*)&give_back_package, len);
 }
 /*****************************************************************************
  * FUNCTION
@@ -1123,11 +1189,6 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 					case 0x1c:	
 					{
 						zt_smart_proc_network_data(control_data->value_len,control_data->value);
-						if(control_data->value[0]==0x02)	//ªπ≥µ÷∏¡Ó
-						{
-							kfd_upload_gps_package();
-							kfd_upload_ebike_package();
-						}
 						break;
 					}	
 					default:
