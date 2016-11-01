@@ -281,7 +281,7 @@ void kfd_get_gps_data_per_period(void)
 	}
 	
 	memcpy(&kfd_gps_data_array[0], curr_gps_data, sizeof(gps_info_struct));	
-	zt_trace(TPROT,"valid=%c,use=%d,view=%d",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view);
+//	zt_trace(TPROT,"valid=%c,use=%d,view=%d",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view);
 
 	/*if(curr_gps_data->state=='A')
 		zt_led_open_gps_led();
