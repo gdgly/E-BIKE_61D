@@ -153,6 +153,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
 							who_open_electric_gate = 0;
 							WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+							zt_voice_play(VOICE_LOCK);
 						}
 					}
 				}
