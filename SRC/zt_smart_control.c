@@ -67,8 +67,8 @@ void tangze_lock_bike(void)
 	//zt_trace(TPERI,"%s",__func__);
 	GPIO_WriteIO(1, LOCK_A_PIN);
 	GPIO_WriteIO(0, LOCK_B_PIN);
-	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/100);
-	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 500, clear_tangze_lock_flag);
+	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/120);
+	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 600, clear_tangze_lock_flag);
 }
 void controller_lock_bike_callback(void)
 {
@@ -92,9 +92,9 @@ void unlock_bike(void)
 	//zt_trace(TPERI,"%s",__func__);
 	GPIO_WriteIO(0, LOCK_A_PIN);
 	GPIO_WriteIO(1, LOCK_B_PIN);
-	zt_start_timer(clear_tangze_lock, KAL_TICKS_500_MSEC);
+	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/120);
 
-	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),500,clear_tangze_lock_flag);
+	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),600,clear_tangze_lock_flag);
 }
 void gprs_open_dianmen(void)
 {
@@ -191,7 +191,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				}
 				break;
 			case 0x07:	//还车
-				if(cmd->para[0]==1)
+				if(cmd->para[0]==1)	//还车指令
 				{
 					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
 					{
@@ -206,6 +206,15 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					}
 					kfd_upload_give_back_package(who_open_electric_gate);
 				}
+				else if(cmd->para[0]==2)	//服务器判断还车成功之后下发指令
+				{
+					if(zt_gps_get_pwr_status())
+					{
+						zt_gps_power_off();
+						kfd_stop_gps_data_per_period();
+					}
+				}
+				break;
 			default:
 				break;
 		}	
@@ -550,6 +559,7 @@ void zt_smart_check_lundong(void)
 void zt_smart_key_detect_proc(void)
 {
 	char value;
+	static kal_uint8 key_detect_num = 0;
 	
 	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
 
@@ -557,36 +567,32 @@ void zt_smart_key_detect_proc(void)
 	{
 		if(!value &&(!(who_open_electric_gate&BT_OPEN) && !(who_open_electric_gate&KEY_OPEN) && !(who_open_electric_gate&GPRS_OPEN)))
 		{
-			ztDelayms(100);
-			if(GPIO_ReadIO(KEY_DETECT_PIN)==0)
+			key_detect_num++;
+			if(key_detect_num>2)
 			{
-				ztDelayms(50);
-				if(GPIO_ReadIO(KEY_DETECT_PIN)==0)
-				{
-					//zt_trace(TPERI,"%s,unlock",__func__);
-					who_open_electric_gate |= KEY_OPEN;
-					unlock_bike();
-					zt_voice_play(VOICE_UNLOCK);
-				}
+				key_detect_num = 0;
+				who_open_electric_gate |= KEY_OPEN;
+				//unlock_bike();
+				zt_voice_play(VOICE_UNLOCK);
 			}
 		}
 		else if(value && who_open_electric_gate)
 		{
-			ztDelayms(100);
-			if(GPIO_ReadIO(KEY_DETECT_PIN))
+			key_detect_num++;
+			if(key_detect_num>2)
 			{
-				ztDelayms(50);
-				if(GPIO_ReadIO(KEY_DETECT_PIN))
-				{
-					//zt_trace(TPERI,"%s,lock",__func__);
-					who_open_electric_gate = 0;
-					zt_voice_play(VOICE_LOCK);
-				}
+				key_detect_num = 0;
+				who_open_electric_gate = 0;
+				zt_voice_play(VOICE_LOCK);
 			}
+		}
+		else
+		{
+			key_detect_num = 0;
 		}
 	}
 	
-	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),500,zt_smart_key_detect_proc);
+	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),200,zt_smart_key_detect_proc);
 }
 
 void zt_smart_check_gps_pwr(void)

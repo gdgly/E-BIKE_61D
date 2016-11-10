@@ -27,7 +27,7 @@ network_para_struct kfd_network_para ={
 	{
 	 2,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain
-	{14,215,133,125},	//{139,224,67,207},	//ip 	//{14,215,133,125}
+	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
 	4,		//ip len
 	9000			//port
 	},
