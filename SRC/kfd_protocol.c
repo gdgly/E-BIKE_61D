@@ -281,7 +281,9 @@ void kfd_get_gps_data_per_period(void)
 	}
 	
 	memcpy(&kfd_gps_data_array[0], curr_gps_data, sizeof(gps_info_struct));	
-//	zt_trace(TPROT,"valid=%c,use=%d,view=%d",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view);
+#ifdef ENABLE_LOG		
+	zt_trace(TPROT,"valid=%c,use=%d,view=%d,speed=%f",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view,curr_gps_data->speed);
+#endif
 
 	/*if(curr_gps_data->state=='A')
 		zt_led_open_gps_led();
@@ -558,6 +560,7 @@ void kfd_upload_hb_package(void)
 		StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL*1000, kfd_upload_hb_package);
 	}
 }
+
 void kfd_upload_give_back_package(kal_uint8 gate)
 {
 	kal_uint8 i,num=0;
@@ -565,7 +568,16 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 	gps_tracker_gps_struct gps_tracker_gps;
 	kal_uint8 len;
 
-	give_back_package.lock_state = gate>0?0:1;
+/*增加还车时判断主电源如没插上就提示失败*/
+	if(zt_adc_get_value()<300)	// 10.2V=0.3x34
+		give_back_package.lock_state = 0;
+	else
+		give_back_package.lock_state = gate>0?0:1;
+	
+#ifdef ENABLE_LOG	
+	zt_trace(TPROT,"lock_state=%d,gate=%d",give_back_package.lock_state,gate);
+#endif
+
 	for(i=0;i<DATA_INTERVAL;i++)
 	{
 		if(kfd_gps_data_array[i].state=='A')
