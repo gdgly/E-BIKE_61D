@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.08_HW1.0.1"
+#define GT_VER "SW1.0.09_"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -265,7 +265,7 @@ kal_int32 kfd_send_package(GT_PROT_TYPE_EN prot_type, kal_uint8* context,kal_uin
  * FUNCTION
  * kfd_get_gps_data_per_period
  * DESCRIPTION
- *»ñÈ¡×î½üÒ»¸öÉÏ´«ÖÜÆÚµÄGPSÊý¾Ýµ½Êý×éÖÐ­
+ *»ñÈ¡×î½üÒ»¸öÉÏ´«ÖÜÆÚµÄGPSÊý¾Ýµ½Êý×éÖÐ?
  * PARAMETERS
  * RETURNS
  * void
@@ -281,8 +281,9 @@ void kfd_get_gps_data_per_period(void)
 	}
 	
 	memcpy(&kfd_gps_data_array[0], curr_gps_data, sizeof(gps_info_struct));	
-#ifdef ENABLE_LOG		
-	zt_trace(TPROT,"valid=%c,use=%d,view=%d,speed=%f",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view,curr_gps_data->speed);
+#ifdef ENABLE_LOG	
+	if(curr_gps_data->state!=0)
+	zt_trace(TGPS,"valid=%c,use=%d,view=%d,speed=%f",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view,curr_gps_data->speed);
 #endif
 
 	/*if(curr_gps_data->state=='A')
@@ -290,12 +291,6 @@ void kfd_get_gps_data_per_period(void)
 	else if(curr_gps_data->state=='V')
 		zt_led_close_gps_led();*/
 	StartTimer(GetTimerID(ZT_GPS_PERIOD_TIMER), 1000, kfd_get_gps_data_per_period);
-}
-
-void kfd_stop_gps_data_per_period(void)
-{
-	StopTimer(GetTimerID(ZT_GPS_PERIOD_TIMER));
-	memset(kfd_gps_data_array,0,sizeof(gps_info_struct)*DATA_INTERVAL);
 }
 
 /*****************************************************************************
@@ -524,7 +519,9 @@ void kfd_upload_login_package(void)
 	{
 		kfd_login_times++;
 		srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
-		//zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
+		#ifdef ENABLE_LOG
+		zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
+		#endif
 		login_package.dev_type = gps_tracker_config.dev_type;
 		login_package.auth_code = 0;
 		hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
@@ -633,6 +630,7 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 	
 	kfd_send_package(EN_GT_PT_GIVE_BACK,(kal_uint8*)&give_back_package, len);
 }
+
 /*****************************************************************************
  * FUNCTION
  *  kfd_upload_gps_package
@@ -1111,6 +1109,7 @@ void kfd_dev_data_proc(gps_tracker_data_content_struct* data)
 			break;
 	}
 }
+
 /*****************************************************************************
  * FUNCTION
  *  kfd_protocol_proc
@@ -1336,10 +1335,12 @@ void kfd_protocol_init(void)
 	}
 	
 	gps_tracker_config.time_zone = 8*60;
-	sprintf(gps_tracker_config.ver,"%s",GT_VER);
+	sprintf(gps_tracker_config.ver,"%s%s",GT_VER,(kal_uint8*)GetHWVersion());
 	//zt_trace(TMAIN,"%d %d %d %d %d %d",gps_tracker_config.dev_type,gps_tracker_config.temp_thr,gps_tracker_config.vibr_thr,
 //		gps_tracker_config.speed_thr,gps_tracker_config.alarm_switch,gps_tracker_config.defence);
-	//zt_trace(TMAIN, "%s,init variables success",__func__);
+	#ifdef ENABLE_LOG
+		zt_trace(TPROT,"Ver=%s",gps_tracker_config.ver);
+	#endif
 
 }
 

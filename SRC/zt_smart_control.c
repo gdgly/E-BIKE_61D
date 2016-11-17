@@ -211,7 +211,6 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					if(zt_gps_get_pwr_status())
 					{
 						zt_gps_power_off();
-						kfd_stop_gps_data_per_period();
 					}
 				}
 				break;
@@ -604,7 +603,6 @@ void zt_smart_check_gps_pwr(void)
 		{
 			//zt_trace(TPERI,"gps pwr on");
 			zt_gps_power_on();
-			kfd_get_gps_data_per_period();
 		}
 	}
 	else if(zt_gsensor_check_is_motionless())
@@ -613,9 +611,9 @@ void zt_smart_check_gps_pwr(void)
 		{
 			//zt_trace(TPERI,"gps pwr off");
 			zt_gps_power_off();
-			kfd_stop_gps_data_per_period();
 		}
 	}
+	zt_lbs_req();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 
@@ -696,5 +694,5 @@ void zt_smart_init(void)
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_ADC_UEM_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_adc_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_HALL_EINT_SEND_MMI_REQ), (PsIntFuncPtr)parse_hall_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LUNDONG_SEND_MMI_REQ), (PsIntFuncPtr)parse_lundong_hdlr,  KAL_FALSE);
-
+				
 }

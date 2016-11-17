@@ -67,6 +67,7 @@ typedef enum
 	NVRAM_EF_GT_ALARM_SWITCH_LID,
 	NVRAM_EF_GT_DEFENCE_LID,
 	NVRAM_EF_GT_DEV_TYPE_LID,
+	NVRAM_EF_GT_RESERVE_LID,
 }NVRAM_EF_LID;
 
 typedef enum 
@@ -241,6 +242,12 @@ typedef struct
 
 typedef struct
 {
+	LOCAL_PARA_HDR
+	lbs_info_struct lbs;
+}lbs_msg_struct;
+
+typedef struct
+{
 	kal_uint8 addr;		//0x1a 电动车控制器，0x1b充电站控制器，0x1c单片机蓝牙智控器
 	kal_uint8 value_len;
 	kal_uint8 value[18];
@@ -263,7 +270,7 @@ typedef enum
 	MSG_ID_ADC_UEM_SEND_TO_MMI_REQ,
 	MSG_ID_HALL_EINT_SEND_MMI_REQ,
 	MSG_ID_LUNDONG_SEND_MMI_REQ,
-	MSG_ID_BT_RESET_REQ,
+	MSG_ID_LBS_SEND_MMI_REQ,
 }MSG_ID;
 
 typedef struct
@@ -307,4 +314,33 @@ typedef void (*kal_timer_func_ptr)(void *param_ptr);
 #define KAL_TICKS_1_MIN             (13000)     /* 1 min */
 #define KAL_MSEC_64_TICKS           (295)       /* 64 ticks */
 #define KAL_MSEC_256_TICKS          (1181)      /* 256 ticks */
+
+typedef int             FS_HANDLE;
+typedef kal_uint16	UI_character_type;
+/* FS_Seek Parameter */
+typedef enum
+{
+    FS_FILE_BEGIN,
+    FS_FILE_CURRENT,
+    FS_FILE_END
+} FS_SEEK_POS_ENUM;
+
+//-- FS_Open flags
+/* The file is opened for read and write access. */
+#define FS_READ_WRITE           0x00000000L
+
+/* The file is opened for read only access. */
+#define FS_READ_ONLY            0x00000100L
+#define FS_OPEN_DIR             0x00000800L
+#define FS_CREATE               0x00010000L
+#define FS_CREATE_ALWAYS        0x00020000L
+#define FS_NO_ERROR 0
+
+typedef enum {
+      uart_port1=0,
+      uart_port2,
+      uart_port3,
+      uart_max_port,      
+      uart_port_null = 99    /* a uart port for those who uses physical port */
+} UART_PORT;
 #endif

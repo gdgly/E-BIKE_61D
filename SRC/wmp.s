@@ -123,6 +123,27 @@ $subname    BX      pc
 	Veneer zt_hall_get_curr_count
 	Veneer zt_lundong_get_curr_count
 	Veneer bluetooth_reset
+	Veneer GetHWVersion
+	Veneer FS_Open
+	Veneer FS_Close
+	Veneer FS_Read
+	Veneer FS_Write
+	Veneer FS_Seek
+	Veneer FS_Commit
+	Veneer FS_GetFilePosition
+	Veneer FS_SetAttributes
+	Veneer FS_GetAttributes
+	Veneer FS_GetFileSize
+	Veneer FS_Rename
+	Veneer FS_Delete
+	Veneer FS_CreateDir
+	Veneer FS_FindFirst
+	Veneer FS_FindNext
+	Veneer FS_FindClose
+	Veneer kal_wsprintf
+	Veneer zt_uart_init_port
+	Veneer zt_uart_write_data
+	Veneer IsMyTimerExist
 ;---------------------------------------------------------
 ;	adding new api under this line
 ;	for ex: Veneer xxxxxxx
