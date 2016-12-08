@@ -24,6 +24,7 @@ kal_uint16 aver_adc;
 kal_uint16 pre_adc = 0;
 kal_uint32 curr_hall;
 kal_uint32 curr_lundong;
+kal_uint8 gps_delay_off_flag = 0;
 
 #define MAX_BAT 10
 battery_struct battery_array[MAX_BAT];
@@ -124,6 +125,10 @@ void close_dianchi_lock(void)
 	close_led2();
 }
 
+void zt_smart_delay_gps_off(void)
+{
+	gps_delay_off_flag = 0;
+}
 
 void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 {
@@ -214,6 +219,17 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					}
 				}
 				break;
+			case 0x08:	//租车成功指令
+				if(cmd->para[0]==1)
+				{
+					if(!zt_gps_get_pwr_status())
+					{
+						gps_delay_off_flag = 1;
+						zt_gps_power_on();
+						StartTimer(ZT_GPS_DELAY_OFF_TIMER, 900*1000, zt_smart_delay_gps_off);
+					}
+				}
+				break;
 			default:
 				break;
 		}	
@@ -287,24 +303,24 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 //	static kal_uint16 pre_adc = 0;
 
 	/*电量获取均值数据*/
-	zt_smart_collect_battery_proc();
+//	zt_smart_collect_battery_proc();
 	
 	if(update_data)
 	{
 	//电量
-		cali_adc = zt_smart_calibrate_adc();
+	/*	cali_adc = zt_smart_calibrate_adc();
 		if(cali_adc)
 		{
 			*update_data = cali_adc&0xff;
 			*(update_data+1) = (cali_adc>>8)&0xff;
 			pre_adc = cali_adc;
 		}
-	/*	else if(pre_adc)
+		else if(pre_adc)
 		{
 			*update_data = pre_adc&0xff;
 			*(update_data+1) = (pre_adc>>8)&0xff;
-		}*/
-		else
+		}
+		else*/
 		{
 			curradc = zt_convert_adc((kal_uint16)zt_adc_get_aver_value());
 			*update_data = curradc&0xff;
@@ -605,7 +621,7 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_on();
 		}
 	}
-	else if(zt_gsensor_check_is_motionless())
+	else if(zt_gsensor_check_is_motionless() && !gps_delay_off_flag)
 	{
 		if(zt_gps_get_pwr_status())
 		{
@@ -613,7 +629,6 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_off();
 		}
 	}
-	zt_lbs_req();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 
