@@ -228,7 +228,7 @@ typedef  struct
 	kal_int8  dev_type;
 	
 	//防护报警
-	kal_int8 temp_thr;
+	kal_int8 vibr2_thr;	//车的震动报警
 	kal_uint8 vibr_thr;	
 	kal_uint16 speed_thr;
 
@@ -292,6 +292,7 @@ typedef struct
 }gps_tracker_give_back_struct;
 #pragma pack ()//强制字节对齐
 
+extern gps_tracker_config_struct gps_tracker_config;
 extern void kfd_upload_login_package(void);
 extern void kfd_free_connect(void);
 extern void kfd_protocol_parse(kal_uint8* rcv_buf,kal_int32 buflen);

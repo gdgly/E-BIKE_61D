@@ -2,7 +2,7 @@
 #include "zt_smart_control.h"
 #include "zt_trace.h"
 #include "zt_gsensor.h"
-
+#include "kfd_protocol.h"
 
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
@@ -230,6 +230,10 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					}
 				}
 				break;
+			case 0x09:	//报警开关指令
+				gps_tracker_config.vibr2_thr = cmd->para[0];
+				WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
+				break;
 			default:
 				break;
 		}	
@@ -343,6 +347,16 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		*(update_data+6) = (hall>>16)&0xff;
 		*(update_data+7) = (hall>>24)&0xff;
 		zt_smart_write_hall();
+
+	//报警开关
+		if(gps_tracker_config.vibr2_thr == 1)
+		{
+			*(update_data+8) = 1;	
+		}
+		else
+		{
+			*(update_data+8) = 0;	
+		}
 	//	zt_trace(TPROT|TPERI,"%x %x %x %x %x %x %x %x",*update_data,*(update_data+1),*(update_data+2),*(update_data+3),*(update_data+4),*(update_data+5),*(update_data+6),*(update_data+7));
 	}
 }
@@ -567,8 +581,15 @@ void zt_smart_check_lundong(void)
 		//	zt_voice_play(VOICE_ALARM);
 		}
 	}
-	
-	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 500, zt_smart_check_lundong);
+
+	if(gps_tracker_config.vibr2_thr==1)
+	{
+		if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
+		{
+			zt_voice_play(VOICE_ALARM);
+		}
+	}
+	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
 }
 
 void zt_smart_key_detect_proc(void)

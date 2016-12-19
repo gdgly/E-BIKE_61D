@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.10_"
+#define GT_VER "SW1.0.11_"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -888,7 +888,7 @@ void kfd_upload_ebike_package(void)
 	
 	//zt_trace(TPROT, "%s",__func__);
 	control_package.addr = 0x1c;
-	control_package.value_len = 8;
+	control_package.value_len = 9;
 	zt_smart_update_network_data(control_package.value);
 	package_len = control_package.value_len + 2;
 	kfd_send_package(EN_GT_PT_CONTROL, (kal_uint8*)&control_package, package_len);
@@ -1003,9 +1003,6 @@ void kfd_srv_data_req_proc(gps_tracker_data_content_struct* data)
 		case EN_GT_DT_SMS_ALARM_INTV:
 			break;
 		case EN_GT_DT_TEMP_THR:
-			gps_tracker_config.temp_thr = data->value[0];	
-			WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.temp_thr, sizeof(gps_tracker_config.temp_thr), &error);
-			//zt_trace(TPROT,"%s,EN_GT_DT_TEMP_THR,temp_thr=%d",__func__,gps_tracker_config.temp_thr);
 			break;
 		case EN_GT_DT_VIBR_THR:
 			gps_tracker_config.vibr_thr = data->value[0];	
@@ -1314,11 +1311,11 @@ void kfd_protocol_init(void)
 	{
 		gps_tracker_config.dev_type = 0x10;
 		gps_tracker_config.defence = 1;
-		gps_tracker_config.temp_thr = 60; 
+		gps_tracker_config.vibr2_thr = 0; 
 		gps_tracker_config.vibr_thr = 10; 
 		gps_tracker_config.speed_thr = 40;
 		*(U8*)&gps_tracker_config.alarm_switch = 0xff;
-		WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.temp_thr, sizeof(gps_tracker_config.temp_thr),&error);
+		WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
 		WriteRecord(GetNvramID(NVRAM_EF_GT_VIBR_THR_LID), 1, &gps_tracker_config.vibr_thr, sizeof(gps_tracker_config.vibr_thr),&error);		
 		WriteRecord(GetNvramID(NVRAM_EF_GT_SPEED_THR_LID), 1, &gps_tracker_config.speed_thr, sizeof(gps_tracker_config.speed_thr),&error);
 		WriteRecord(GetNvramID(NVRAM_EF_GT_ALARM_SWITCH_LID), 1, &gps_tracker_config.alarm_switch, sizeof(gps_tracker_config.alarm_switch),&error);
@@ -1327,7 +1324,7 @@ void kfd_protocol_init(void)
 	}
 	else
 	{
-		ReadRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.temp_thr, sizeof(gps_tracker_config.temp_thr),&error);
+		ReadRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
 		ReadRecord(GetNvramID(NVRAM_EF_GT_VIBR_THR_LID), 1, &gps_tracker_config.vibr_thr, sizeof(gps_tracker_config.vibr_thr),&error);
 		ReadRecord(GetNvramID(NVRAM_EF_GT_SPEED_THR_LID), 1, &gps_tracker_config.speed_thr, sizeof(gps_tracker_config.speed_thr),&error);
 		ReadRecord(GetNvramID(NVRAM_EF_GT_ALARM_SWITCH_LID), 1, &gps_tracker_config.alarm_switch, sizeof(gps_tracker_config.alarm_switch),&error);
@@ -1336,7 +1333,7 @@ void kfd_protocol_init(void)
 	
 	gps_tracker_config.time_zone = 8*60;
 	sprintf(gps_tracker_config.ver,"%s%s",GT_VER,(kal_uint8*)GetHWVersion());
-	//zt_trace(TMAIN,"%d %d %d %d %d %d",gps_tracker_config.dev_type,gps_tracker_config.temp_thr,gps_tracker_config.vibr_thr,
+	//zt_trace(TMAIN,"%d %d %d %d %d %d",gps_tracker_config.dev_type,gps_tracker_config.vibr2_thr,gps_tracker_config.vibr_thr,
 //		gps_tracker_config.speed_thr,gps_tracker_config.alarm_switch,gps_tracker_config.defence);
 	#ifdef ENABLE_LOG
 		zt_trace(TPROT,"Ver=%s",gps_tracker_config.ver);
