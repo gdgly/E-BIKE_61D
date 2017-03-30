@@ -76,3 +76,5 @@
 0x0000004A A zt_uart_init_port
 0x0000004B A zt_uart_write_data
 0x0000004C A IsMyTimerExist
+0x0000004D A zt_Malloc
+0x0000004E A zt_Free

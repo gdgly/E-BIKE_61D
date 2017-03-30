@@ -35,6 +35,51 @@ typedef struct
 	kal_uint8 electric_gate;
 }battery_struct;
 
+typedef enum
+{
+	HIGH_SPEED = 1,
+	LOW_SPEED,
+}SPEED;
+typedef enum
+{
+	HIGH = 1,
+	LOW,
+}QIANYA;
+typedef enum
+{
+	DIANDONG =1,
+	ZHULI,
+	RENLI,
+}DONGLI;
+typedef struct
+{
+	kal_uint8 fault;
+	kal_uint32 hall;
+	SPEED tiaosu;
+	QIANYA qianya;
+	DONGLI zhuli;
+	kal_uint8 xiufu;
+}controller_struct;
+
+#pragma pack (1)
+
+typedef struct
+{
+	kal_uint8 tiaosu:1;
+	kal_uint8 qianya:1;
+	kal_uint8 zhuli:2;
+	kal_uint8 lock:1;
+	kal_uint8 alarm:1;
+}status_struct;
+
+typedef struct
+{
+	kal_uint8 fault;
+	status_struct status;
+	kal_uint32 hall;
+	battery_info_struct bat;
+}ebike_struct;
+#pragma pack ()
 
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);
 extern void zt_smart_update_network_data(kal_uint8* update_data);

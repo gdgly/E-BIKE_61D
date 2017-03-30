@@ -122,6 +122,17 @@ typedef enum
 	EN_WORKING_STATE,	
 }work_state;
 
+typedef enum
+{
+	IP_MODE,
+	DOMAIN_MODE,	
+}CONNECT_MODE;
+typedef struct
+{
+	CONNECT_MODE mode;
+	char reserve[511];
+}NVRAM_RESERVE;
+
 #pragma pack (1)	//强制字节对齐
 typedef struct 
 {	
@@ -250,7 +261,7 @@ typedef struct
 {
 	kal_uint8 addr;		//0x1a 电动车控制器，0x1b充电站控制器，0x1c单片机蓝牙智控器
 	kal_uint8 value_len;
-	kal_uint8 value[18];
+	kal_uint8 value[64];
 }gps_tracker_control_data_struct;
 
 
@@ -292,10 +303,12 @@ typedef struct
 }gps_tracker_give_back_struct;
 #pragma pack ()//强制字节对齐
 
+typedef int (*RcvDataPtr)(char*,int);
+
 extern gps_tracker_config_struct gps_tracker_config;
 extern void kfd_upload_login_package(void);
 extern void kfd_free_connect(void);
-extern void kfd_protocol_parse(kal_uint8* rcv_buf,kal_int32 buflen);
+extern void kfd_protocol_parse(RcvDataPtr GetRcvData);
 extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
 extern void kfd_upload_give_back_package(kal_uint8 gate);

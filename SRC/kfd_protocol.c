@@ -25,7 +25,7 @@ kal_int8 kfd_soc_app_id;
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 2,	// 1 ip; 2 domain
+	 1, // 2,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain
 	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
 	4,		//ip len
@@ -566,7 +566,7 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 	kal_uint8 len;
 
 /*增加还车时判断主电源如没插上就提示失败*/
-	if(zt_adc_get_value()<300)	// 10.2V=0.3x34
+	if(zt_adc_get_value()==0xffff)	// 10.2V=0.3x34
 		give_back_package.lock_state = 0;
 	else
 		give_back_package.lock_state = gate>0?0:1;
@@ -770,7 +770,7 @@ void kfd_upload_alarm_package(void)
 		gps_tracker_alarm.vibr_ind = 0;
 	}
 //断电
-	if(zt_adc_get_value()<300)	// 10.2V=0.3x34
+	if(zt_adc_get_value()==0xffff)	
 	{
 		gps_tracker_alarm.pwr_off_ind =1;
 	}
@@ -887,8 +887,8 @@ void kfd_upload_ebike_package(void)
 	kal_uint8 package_len;
 	
 	//zt_trace(TPROT, "%s",__func__);
-	control_package.addr = 0x1c;
-	control_package.value_len = 9;
+	control_package.addr = 0x1d;
+	control_package.value_len = sizeof(ebike_struct);
 	zt_smart_update_network_data(control_package.value);
 	package_len = control_package.value_len + 2;
 	kfd_send_package(EN_GT_PT_CONTROL, (kal_uint8*)&control_package, package_len);
@@ -917,7 +917,7 @@ void kfd_upload_data_package(void)
 	{
 		kfd_upload_alarm_package();
 	}
-	else if((delay_index+2)%6==0)
+	else if((delay_index+2)%12==0)
 	{
 		kfd_upload_ebike_package();
 	}
@@ -1155,7 +1155,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 		}
 		case EN_GT_PT_HB: 
 		{	
-			//zt_trace(TPROT, "hb rsp sn ok ");
+			zt_trace(TPROT, "心跳响应");
 			break; 
 		}
 		case EN_GT_PT_ALARM: 					
@@ -1195,6 +1195,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 						break;
 					}
 					case 0x1c:	
+					case 0x1d:	
 					{
 						zt_smart_proc_network_data(control_data->value_len,control_data->value);
 						break;
@@ -1229,34 +1230,38 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
  * RETURNS
  *  void
  *****************************************************************************/
-void kfd_protocol_parse(kal_uint8* rcv_buf,kal_int32 buflen)
+void kfd_protocol_parse(RcvDataPtr GetRcvData)
 {
-	kal_int32 len = buflen;
-	kal_uint8* head = rcv_buf;
+	#define MAX_READ_COUNT 1024
+	
+	kal_int32 len;
+	kal_uint8* head,*pBuf;
 	kal_uint8* tail = NULL;
 	kal_uint16 i = 0;
-	kal_int32 ret;
-	kal_uint8 req[512] = {0};
+	kal_uint8 req[MAX_READ_COUNT] = {0};
 
+	pBuf = (kal_uint8*)zt_Malloc(MAX_READ_COUNT);
+	memset(pBuf, 0, MAX_READ_COUNT);
+	len = GetRcvData(pBuf,MAX_READ_COUNT);
+	
 	for(i = 0; i<len-1; i++)
 	{
 		memset(req, 0, sizeof(req));
 		//找包头 0xffff
-		if(rcv_buf[i]==0xff && rcv_buf[i+1]==0xff)
+		if(pBuf[i]==0xff && pBuf[i+1]==0xff)
 		{
-			head = rcv_buf+i;
+			head = pBuf+i;
 		}
-		else if(rcv_buf[i]==0x0d && rcv_buf[i+1]==0x0a)
+		else if(pBuf[i]==0x0d && pBuf[i+1]==0x0a)
 		{
-			tail = rcv_buf+i+2;//结尾
+			tail = pBuf+i+2;//结尾
 
 			//验证长度合法性
 			if(tail - head == head[4] + PACKET_FRAME_LEN)
 			{
 				//合法
 				memcpy(req, head, tail-head);
-				ret = kfd_protocol_proc(req);
-				//zt_trace(TPROT, "%s,prot_id = %u; sn = %u,result=%d",__func__,*(req+5), *(kal_uint16*)(req+6), ret);
+				 kfd_protocol_proc(req);
 
 				//找到合法结尾
 				head = tail;
@@ -1266,6 +1271,7 @@ void kfd_protocol_parse(kal_uint8* rcv_buf,kal_int32 buflen)
 		}
 	}
 
+	zt_Free(pBuf);
 }
 
 /*****************************************************************************

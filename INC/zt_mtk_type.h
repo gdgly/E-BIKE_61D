@@ -272,6 +272,9 @@ typedef enum
 	MSG_ID_HALL_EINT_SEND_MMI_REQ,
 	MSG_ID_LUNDONG_SEND_MMI_REQ,
 	MSG_ID_LBS_SEND_MMI_REQ,
+	MSG_ID_UART2_SEND_TO_MMI_REQ,
+	MSG_ID_BAT_SEND_TO_MMI_REQ,
+	MSG_ID_ZT_END=MSG_ID_ZT_BEGIN+20,
 }MSG_ID;
 
 typedef struct
@@ -344,4 +347,25 @@ typedef enum {
       uart_max_port,      
       uart_port_null = 99    /* a uart port for those who uses physical port */
 } UART_PORT;
+
+typedef struct
+{
+	kal_uint16 sum_vol;
+	kal_uint16 currnt;
+	kal_uint16 des_cap;
+	kal_uint16 des_vol;
+	kal_uint16 fcc;
+	kal_uint16 residual_cap;
+	kal_uint16 per_cap;
+	kal_uint16 cycle_count;
+	kal_uint16 temperatue;
+	kal_uint16 status;
+	kal_uint16 bunch;
+}battery_info_struct;
+
+typedef struct
+{
+	LOCAL_PARA_HDR
+	battery_info_struct bat;	
+}battery_msg_struct;
 #endif
