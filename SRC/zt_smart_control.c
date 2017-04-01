@@ -241,42 +241,82 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				break;
 			case 0x0a:	//调速
 				if(cmd->para[0]==0)
+				{
 					controller_data.tiaosu = HIGH_SPEED;
+					zt_trace(TPROT,"调高速");
+				}
 				else
+				{
 					controller_data.tiaosu = LOW_SPEED;
+					zt_trace(TPROT,"调低速");
+				}
 				zt_controller_send(1,controller_data.tiaosu);
 				break;
 			case 0x0b:	//调欠压值
 				if(cmd->para[0]==0)
+				{
 					controller_data.qianya = HIGH;
+					zt_trace(TPROT,"调高欠压");
+				}
 				else
+				{
 					controller_data.qianya = LOW;
+					zt_trace(TPROT,"调低欠压");
+				}
 				zt_controller_send(2,controller_data.qianya);
 				break;
 			case 0x0c:	//助力切换
 				if(cmd->para[0]==0)
+				{
 					controller_data.zhuli = DIANDONG;
+					zt_trace(TPROT,"纯电动");
+				}
 				else if(cmd->para[0]==1)
+				{
 					controller_data.zhuli = ZHULI;
+					zt_trace(TPROT,"助力1:1");
+				}
+				else if(cmd->para[0]==2)
+				{
+					controller_data.zhuli = ZHULI2;
+					zt_trace(TPROT,"助力1:2");
+				}
 				else 
-					controller_data.zhuli = RENLI;
+				{
+					controller_data.zhuli = RENLI; 
+					zt_trace(TPROT,"纯人力");
+				}
 				zt_controller_send(3,controller_data.zhuli);
 				break;
 			case 0x0d:	//故障修复
 				if(cmd->para[0]==1)
 				{
 					controller_data.xiufu = cmd->para[0];
+					zt_trace(TPROT,"故障修复");
 					zt_controller_send(4,cmd->para[0]);
 				}
 				break;	
+			case 0x0e:	//切换电源电压
+				if(cmd->para[0]==0)//36V
+				{
+					controller_data.dy = VOT36V;
+					zt_trace(TPROT,"切换电源36V");
+				}
+				else if(cmd->para[0]==1)//48V
+				{
+					controller_data.dy = VOT48V;
+					zt_trace(TPROT,"切换电源48V");
+				}
+				zt_controller_send(5,controller_data.dy);
+				break;		
 			case 0x20:	//切换服务器
-				if(cmd->para[0]==0)
-				{//现网服务器
+				if(cmd->para[0]==1)
+				{//现网转测试服务器
 					
 				}
-				else if(cmd->para[0]==1)
-				{//测试服务器
-					
+				else if(cmd->para[0]==2)
+				{//测试服务器转现网服务器
+					zt_trace(TPROT,"测试切换现网服务器");
 				}
 			default:
 				break;
@@ -368,6 +408,11 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		else if(controller_data.zhuli==RENLI)
 			ebike.status.zhuli = 2;
 
+		if(controller_data.dy==VOT36V)
+			ebike.status.dy = 0;
+		else if(controller_data.dy==VOT48V)
+			ebike.status.dy = 1;
+		
 		if(who_open_electric_gate)
 			ebike.status.lock = 0;
 		else
@@ -750,6 +795,7 @@ void zt_controller_send(kal_uint8 cmd, kal_uint8 data)
 	send_data[6] =check_sum&0xff;
 	send_data[7] =check_sum>>8;
 
+	zt_trace(TPERI,"串口发送数据%d",cmd);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
 }
 kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
@@ -759,7 +805,6 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 	for(i=0; i<len-2; i++)
 	{
 		checksum += buf[i];
-		zt_trace(TPERI,"%x",buf[i]);
 	}
 	zt_trace(TPERI,"checksum=%x",checksum);
 	if(!((checksum&0x00ff)==(kal_uint16)buf[len-2] && (checksum&0xff00)>>8 == (kal_uint16)buf[len-1]))
@@ -770,16 +815,32 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 	{
 		if(buf[1]==0x01)	//控制命令的响应
 		{
-			zt_trace(TPERI,"control cmd");
+			zt_trace(TPERI,"接收到控制响应命令,长度%d",len);
 			switch(buf[3])
 			{
 				case 0x01:	//调速
+					if(buf[4])
+						zt_trace(TPERI,"调速成功");
+					else
+						zt_trace(TPERI,"调速失败");
 					break;
 				case 0x02:	//调欠压值
+					if(buf[4])
+						zt_trace(TPERI,"调欠压值成功");
+					else
+						zt_trace(TPERI,"调欠压值失败");
 					break;
 				case 0x03:	//助力切换
+					if(buf[4])
+						zt_trace(TPERI,"助力切换成功");
+					else
+						zt_trace(TPERI,"助力切换失败");
 					break;
 				case 0x04:	//故障修复
+					if(buf[4])
+						zt_trace(TPERI,"故障修复成功");
+					else
+						zt_trace(TPERI,"故障修复失败");
 					break;
 				default:
 					break;
@@ -787,7 +848,7 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		else if(buf[1]==0x02)	//上报命令
 		{
-			zt_trace(TPERI,"interval cmd");
+			zt_trace(TPERI,"接收到上报命令,长度%d",len);
 
 			controller_data.fault = buf[3];
 			controller_data.hall = buf[4]+buf[5]<<8+buf[6]<<16+buf[7]<<24;
@@ -806,10 +867,10 @@ kal_uint8 parse_uart2_hdlr(void* info)
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
-	zt_trace(TPERI,"%s",__func__);
+	zt_trace(TPERI,"串口数据长度%d",len);
 	for(i=0; i<len; i++)
 	{
-		zt_trace(TPERI,"%x",buf[i]);
+		zt_trace(TPERI,"[%d] = %x",i,buf[i]);
 		if(buf[i]==0x3a)
 		{
 			head = buf+i;
@@ -824,8 +885,6 @@ kal_uint8 parse_uart2_hdlr(void* info)
 				memcpy(req, head+1, len2);
 				zt_controller_proc(req,len2);
 			}
-			
-			i+=1;
 		}
 	}
 	

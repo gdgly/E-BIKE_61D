@@ -146,6 +146,8 @@ $subname    BX      pc
 	Veneer IsMyTimerExist
 	Veneer zt_Malloc
 	Veneer zt_Free
+	Veneer zt_socket_free
+	
 ;---------------------------------------------------------
 ;	adding new api under this line
 ;	for ex: Veneer xxxxxxx

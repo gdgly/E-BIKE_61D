@@ -110,6 +110,7 @@ typedef enum
 	EN_GT_PT_DEV_DATA,	
 	EN_GT_PT_CONTROL,
 	EN_GT_PT_GIVE_BACK,
+	EN_GT_PT_LBS,
 	
 	EN_GT_PT_SRV_DATA = 0x20,
 
@@ -301,9 +302,24 @@ typedef struct
 	kal_uint8 gps_data_num;	//max 5
 	gps_tracker_slim_struct gps_array[5];
 }gps_tracker_give_back_struct;
+/****************************0x09基站数据包******************************/
+typedef struct
+{
+	kal_uint16 mcc;
+	kal_uint8 mnc;
+	kal_uint16 lac;
+	kal_uint16 cellid;
+	kal_uint8 sig;
+}lbs_cell_struct;
+typedef struct
+{
+	lbs_cell_struct service;
+	kal_uint8 nbr_num;
+	lbs_cell_struct nbr[6];
+}gps_tracker_lbs_struct;
+
 #pragma pack ()//强制字节对齐
 
-typedef int (*RcvDataPtr)(char*,int);
 
 extern gps_tracker_config_struct gps_tracker_config;
 extern void kfd_upload_login_package(void);

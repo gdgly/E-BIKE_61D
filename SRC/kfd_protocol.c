@@ -6,7 +6,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW1.0.11_"
+#define GT_VER "SW2.0.00_"
 #define HDOP_FILTER 4
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
@@ -892,6 +892,40 @@ void kfd_upload_ebike_package(void)
 	zt_smart_update_network_data(control_package.value);
 	package_len = control_package.value_len + 2;
 	kfd_send_package(EN_GT_PT_CONTROL, (kal_uint8*)&control_package, package_len);
+}
+/*****************************************************************************
+ * FUNCTION
+ *  kfd_upload_lbs_package
+ * DESCRIPTION
+ * 上传基站位置数据包
+ * PARAMETERS
+ * RETURNS
+ *  void
+ *****************************************************************************/
+void kfd_upload_lbs_package(void)
+{
+	kal_uint8 i;
+	gps_tracker_lbs_struct lbs_package;
+	kal_uint8 package_len;
+	lbs_info_struct* lbs_info=(lbs_info_struct*)zt_lbs_get_curr_lbs_info();
+
+	lbs_package.service.mcc = lbs_info->lbs_server.mcc;
+	lbs_package.service.mnc = lbs_info->lbs_server.mnc;
+	lbs_package.service.lac = lbs_info->lbs_server.lac_sid;
+	lbs_package.service.cellid = lbs_info->lbs_server.cellid_nid;
+	lbs_package.service.sig = lbs_info->lbs_server.sig_stren;
+	lbs_package.nbr_num = lbs_info->lbs_nbr_num;
+	for(i=0; i<lbs_info->lbs_nbr_num; i++)
+	{
+		lbs_package.nbr[i].mcc = lbs_info->lbs_nbr[i].mcc;
+		lbs_package.nbr[i].mnc = lbs_info->lbs_nbr[i].mnc;
+		lbs_package.nbr[i].lac = lbs_info->lbs_nbr[i].lac_sid;
+		lbs_package.nbr[i].cellid = lbs_info->lbs_nbr[i].cellid_nid;
+		lbs_package.nbr[i].sig = lbs_info->lbs_nbr[i].sig_stren;	
+	}
+	package_len = sizeof(lbs_cell_struct)+1+sizeof(lbs_cell_struct)*lbs_info->lbs_nbr_num;
+	
+	kfd_send_package(EN_GT_PT_LBS, (kal_uint8*)&lbs_package, package_len);
 }
 /*****************************************************************************
  * FUNCTION

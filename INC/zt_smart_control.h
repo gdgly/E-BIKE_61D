@@ -48,9 +48,15 @@ typedef enum
 typedef enum
 {
 	DIANDONG =1,
-	ZHULI,
-	RENLI,
+	ZHULI=2,
+	ZHULI2=3,
+	RENLI=4,
 }DONGLI;
+typedef enum
+{
+	VOT36V=1,
+	VOT48V=2,	
+}DIANYUAN;
 typedef struct
 {
 	kal_uint8 fault;
@@ -59,6 +65,7 @@ typedef struct
 	QIANYA qianya;
 	DONGLI zhuli;
 	kal_uint8 xiufu;
+	DIANYUAN dy;
 }controller_struct;
 
 #pragma pack (1)
@@ -70,6 +77,7 @@ typedef struct
 	kal_uint8 zhuli:2;
 	kal_uint8 lock:1;
 	kal_uint8 alarm:1;
+	kal_uint8 dy:1;
 }status_struct;
 
 typedef struct

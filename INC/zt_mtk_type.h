@@ -321,6 +321,8 @@ typedef void (*kal_timer_func_ptr)(void *param_ptr);
 
 typedef int             FS_HANDLE;
 typedef kal_uint16	UI_character_type;
+typedef int (*RcvDataPtr)(char*,int);
+
 /* FS_Seek Parameter */
 typedef enum
 {
