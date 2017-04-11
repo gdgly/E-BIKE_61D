@@ -79,3 +79,4 @@
 0x0000004D A zt_Malloc
 0x0000004E A zt_Free
 0x0000004F A zt_socket_free
+0x00000050 A GetTimeSec

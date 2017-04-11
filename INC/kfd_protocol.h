@@ -328,4 +328,5 @@ extern void kfd_protocol_parse(RcvDataPtr GetRcvData);
 extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
 extern void kfd_upload_give_back_package(kal_uint8 gate);
+extern void kfd_service_check_online(void);
 #endif

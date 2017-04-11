@@ -94,5 +94,6 @@ extern void zt_smart_update_network_data(kal_uint8* update_data);
 extern kal_uint16 zt_adc_get_value(void);
 extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
+extern void kfd_upload_lbs_package(lbs_info_struct* lbs_info);
 
 #endif

@@ -14,6 +14,7 @@
 work_state kfd_work_state = EN_INIT_STATE;
 kal_uint8 kfd_hb_send_times = 0;
 kal_uint8 kfd_login_times = 0;
+kal_uint8 kfd_connect_times = 0;
 
 kal_uint16 kfd_sn = 0;
 
@@ -25,8 +26,8 @@ kal_int8 kfd_soc_app_id;
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 1, // 2,	// 1 ip; 2 domain
-	"www.liabar.com",	//domain
+	 2,	// 1 ip; 2 domain
+	"rentma.bat100.com",	//"www.liabar.com",	//domain
 	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
 	4,		//ip len
 	9000			//port
@@ -494,7 +495,26 @@ kal_uint32 hex_str_2_bytes(kal_char* str, kal_uint32 str_len, kal_uint8* bytes, 
 
 	return KAL_TRUE;
 }
-
+void kfd_service_check_online(void)
+{
+	if(kfd_work_state == EN_INIT_STATE)
+	{
+		if(kfd_connect_times<3)
+		{
+			kfd_connect_times++;
+			kfd_connect_service();
+		}
+		else
+		{
+			zt_reset_system();
+		}
+	}
+	else
+	{
+		kfd_connect_times=0;
+	}
+	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),120*1000,kfd_service_check_online);
+}
 
 /*****************************************************************************
  * FUNCTION
@@ -893,6 +913,7 @@ void kfd_upload_ebike_package(void)
 	package_len = control_package.value_len + 2;
 	kfd_send_package(EN_GT_PT_CONTROL, (kal_uint8*)&control_package, package_len);
 }
+
 /*****************************************************************************
  * FUNCTION
  *  kfd_upload_lbs_package
@@ -902,13 +923,13 @@ void kfd_upload_ebike_package(void)
  * RETURNS
  *  void
  *****************************************************************************/
-void kfd_upload_lbs_package(void)
+void kfd_upload_lbs_package(lbs_info_struct* lbs_info)
 {
 	kal_uint8 i;
 	gps_tracker_lbs_struct lbs_package;
 	kal_uint8 package_len;
-	lbs_info_struct* lbs_info=(lbs_info_struct*)zt_lbs_get_curr_lbs_info();
 
+	zt_trace(TPROT, "%s",__func__);
 	lbs_package.service.mcc = lbs_info->lbs_server.mcc;
 	lbs_package.service.mnc = lbs_info->lbs_server.mnc;
 	lbs_package.service.lac = lbs_info->lbs_server.lac_sid;
@@ -927,6 +948,7 @@ void kfd_upload_lbs_package(void)
 	
 	kfd_send_package(EN_GT_PT_LBS, (kal_uint8*)&lbs_package, package_len);
 }
+
 /*****************************************************************************
  * FUNCTION
  *  kfd_upload_data_package
@@ -1168,7 +1190,6 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 			kfd_work_state = EN_WORKING_STATE;
 			kfd_login_times = 0;
 			StopTimer(GetTimerID(ZT_LOGIN_TIMER));
-			StopTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER));
 
 			kfd_calibration_time(buf);
 			kfd_upload_ver_package();

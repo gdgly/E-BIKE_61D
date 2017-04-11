@@ -27,7 +27,7 @@ kal_uint32 curr_lundong;
 kal_uint8 gps_delay_off_flag = 0;
 controller_struct controller_data;
 battery_info_struct curr_bat;
-
+kal_uint32 pre_time=0;
 
 #define MAX_BAT 10
 battery_struct battery_array[MAX_BAT];
@@ -238,6 +238,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x09:	//报警开关指令
 				gps_tracker_config.vibr2_thr = cmd->para[0];
 				WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
+				zt_lbs_req();
 				break;
 			case 0x0a:	//调速
 				if(cmd->para[0]==0)
@@ -710,7 +711,32 @@ void zt_smart_key_detect_proc(void)
 	
 	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),200,zt_smart_key_detect_proc);
 }
+kal_bool zt_gps_valid(void)
+{
+	gps_info_struct* gps_info = (gps_info_struct*)zt_gps_get_curr_gps();
 
+	if(gps_info->state=='A')
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
+kal_bool zt_time_expiry(void)
+{
+	kal_uint32 real_time = (kal_uint32)GetTimeSec();
+	if((real_time-pre_time)>3600*2)	// 2H
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
+void zt_agps_process(void)
+{
+	if(zt_time_expiry()&&(kal_bool)zt_gps_get_pwr_status()&&!zt_gps_valid())
+	{
+		pre_time = (kal_uint32)GetTimeSec();
+		zt_trace(TPERI,"LBS REQ, 时间:%d",pre_time);
+		zt_lbs_req();
+	}
+}
 void zt_smart_check_gps_pwr(void)
 {
 //	//zt_trace(TPERI,"%s",__func__);
@@ -730,6 +756,7 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_off();
 		}
 	}
+	zt_agps_process();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 
@@ -889,6 +916,13 @@ kal_uint8 parse_uart2_hdlr(void* info)
 	}
 	
 }
+
+kal_uint8 parse_lbs_hdlr(void* info)
+{
+	lbs_msg_struct* lbs_msg = (lbs_msg_struct*)info;
+	if(lbs_msg->lbs.lbs_server.cellid_nid!=0)
+		kfd_upload_lbs_package(&lbs_msg->lbs);
+}
 kal_uint8 parse_battery_hdlr(void* info)
 {
 	battery_msg_struct* bat_msg = (battery_msg_struct*)info;
@@ -937,5 +971,5 @@ void zt_smart_init(void)
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LUNDONG_SEND_MMI_REQ), (PsIntFuncPtr)parse_lundong_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_UART2_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_uart2_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BAT_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_battery_hdlr,  KAL_FALSE);
-			
+	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LBS_SEND_MMI_REQ), (PsIntFuncPtr)parse_lbs_hdlr,  KAL_FALSE);
 }
