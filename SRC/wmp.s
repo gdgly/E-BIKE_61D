@@ -148,6 +148,7 @@ $subname    BX      pc
 	Veneer zt_Free
 	Veneer zt_socket_free
 	Veneer GetTimeSec
+	Veneer zt_battery_handshake_status
 ;---------------------------------------------------------
 ;	adding new api under this line
 ;	for ex: Veneer xxxxxxx

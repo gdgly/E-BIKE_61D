@@ -197,6 +197,7 @@ kal_uint8 zt_gsensor_get_shake_change(void)
 	
 	average_change = sum/SHAKE_BUF_LEN;
 
+	zt_trace(TSEN,"shake aver=%d", average_change);
 	return average_change;
 }
 

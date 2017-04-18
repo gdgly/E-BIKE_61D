@@ -318,6 +318,11 @@ typedef struct
 	lbs_cell_struct nbr[6];
 }gps_tracker_lbs_struct;
 
+typedef struct
+{
+	kal_uint8 lat[4];
+	kal_uint8 lon[4];
+}gps_tracker_lbs_gps_struct;
 #pragma pack ()//强制字节对齐
 
 

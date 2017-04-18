@@ -425,8 +425,8 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 			ebike.status.alarm = 0;
 
 		zt_trace(TPROT,"fault=%d,status=%d",ebike.fault,ebike.status);
-		ebike.hall = 0x11111111;	//controller_data.hall;
-		ebike.bat.sum_vol = 0x1234;	//curr_bat.sum_vol;
+		ebike.hall = controller_data.hall;
+		ebike.bat.sum_vol = curr_bat.sum_vol;
 		ebike.bat.currnt = curr_bat.currnt;
 		ebike.bat.des_cap= curr_bat.des_cap;
 		ebike.bat.des_vol= curr_bat.des_vol;
@@ -435,8 +435,9 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		ebike.bat.per_cap = curr_bat.per_cap;
 		ebike.bat.cycle_count = curr_bat.cycle_count;
 		ebike.bat.temperatue = curr_bat.temperatue;
-		ebike.bat.status = 0x34;//curr_bat.status;
-		ebike.bat.bunch = 0x12;	//curr_bat.bunch;
+		ebike.bat.status = curr_bat.status;
+		ebike.bat.date = curr_bat.date;
+		ebike.bat.id = curr_bat.id;
 		memcpy(update_data,&ebike,sizeof(ebike_struct));
 		zt_trace(TPERI,"%s,len=%d",__func__,sizeof(ebike_struct));
 	}
@@ -756,7 +757,7 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_off();
 		}
 	}
-	zt_agps_process();
+//	zt_agps_process();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 

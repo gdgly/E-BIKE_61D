@@ -206,6 +206,9 @@ typedef enum{
 	CONNECT_ONE,
 }CONNECT_TYPE;
 
+typedef int (*RcvDataPtr)(char*,int);
+typedef void (*parseFuncPtr)(RcvDataPtr);
+
 typedef struct{
 	kal_int8 app_id;
 	kal_int8 socket_id;
@@ -213,7 +216,7 @@ typedef struct{
 	network_info_struct network_info;
 	FuncPtr login_callback;
 	FuncPtr destory_callback;
-	PsExtFuncPtr parse_callback;
+	parseFuncPtr parse_callback;
 }network_link_struct;
 
 typedef struct{
@@ -221,7 +224,7 @@ typedef struct{
 	network_info_struct network_info;
 	FuncPtr login_callback;
 	FuncPtr destory_callback;
-	PsExtFuncPtr parse_callback;
+	parseFuncPtr parse_callback;
 }network_para_struct;
 
 typedef struct 
@@ -362,7 +365,8 @@ typedef struct
 	kal_uint16 cycle_count;
 	kal_uint16 temperatue;
 	kal_uint16 status;
-	kal_uint16 bunch;
+	kal_uint16 date;
+	kal_uint16 id;	
 }battery_info_struct;
 
 typedef struct

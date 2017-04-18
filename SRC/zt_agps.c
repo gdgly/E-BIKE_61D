@@ -11,9 +11,9 @@ network_para_struct agps_network_para ={
 	4,		//ip len
 	46434	//80			//port
 	},
-	zt_agps_login_package,
+	NULL,	//zt_agps_login_package,
 	NULL,
-	zt_agps_parse
+	NULL,	//zt_agps_parse
 };
 agps_struct agps_info={
 	"full",
@@ -102,11 +102,11 @@ void zt_agps_parse(RcvDataPtr GetRcvData)
 	#define LBS_BUF_SIZE 1024*4
 	kal_int8 len;
 	kal_uint8 *pAgps = NULL;
-
+	
 	pAgps = (kal_uint8*)zt_Malloc(LBS_BUF_SIZE);
 
 	len = GetRcvData(pAgps,LBS_BUF_SIZE);
-	zt_trace(TLBS,"Agps len=%d",len);	
+	zt_trace(TLBS,"Agps ½âÎölen=%d",len);	
 	if(len>0)
 	{
 		zt_agps_write(pAgps);
@@ -132,8 +132,8 @@ void zt_agps_login_package(void)
 	kal_uint8 buffer[512] = {0};
 	
 //	len = sprintf(buffer,"GET /ub?x=%s%s&l=%f,%f&f=400 HTTP/1.1\r\nHost:agps.co\r\n\r\n",serverbuf,nbrbuf,gps_info->latitude, gps_info->longitude);	
-	len = sprintf(buffer,"user=%s;pwd=%s;cmd=%s;lat=%.4f;lon=%.4f;pacc=%.0f",agps_info.user,agps_info.pwd,agps_info.cmd,
-	agps_info.lat,agps_info.lon,agps_info.pacc);
+	len = sprintf(buffer,"user=%s;pwd=%s;cmd=%s;lat=%.4f;lon=%.4f;pacc=%.0f",agps_info.user,agps_info.pwd,agps_info.cmd,agps_info.lat,agps_info.lon,agps_info.pacc);
+	zt_trace(TLBS,"lat=%f,lon=%f",agps_info.lat,agps_info.lon);
 	zt_trace(TLBS,"%s",buffer);
 	
 	zt_socket_send(agps_soc_app_id, buffer, len);
@@ -154,6 +154,8 @@ void zt_agps_request(void)
 {
 	zt_trace(TLBS,"%s","AGPS REQ");
 	agps_soc_app_id = zt_socket_get_app_id();
+	agps_network_para.login_callback = zt_agps_login_package;
+	agps_network_para.parse_callback = zt_agps_parse;
 	zt_socket_launch(agps_soc_app_id, &agps_network_para);
 }
 /*****************************************************************************

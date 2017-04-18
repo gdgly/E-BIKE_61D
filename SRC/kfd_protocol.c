@@ -3,6 +3,7 @@
 #include "kfd_protocol.h"
 #include "zt_smart_control.h"
 #include "zt_gsensor.h"
+#include "zt_agps.h"
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
@@ -1259,6 +1260,18 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 						break;
 				}
 			}
+			break;
+		}
+		case EN_GT_PT_LBS:
+		{
+			gps_tracker_lbs_gps_struct* loc;
+			float lat,lon;
+			loc = (gps_tracker_lbs_gps_struct*)((kal_uint8*)head + sizeof(gps_tracker_msg_head_struct));
+			lat = (float)(loc->lat[0]+loc->lat[1]*0x100+loc->lat[2]*0x10000+loc->lat[3]*0x1000000)/1800000;
+			lon = (float)(loc->lon[0]+loc->lon[1]*0x100+loc->lon[2]*0x10000+loc->lon[3]*0x1000000)/1800000;
+			zt_trace(TPROT,"AGPS¾­Î³¶Èlat=%f,lon=%f",lat,lon);
+		//	zt_agps_set_location(lat,lon);
+		//	zt_agps_request();
 			break;
 		}
 		case EN_GT_PT_SRV_DATA:
