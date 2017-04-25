@@ -1,8 +1,25 @@
 #include "zt_agps.h"
+#include "zt_trace.h"
+
 
 kal_int8 agps_soc_app_id=-1;
 
+#define __MINI_AGPS__
+
 network_para_struct agps_network_para ={
+#ifdef __MINI_AGPS__
+	CONNECT_ONE,
+	{
+	2,	// 1 ip; 2 domain
+	"agps.co",	//domain
+	{0,0,0,0},	//ip
+	4,		//ip len
+	80			//port
+	},
+	NULL,	//zt_agps_login_package,
+	NULL,
+	NULL,	//zt_agps_parse
+#else
 	CONNECT_ONE,
 	{
 	2,	// 1 ip; 2 domain
@@ -14,6 +31,7 @@ network_para_struct agps_network_para ={
 	NULL,	//zt_agps_login_package,
 	NULL,
 	NULL,	//zt_agps_parse
+#endif	
 };
 agps_struct agps_info={
 	"full",
@@ -67,20 +85,26 @@ void zt_agps_write(char* buf)
 {
 	kal_uint8 tmp[32]={0},*pContent;
 	kal_uint16 len;
-
-	if(FindString(buf, tmp, "Content-Type: "))
+	if(FindString(buf,tmp,"HTTP/1.1 "))
 	{
-		if(!strcmp(tmp,"application/ubx"))
+		if(strstr(tmp,"200"))
 		{
 			memset(tmp,0,sizeof(tmp));
-			if(FindString(buf, tmp, "Content-Length: "))
+			if(FindString(buf, tmp, "Content-Type: "))
 			{
-				len = atoi(tmp);
-				pContent = (kal_uint8*)strstr(buf,"\r\n\r\n");
-				if(pContent)
+				if(strstr(tmp,"application/ubx"))
 				{
-					zt_trace(TLBS,"Write AGPS data %d",len);
-					zt_uart_write_data(uart_port2,pContent+4,len);
+					memset(tmp,0,sizeof(tmp));
+					if(FindString(buf, tmp, "Content-Length: "))
+					{
+						len = atoi(tmp);
+						pContent = (kal_uint8*)strstr(buf,"\r\n\r\n");
+						if(pContent)
+						{
+							zt_trace(TLBS,"Write AGPS data %d",len);
+							zt_uart_write_data(uart_port2,pContent+4,len);
+						}
+					}
 				}
 			}
 		}
@@ -100,7 +124,7 @@ void zt_agps_write(char* buf)
 void zt_agps_parse(RcvDataPtr GetRcvData)
 {	
 	#define LBS_BUF_SIZE 1024*4
-	kal_int8 len;
+	kal_uint16 len;
 	kal_uint8 *pAgps = NULL;
 	
 	pAgps = (kal_uint8*)zt_Malloc(LBS_BUF_SIZE);
@@ -113,6 +137,26 @@ void zt_agps_parse(RcvDataPtr GetRcvData)
 		zt_socket_free(agps_soc_app_id);
 	}
 	zt_Free(pAgps);
+}
+kal_uint16 zt_agps_req_package(kal_uint8* outbuf,lbs_info_struct* lbs)
+{
+	kal_uint8 i;
+	kal_uint8 lbsbuf[128] ={0};
+	kal_uint8 nbronebuf[64]={0};
+	kal_uint16 len;
+
+	sprintf(lbsbuf, "%x-%x-%x-%x-%x", lbs->lbs_server.mcc,lbs->lbs_server.mnc,lbs->lbs_server.lac_sid,lbs->lbs_server.cellid_nid,lbs->lbs_server.sig_stren);
+	for(i=0; i<lbs->lbs_nbr_num; i++)
+	{
+		memset(nbronebuf,0,sizeof(nbronebuf));
+		sprintf(nbronebuf,"%x-%x-%x",lbs->lbs_nbr[i].lac_sid,lbs->lbs_nbr[i].cellid_nid,lbs->lbs_nbr[i].sig_stren);
+		strcat(lbsbuf,"-");
+		strcat(lbsbuf,nbronebuf);
+	}
+	zt_trace(TLBS,"%s",lbsbuf);
+	len = sprintf(outbuf,"GET /ub?x=%s&l=%f,%f&f=400 HTTP/1.1\r\nHost:agps.co\r\n\r\n",lbsbuf,agps_info.lat, agps_info.lon);	
+	zt_trace(TLBS,"%s",outbuf);
+	return len;
 }
 
 /*****************************************************************************
@@ -128,13 +172,14 @@ void zt_agps_parse(RcvDataPtr GetRcvData)
  *****************************************************************************/
 void zt_agps_login_package(void)
 {
-	kal_uint8 len;
+	kal_uint16 len;
 	kal_uint8 buffer[512] = {0};
 	
-//	len = sprintf(buffer,"GET /ub?x=%s%s&l=%f,%f&f=400 HTTP/1.1\r\nHost:agps.co\r\n\r\n",serverbuf,nbrbuf,gps_info->latitude, gps_info->longitude);	
-	len = sprintf(buffer,"user=%s;pwd=%s;cmd=%s;lat=%.4f;lon=%.4f;pacc=%.0f",agps_info.user,agps_info.pwd,agps_info.cmd,agps_info.lat,agps_info.lon,agps_info.pacc);
+	len = zt_agps_req_package(buffer,(lbs_info_struct*)zt_lbs_get_curr_lbs_info());
+	
+/*	len = sprintf(buffer,"user=%s;pwd=%s;cmd=%s;lat=%.4f;lon=%.4f;pacc=%.0f",agps_info.user,agps_info.pwd,agps_info.cmd,agps_info.lat,agps_info.lon,agps_info.pacc);
 	zt_trace(TLBS,"lat=%f,lon=%f",agps_info.lat,agps_info.lon);
-	zt_trace(TLBS,"%s",buffer);
+	zt_trace(TLBS,"%s",buffer);*/
 	
 	zt_socket_send(agps_soc_app_id, buffer, len);
 }

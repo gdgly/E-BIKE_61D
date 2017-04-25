@@ -296,6 +296,12 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					zt_trace(TPROT,"¹ÊÕÏĞŞ¸´");
 					zt_controller_send(4,cmd->para[0]);
 				}
+				else if(cmd->para[0]==0)
+				{
+					controller_data.xiufu = cmd->para[0];
+					zt_trace(TPROT,"¹ÊÕÏÇå³ı");
+					zt_controller_send(4,cmd->para[0]);
+				}
 				break;	
 			case 0x0e:	//ÇĞ»»µçÔ´µçÑ¹
 				if(cmd->para[0]==0)//36V
@@ -424,8 +430,7 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		else
 			ebike.status.alarm = 0;
 
-		zt_trace(TPROT,"fault=%d,status=%d",ebike.fault,ebike.status);
-		ebike.hall = controller_data.hall;
+		ebike.hall = curr_hall/8;
 		ebike.bat.sum_vol = curr_bat.sum_vol;
 		ebike.bat.currnt = curr_bat.currnt;
 		ebike.bat.des_cap= curr_bat.des_cap;
@@ -439,6 +444,7 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		ebike.bat.date = curr_bat.date;
 		ebike.bat.id = curr_bat.id;
 		memcpy(update_data,&ebike,sizeof(ebike_struct));
+		zt_smart_write_hall();
 		zt_trace(TPERI,"%s,len=%d",__func__,sizeof(ebike_struct));
 	}
 }

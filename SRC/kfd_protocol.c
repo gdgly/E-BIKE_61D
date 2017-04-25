@@ -27,7 +27,7 @@ kal_int8 kfd_soc_app_id;
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 2,	// 1 ip; 2 domain
+	 1,	// 1 ip; 2 domain
 	"rentma.bat100.com",	//"www.liabar.com",	//domain
 	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
 	4,		//ip len
