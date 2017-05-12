@@ -38,7 +38,6 @@ typedef enum
 	ZT_DIANMEN_LOCK_TIMER,
 	ZT_DIANMEN_UNLOCK_TIMER,
 	ZT_CLOSE_DIANCHI_LOCK_TIMER,
-	ZT_LOGIN_TIMER,
 	ZT_ONLINE_CHECK_PROTECT_TIMER,
 	ZT_GPS_DELAY_OFF_TIMER,
 
@@ -206,8 +205,8 @@ typedef enum{
 	CONNECT_ONE,
 }CONNECT_TYPE;
 
-typedef int (*RcvDataPtr)(char*,int);
-typedef void (*parseFuncPtr)(RcvDataPtr);
+typedef int (*RcvDataPtr)(kal_int8,char*,int);
+typedef void (*parseFuncPtr)(kal_int8,RcvDataPtr);
 
 typedef struct{
 	kal_int8 app_id;
@@ -324,8 +323,6 @@ typedef void (*kal_timer_func_ptr)(void *param_ptr);
 
 typedef int             FS_HANDLE;
 typedef kal_uint16	UI_character_type;
-typedef int (*RcvDataPtr)(char*,int);
-
 /* FS_Seek Parameter */
 typedef enum
 {

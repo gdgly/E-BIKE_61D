@@ -14,8 +14,7 @@
 
 work_state kfd_work_state = EN_INIT_STATE;
 kal_uint8 kfd_hb_send_times = 0;
-kal_uint8 kfd_login_times = 0;
-kal_uint8 kfd_connect_times = 0;
+static kal_uint8 kfd_connect_times = 0;
 
 kal_uint16 kfd_sn = 0;
 
@@ -120,7 +119,22 @@ void zt_hex_convert_str(kal_uint8 *in,kal_uint8 len, kal_uint8 *out)
 	}
 }
 
-
+void kfd_reconnect_service(void)
+{
+	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
+	if(kfd_connect_times > 30)
+	{
+		kfd_connect_times = 0;
+		zt_reset_system();
+	}
+	else
+	{
+		kfd_connect_times++;
+		zt_socket_free(kfd_soc_app_id);
+		kfd_connect_service();
+	}
+	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER), 60000, kfd_reconnect_service);
+}
 /*****************************************************************************
  * FUNCTION
  *  kfd_datetime_offset
@@ -252,12 +266,12 @@ kal_int32 kfd_send_package(GT_PROT_TYPE_EN prot_type, kal_uint8* context,kal_uin
 		send_len = zt_socket_send(kfd_soc_app_id,buffer,len);
 		
 		if(send_len != len)
-			zt_socket_reconnect(kfd_soc_app_id);
+			kfd_reconnect_service();
 	}
 	
 	zt_hex_convert_str(buffer,len, out);
 #ifdef ENABLE_LOG	
-	zt_trace(TPROT,"%s, GT_PROT_TYPE_EN=%d",__func__,prot_type);
+	zt_trace(TPROT,"%s, GT_PROT_TYPE_EN=%d,sig=%d",__func__,prot_type,(U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1));
 	zt_trace(TPROT,"%s",out);
 #endif
 	return send_len;
@@ -437,7 +451,7 @@ kal_bool kfd_convert_gps_data_for_protocol(gps_info_struct* gps_data, gps_tracke
 void kfd_free_connect(void)
 {
 	kfd_work_state = EN_INIT_STATE;
-	StopTimer(GetTimerID(ZT_HB_TIMER));
+//	StopTimer(GetTimerID(ZT_HB_TIMER));
 	StopTimer(GetTimerID(ZT_UPLOAD_TIMER));
 	zt_led_close_gsm_led();
 }
@@ -496,26 +510,7 @@ kal_uint32 hex_str_2_bytes(kal_char* str, kal_uint32 str_len, kal_uint8* bytes, 
 
 	return KAL_TRUE;
 }
-void kfd_service_check_online(void)
-{
-	if(kfd_work_state == EN_INIT_STATE)
-	{
-		if(kfd_connect_times<3)
-		{
-			kfd_connect_times++;
-			kfd_connect_service();
-		}
-		else
-		{
-			zt_reset_system();
-		}
-	}
-	else
-	{
-		kfd_connect_times=0;
-	}
-	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),120*1000,kfd_service_check_online);
-}
+
 
 /*****************************************************************************
  * FUNCTION
@@ -531,26 +526,15 @@ void kfd_upload_login_package(void)
 	gps_tracker_login_req_content_struct login_package={0};
 	kal_uint8 imei[MAX_GT_IMEI_LEN]={0};
 
-	zt_trace(TPROT, "kfd_login_times=%d", kfd_login_times);
-	if(kfd_login_times >= 3)
-	{
-		zt_reset_system();
-	}
-	else
-	{
-		kfd_login_times++;
-		srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
-		#ifdef ENABLE_LOG
-		zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
-		#endif
-		login_package.dev_type = gps_tracker_config.dev_type;
-		login_package.auth_code = 0;
-		hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
-		kfd_work_state = EN_LOGING_STATE;
-		kfd_send_package(EN_GT_PT_LOGIN,(kal_uint8*)&login_package,sizeof(gps_tracker_login_req_content_struct));
-	}
-	
-	StartTimer(GetTimerID(ZT_LOGIN_TIMER), 45000, kfd_upload_login_package);
+	srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
+	#ifdef ENABLE_LOG
+	zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
+	#endif
+	login_package.dev_type = gps_tracker_config.dev_type;
+	login_package.auth_code = 0;
+	hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
+	kfd_work_state = EN_LOGING_STATE;
+	kfd_send_package(EN_GT_PT_LOGIN,(kal_uint8*)&login_package,sizeof(gps_tracker_login_req_content_struct));
 }
 /*****************************************************************************
  * FUNCTION
@@ -570,7 +554,7 @@ void kfd_upload_hb_package(void)
 	if(kfd_hb_send_times>=2)
 	{
 		kfd_hb_send_times = 0;
-		zt_socket_reconnect(kfd_soc_app_id);
+		kfd_reconnect_service();
 	}
 	else
 	{
@@ -677,6 +661,8 @@ void kfd_upload_gps_package(void)
 	gps_info = kfd_get_best_hdop_gps_data();
 	if(!gps_info)
 		return;
+	zt_agps_set_location(gps_info->latitude,gps_info->longitude);
+	
 	kfd_convert_gps_data_for_protocol(gps_info,&gps_tracker_gps);
 
 	if(gps_tracker_gps.mode!= EN_GT_GM_N)
@@ -908,9 +894,7 @@ void kfd_upload_ebike_package(void)
 	kal_uint8 package_len;
 	
 	//zt_trace(TPROT, "%s",__func__);
-	control_package.addr = 0x1d;
-	control_package.value_len = sizeof(ebike_struct);
-	zt_smart_update_network_data(control_package.value);
+	zt_smart_update_network_data(&control_package);
 	package_len = control_package.value_len + 2;
 	kfd_send_package(EN_GT_PT_CONTROL, (kal_uint8*)&control_package, package_len);
 }
@@ -970,11 +954,11 @@ void kfd_upload_data_package(void)
 		kfd_upload_gps_package();
 	}
 	
-	if((delay_index+1)%6==0)
+	if((delay_index+1)%3==0)
 	{
 		kfd_upload_alarm_package();
 	}
-	else if((delay_index+2)%12==0)
+	else if((delay_index+2)%6==0)
 	{
 		kfd_upload_ebike_package();
 	}
@@ -1007,6 +991,30 @@ void kfd_upload_ver_package(void)
 
 	kfd_send_package(EN_GT_PT_DEV_DATA, (kal_uint8*)&data_package, data_package.value_len+2);				
 }
+
+/*****************************************************************************
+ * FUNCTION
+ *  kfd_upload_imsi_package
+ * DESCRIPTION
+ * 上报SIM卡的IMSI号
+ * PARAMETERS
+ * RETURNS
+ *  void
+ *****************************************************************************/
+void kfd_upload_imsi_package(void)
+{	
+	gps_tracker_data_content_struct data_package;
+	
+	data_package.type = EN_GT_DT_IMSI;
+	data_package.value_len = strlen((kal_uint8*)zt_get_imsi());
+	strcpy(data_package.value, (kal_uint8*)zt_get_imsi());
+#ifdef ENABLE_LOG		
+	zt_trace(TPROT, "IMSI=%s,len=%d",(kal_uint8*)zt_get_imsi(),data_package.value_len);	
+#endif
+
+	kfd_send_package(EN_GT_PT_DEV_DATA, (kal_uint8*)&data_package, data_package.value_len+2);				
+}
+
 /*****************************************************************************
  * FUNCTION
  *  kfd_upload_command_rsp_package
@@ -1189,11 +1197,11 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 		{	
 			//zt_trace(TPROT, "login rsp sn ok");
 			kfd_work_state = EN_WORKING_STATE;
-			kfd_login_times = 0;
-			StopTimer(GetTimerID(ZT_LOGIN_TIMER));
+			StopTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER));
 
 			kfd_calibration_time(buf);
 			kfd_upload_ver_package();
+			kfd_upload_imsi_package();
 			zt_led_open_gsm_led();
 			StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL, kfd_upload_hb_package);
 			StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL, kfd_upload_data_package);	
@@ -1270,8 +1278,6 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 			lat = (float)(loc->lat[0]+loc->lat[1]*0x100+loc->lat[2]*0x10000+loc->lat[3]*0x1000000)/1800000;
 			lon = (float)(loc->lon[0]+loc->lon[1]*0x100+loc->lon[2]*0x10000+loc->lon[3]*0x1000000)/1800000;
 			zt_trace(TPROT,"AGPS经纬度lat=%f,lon=%f",lat,lon);
-		//	zt_agps_set_location(lat,lon);
-		//	zt_agps_request();
 			break;
 		}
 		case EN_GT_PT_SRV_DATA:
@@ -1298,7 +1304,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
  * RETURNS
  *  void
  *****************************************************************************/
-void kfd_protocol_parse(RcvDataPtr GetRcvData)
+void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 {
 	#define MAX_READ_COUNT 1024
 	
@@ -1310,7 +1316,7 @@ void kfd_protocol_parse(RcvDataPtr GetRcvData)
 
 	pBuf = (kal_uint8*)zt_Malloc(MAX_READ_COUNT);
 	memset(pBuf, 0, MAX_READ_COUNT);
-	len = GetRcvData(pBuf,MAX_READ_COUNT);
+	len = GetRcvData(socket_id,pBuf,MAX_READ_COUNT);
 	
 	for(i = 0; i<len-1; i++)
 	{

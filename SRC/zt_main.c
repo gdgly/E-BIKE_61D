@@ -21,7 +21,6 @@ void zt_main_full_service(void)
 	zt_trace(TMAIN, "%s",__func__);
 #endif
 	kfd_connect_service();
-//	zt_lbs_req(); 
 } 
 
 /*****************************************************************************
@@ -68,10 +67,11 @@ void zt_ota_main(void)
 #ifdef ENABLE_LOG			
 	zt_trace(TMAIN, "%s",__func__); 
 #endif	  
-	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),300*1000,kfd_service_check_online);
+	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),120*1000,kfd_reconnect_service);
 	kfd_protocol_init(); 
 	zt_gsensor_init();
 	zt_smart_init();
+	zt_get_imsi_request();
 	
 	zt_main_wait_full_service(); 
 }

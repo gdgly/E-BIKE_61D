@@ -1,6 +1,7 @@
 #ifndef __ZT_SMART_CONTROL_H__
 #define __ZT_SMART_CONTROL_H__
 #include "global_types_def.h"
+#include "kfd_protocol.h"
 
 /* commands from APP */
 enum { 
@@ -51,6 +52,7 @@ typedef enum
 	ZHULI=2,
 	ZHULI2=3,
 	RENLI=4,
+	HUNHE=5,
 }DONGLI;
 typedef enum
 {
@@ -67,6 +69,11 @@ typedef struct
 	kal_uint8 xiufu;
 	DIANYUAN dy;
 }controller_struct;
+typedef enum
+{
+	CMD_CONTROL=1,
+	CMD_READ,
+}cmd_enum;
 
 #pragma pack (1)
 
@@ -74,7 +81,7 @@ typedef struct
 {
 	kal_uint8 tiaosu:1;
 	kal_uint8 qianya:1;
-	kal_uint8 zhuli:2;
+	kal_uint8 zhuli:3;
 	kal_uint8 lock:1;
 	kal_uint8 alarm:1;
 	kal_uint8 dy:1;
@@ -87,10 +94,18 @@ typedef struct
 	kal_uint32 hall;
 	battery_info_struct bat;
 }ebike_struct;
+typedef struct
+{
+	kal_uint16 volt;
+	kal_uint8 fault;
+	kal_uint8 lock;
+	kal_uint32 hall;
+	kal_uint8 alarm;
+}ebike_struct1;
 #pragma pack ()
 
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);
-extern void zt_smart_update_network_data(kal_uint8* update_data);
+extern void zt_smart_update_network_data(gps_tracker_control_data_struct* package);
 extern kal_uint16 zt_adc_get_value(void);
 extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);

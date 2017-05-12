@@ -1,3 +1,4 @@
+#include "stdio.h"
 #include "zt_agps.h"
 #include "zt_trace.h"
 
@@ -121,7 +122,7 @@ void zt_agps_write(char* buf)
  * RETURNS
  *  void
  *****************************************************************************/
-void zt_agps_parse(RcvDataPtr GetRcvData)
+void zt_agps_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 {	
 	#define LBS_BUF_SIZE 1024*4
 	kal_uint16 len;
@@ -129,8 +130,8 @@ void zt_agps_parse(RcvDataPtr GetRcvData)
 	
 	pAgps = (kal_uint8*)zt_Malloc(LBS_BUF_SIZE);
 
-	len = GetRcvData(pAgps,LBS_BUF_SIZE);
-	zt_trace(TLBS,"Agps ½âÎölen=%d",len);	
+	len = GetRcvData(socket_id,pAgps,LBS_BUF_SIZE);
+	zt_trace(TLBS,"Agps ½âÎölen=%d,pAgps=%s",len,pAgps);	
 	if(len>0)
 	{
 		zt_agps_write(pAgps);
@@ -138,12 +139,22 @@ void zt_agps_parse(RcvDataPtr GetRcvData)
 	}
 	zt_Free(pAgps);
 }
+void ftoa(char*out, float in)
+{
+	kal_uint8* pFind=NULL;
+
+	sprintf(out,"%f",in);
+	pFind = (kal_uint8*)strstr(out,"F");
+	*(pFind)='.';
+}
+
 kal_uint16 zt_agps_req_package(kal_uint8* outbuf,lbs_info_struct* lbs)
 {
 	kal_uint8 i;
 	kal_uint8 lbsbuf[128] ={0};
-	kal_uint8 nbronebuf[64]={0};
+	char nbronebuf[64]={0};
 	kal_uint16 len;
+	kal_uint8 lat[32]={0},lon[32]={0};
 
 	sprintf(lbsbuf, "%x-%x-%x-%x-%x", lbs->lbs_server.mcc,lbs->lbs_server.mnc,lbs->lbs_server.lac_sid,lbs->lbs_server.cellid_nid,lbs->lbs_server.sig_stren);
 	for(i=0; i<lbs->lbs_nbr_num; i++)
@@ -153,9 +164,12 @@ kal_uint16 zt_agps_req_package(kal_uint8* outbuf,lbs_info_struct* lbs)
 		strcat(lbsbuf,"-");
 		strcat(lbsbuf,nbronebuf);
 	}
-	zt_trace(TLBS,"%s",lbsbuf);
-	len = sprintf(outbuf,"GET /ub?x=%s&l=%f,%f&f=400 HTTP/1.1\r\nHost:agps.co\r\n\r\n",lbsbuf,agps_info.lat, agps_info.lon);	
+	zt_trace(TLBS,"num=%d,%s",lbs->lbs_nbr_num,lbsbuf);
+	ftoa(lat,agps_info.lat);
+	ftoa(lon,agps_info.lon);
+	len = sprintf(outbuf,"GET /ub?x=%s&l=%s,%s&f=400 HTTP/1.1\r\nHost:agps.co\r\n\r\n",lbsbuf, lat, lon);	
 	zt_trace(TLBS,"%s",outbuf);
+
 	return len;
 }
 
@@ -176,11 +190,6 @@ void zt_agps_login_package(void)
 	kal_uint8 buffer[512] = {0};
 	
 	len = zt_agps_req_package(buffer,(lbs_info_struct*)zt_lbs_get_curr_lbs_info());
-	
-/*	len = sprintf(buffer,"user=%s;pwd=%s;cmd=%s;lat=%.4f;lon=%.4f;pacc=%.0f",agps_info.user,agps_info.pwd,agps_info.cmd,agps_info.lat,agps_info.lon,agps_info.pacc);
-	zt_trace(TLBS,"lat=%f,lon=%f",agps_info.lat,agps_info.lon);
-	zt_trace(TLBS,"%s",buffer);*/
-	
 	zt_socket_send(agps_soc_app_id, buffer, len);
 }
 

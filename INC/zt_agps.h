@@ -15,7 +15,7 @@ typedef struct
 
 void zt_agps_request(void);
 void zt_agps_login_package(void);
-void zt_agps_parse(RcvDataPtr GetRcvData);
+void zt_agps_parse(kal_int8 socket_id,RcvDataPtr GetRcvData);
 void zt_agps_set_location(float lat,float lon);
 
 #endif

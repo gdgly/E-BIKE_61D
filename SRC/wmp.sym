@@ -4,7 +4,7 @@
 0x00000002 A zt_trace_set
 0x00000003 A zt_socket_launch
 0x00000004 A zt_socket_get_app_id
-0x00000005 A zt_socket_reconnect
+0x00000005 A zt_socket_free
 0x00000006 A zt_socket_send
 0x00000007 A zt_lis3dh_get_acce_xyz
 0x00000008 A zt_mma_get_acce_xyz
@@ -78,6 +78,8 @@
 0x0000004C A IsMyTimerExist
 0x0000004D A zt_Malloc
 0x0000004E A zt_Free
-0x0000004F A zt_socket_free
-0x00000050 A GetTimeSec
-0x00000051 A zt_battery_handshake_status
+0x0000004F A GetTimeSec
+0x00000050 A zt_battery_handshake_status
+0x00000051 A srv_nw_info_get_signal_strength_in_percentage
+0x00000052 A zt_get_imsi
+0x00000053 A zt_get_imsi_request

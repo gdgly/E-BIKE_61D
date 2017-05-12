@@ -72,7 +72,7 @@ $subname    BX      pc
 	Veneer zt_trace_set
 	Veneer zt_socket_launch
 	Veneer zt_socket_get_app_id
-	Veneer zt_socket_reconnect
+	Veneer zt_socket_free
 	Veneer zt_socket_send
 	Veneer zt_lis3dh_get_acce_xyz
 	Veneer zt_mma_get_acce_xyz
@@ -146,9 +146,12 @@ $subname    BX      pc
 	Veneer IsMyTimerExist
 	Veneer zt_Malloc
 	Veneer zt_Free
-	Veneer zt_socket_free
 	Veneer GetTimeSec
 	Veneer zt_battery_handshake_status
+	Veneer srv_nw_info_get_signal_strength_in_percentage
+	Veneer zt_get_imsi
+	Veneer zt_get_imsi_request
+
 ;---------------------------------------------------------
 ;	adding new api under this line
 ;	for ex: Veneer xxxxxxx

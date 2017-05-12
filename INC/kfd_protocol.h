@@ -70,6 +70,7 @@ typedef enum
 
 	EN_GT_DT_PWR_OIL_SWITCH = 0x20,
 	EN_GT_DT_IO = 0x21,
+	EN_GT_DT_IMSI = 0x22,
 	
     EN_GT_CT_END
 } GT_DATA_TYPE_EN;
@@ -329,9 +330,9 @@ typedef struct
 extern gps_tracker_config_struct gps_tracker_config;
 extern void kfd_upload_login_package(void);
 extern void kfd_free_connect(void);
-extern void kfd_protocol_parse(RcvDataPtr GetRcvData);
+extern void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData);
 extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
 extern void kfd_upload_give_back_package(kal_uint8 gate);
-extern void kfd_service_check_online(void);
+extern void kfd_reconnect_service(void);
 #endif

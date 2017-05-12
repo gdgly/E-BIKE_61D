@@ -2,7 +2,6 @@
 #include "zt_smart_control.h"
 #include "zt_trace.h"
 #include "zt_gsensor.h"
-#include "kfd_protocol.h"
 
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
@@ -32,8 +31,7 @@ kal_uint32 pre_time=0;
 #define MAX_BAT 10
 battery_struct battery_array[MAX_BAT];
 void zt_smart_write_hall(void);
-void zt_controller_send(kal_uint8 cmd, kal_uint8 data);
-
+void zt_controller_send(cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 
 kal_uint16 zt_adc_get_value(void)
 {
@@ -251,7 +249,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					controller_data.tiaosu = LOW_SPEED;
 					zt_trace(TPROT,"调低速");
 				}
-				zt_controller_send(1,controller_data.tiaosu);
+				zt_controller_send(CMD_CONTROL,1,controller_data.tiaosu);
 				break;
 			case 0x0b:	//调欠压值
 				if(cmd->para[0]==0)
@@ -264,7 +262,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					controller_data.qianya = LOW;
 					zt_trace(TPROT,"调低欠压");
 				}
-				zt_controller_send(2,controller_data.qianya);
+				zt_controller_send(CMD_CONTROL,2,controller_data.qianya);
 				break;
 			case 0x0c:	//助力切换
 				if(cmd->para[0]==0)
@@ -282,25 +280,30 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					controller_data.zhuli = ZHULI2;
 					zt_trace(TPROT,"助力1:2");
 				}
-				else 
+				else if(cmd->para[0]==3)
 				{
 					controller_data.zhuli = RENLI; 
 					zt_trace(TPROT,"纯人力");
 				}
-				zt_controller_send(3,controller_data.zhuli);
+				else
+				{
+					controller_data.zhuli = HUNHE; 
+					zt_trace(TPROT,"电动+1:2助力");
+				}
+				zt_controller_send(CMD_CONTROL,3,controller_data.zhuli);
 				break;
 			case 0x0d:	//故障修复
 				if(cmd->para[0]==1)
 				{
 					controller_data.xiufu = cmd->para[0];
 					zt_trace(TPROT,"故障修复");
-					zt_controller_send(4,cmd->para[0]);
+					zt_controller_send(CMD_CONTROL,4,cmd->para[0]);
 				}
 				else if(cmd->para[0]==0)
 				{
 					controller_data.xiufu = cmd->para[0];
 					zt_trace(TPROT,"故障清除");
-					zt_controller_send(4,cmd->para[0]);
+					zt_controller_send(CMD_CONTROL,4,cmd->para[0]);
 				}
 				break;	
 			case 0x0e:	//切换电源电压
@@ -314,7 +317,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					controller_data.dy = VOT48V;
 					zt_trace(TPROT,"切换电源48V");
 				}
-				zt_controller_send(5,controller_data.dy);
+				zt_controller_send(CMD_CONTROL,5,controller_data.dy);
 				break;		
 			case 0x20:	//切换服务器
 				if(cmd->para[0]==1)
@@ -391,11 +394,15 @@ kal_uint16 zt_smart_calibrate_adc(void)
 }
 
 
-void zt_smart_update_network_data(kal_uint8* update_data)
+void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 {
-	if(update_data)
+	if(1)//curr_bat.sum_vol>0)
 	{
 		ebike_struct ebike={0};
+
+		zt_controller_send(CMD_READ, 0x00, 0x00);
+		package->addr = 0x1d;
+		package->value_len = sizeof(ebike_struct);
 
 		ebike.fault = controller_data.fault;
 		if(controller_data.tiaosu==HIGH_SPEED)
@@ -412,9 +419,13 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 			ebike.status.zhuli = 0;
 		else if(controller_data.zhuli==ZHULI)
 			ebike.status.zhuli = 1;
-		else if(controller_data.zhuli==RENLI)
+		else if(controller_data.zhuli==ZHULI2)
 			ebike.status.zhuli = 2;
-
+		else if(controller_data.zhuli==RENLI)
+			ebike.status.zhuli = 3;
+		else
+			ebike.status.zhuli = 4;
+		
 		if(controller_data.dy==VOT36V)
 			ebike.status.dy = 0;
 		else if(controller_data.dy==VOT48V)
@@ -443,10 +454,43 @@ void zt_smart_update_network_data(kal_uint8* update_data)
 		ebike.bat.status = curr_bat.status;
 		ebike.bat.date = curr_bat.date;
 		ebike.bat.id = curr_bat.id;
-		memcpy(update_data,&ebike,sizeof(ebike_struct));
+		memcpy(package->value,&ebike,sizeof(ebike_struct));
 		zt_smart_write_hall();
 		zt_trace(TPERI,"%s,len=%d",__func__,sizeof(ebike_struct));
+	
 	}
+	else
+	{
+		ebike_struct1 ebike1={0};
+		
+		package->addr = 0x1c;
+		package->value_len = 9;
+
+		ebike1.volt = zt_convert_adc((kal_uint16)zt_adc_get_aver_value());
+	//故障值
+		ebike1.fault = 0x00;
+	//开关锁状态
+		if(who_open_electric_gate)
+			ebike1.lock = 0;
+		else
+			ebike1.lock = 1;
+	//霍尔里程数
+		ebike1.hall = curr_hall/8;
+
+		zt_smart_write_hall();
+
+	//报警开关
+		if(gps_tracker_config.vibr2_thr == 1)
+		{
+			ebike1.lock = 1;	
+		}
+		else
+		{
+			ebike1.lock = 0;	
+		}
+		memcpy(package->value, &ebike1,sizeof(ebike_struct1));
+	}
+	
 }
 
 
@@ -595,13 +639,13 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 		if(!who_open_electric_gate)
 		{
 			unlock_bike();
-			StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,bt_open_dianmen);	//zzt.20160725
+			StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,bt_open_dianmen);	
+			zt_voice_play(VOICE_UNLOCK);
 		}
 		else
 		{
 			send_ok_cmd(0x01);
 		}
-		zt_voice_play(VOICE_UNLOCK);
 	  	break;
 	case SEARCH_CMD:
 		//zt_trace(TPERI, "SEARCH_CMD");
@@ -809,19 +853,22 @@ kal_uint8 parse_lundong_hdlr(void* info)
  * DESCRIPTION
  * 控制器命令接口
  * PARAMETERS
- *  cmd 1:调速2:调欠压值3:助力切换4:故障修复
- *  data 值
+ * cmd cmd_control 控制命令
+ *        cmd_read  读取命令
+ *  data 1:调速2:调欠压值3:助力切换4:故障修复
+ *  data 2: 值
  * RETURNS
  *  void
  *****************************************************************************/
-void zt_controller_send(kal_uint8 cmd, kal_uint8 data)
+void zt_controller_send(cmd_enum cmd, kal_uint8 data1,kal_uint8 data2)
 {
 	kal_uint16 check_sum = 0;
-	kal_uint8 i, send_data[] = {0x3a,0x1d,0x01,0x00,0x00,0x00,0x00,0x00,0x0d,0x0a};
+	kal_uint8 i, send_data[] = {0x3a,0x1d,0x00,0x00,0x00,0x00,0x00,0x00,0x0d,0x0a};
 
-	send_data[3] = 2;
-	send_data[4] = cmd;
-	send_data[5] = data;
+	send_data[2] = cmd;
+	send_data[3] = 0x02;	//长度
+	send_data[4] = data1;
+	send_data[5] = data2;
 
 	for(i=0; i<5;i++)
 		check_sum += send_data[i+1];
@@ -927,8 +974,12 @@ kal_uint8 parse_uart2_hdlr(void* info)
 kal_uint8 parse_lbs_hdlr(void* info)
 {
 	lbs_msg_struct* lbs_msg = (lbs_msg_struct*)info;
+	zt_trace(TLBS,"parse_lbs_hdlr num=%d",lbs_msg->lbs.lbs_nbr_num);
 	if(lbs_msg->lbs.lbs_server.cellid_nid!=0)
-		kfd_upload_lbs_package(&lbs_msg->lbs);
+	{
+//		kfd_upload_lbs_package(&lbs_msg->lbs);
+		zt_agps_request();
+	}
 }
 kal_uint8 parse_battery_hdlr(void* info)
 {
