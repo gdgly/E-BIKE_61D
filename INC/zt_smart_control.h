@@ -59,6 +59,11 @@ typedef enum
 	VOT36V=1,
 	VOT48V=2,	
 }DIANYUAN;
+typedef enum
+{
+	XF_INVALID=1,
+	XF_OK=2,	
+}XIUFU;
 typedef struct
 {
 	kal_uint8 fault;
@@ -66,25 +71,43 @@ typedef struct
 	SPEED tiaosu;
 	QIANYA qianya;
 	DONGLI zhuli;
-	kal_uint8 xiufu;
 	DIANYUAN dy;
+	kal_uint8 xiufu;
 }controller_struct;
 typedef enum
 {
 	CMD_CONTROL=1,
 	CMD_READ,
 }cmd_enum;
+typedef enum
+{
+	ADDR_BAT=0x16,
+	ADDR_CONTROL=0x1d,	
+}addr_enum;
+typedef enum
+{
+	bat_temp=0x08,
+	bat_vol=0x09,
+	bat_curr=0x0a,
+	bat_cap=0x0f,
+	bat_total_cap=0x10,
+	bat_cycle=0x17,
+	bat_interval=0x47,
+	bat_max_interval=0x48,	
+}bat_cmd_enum;
+
 
 #pragma pack (1)
 
 typedef struct
 {
-	kal_uint8 tiaosu:1;
-	kal_uint8 qianya:1;
-	kal_uint8 zhuli:3;
-	kal_uint8 lock:1;
-	kal_uint8 alarm:1;
-	kal_uint8 dy:1;
+	kal_uint16 tiaosu:1;
+	kal_uint16 qianya:1;
+	kal_uint16 zhuli:3;
+	kal_uint16 lock:1;
+	kal_uint16 alarm:1;
+	kal_uint16 dy:1;
+	kal_uint16 xiufu:1;
 }status_struct;
 
 typedef struct
@@ -94,14 +117,7 @@ typedef struct
 	kal_uint32 hall;
 	battery_info_struct bat;
 }ebike_struct;
-typedef struct
-{
-	kal_uint16 volt;
-	kal_uint8 fault;
-	kal_uint8 lock;
-	kal_uint32 hall;
-	kal_uint8 alarm;
-}ebike_struct1;
+
 #pragma pack ()
 
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);

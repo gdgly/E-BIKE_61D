@@ -352,18 +352,14 @@ typedef enum {
 
 typedef struct
 {
-	kal_uint16 sum_vol;
-	kal_uint16 currnt;
-	kal_uint16 des_cap;
-	kal_uint16 des_vol;
-	kal_uint16 fcc;
+	kal_uint16 temp;
+	kal_uint16 voltage;
+	kal_uint16 current;
 	kal_uint16 residual_cap;
-	kal_uint16 per_cap;
+	kal_uint16 total_cap;
 	kal_uint16 cycle_count;
-	kal_uint16 temperatue;
-	kal_uint16 status;
-	kal_uint16 date;
-	kal_uint16 id;	
+	kal_uint16 interval;
+	kal_uint16 max_interval;
 }battery_info_struct;
 
 typedef struct

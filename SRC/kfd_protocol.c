@@ -1197,6 +1197,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 		{	
 			//zt_trace(TPROT, "login rsp sn ok");
 			kfd_work_state = EN_WORKING_STATE;
+			kfd_connect_times = 0;
 			StopTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER));
 
 			kfd_calibration_time(buf);
