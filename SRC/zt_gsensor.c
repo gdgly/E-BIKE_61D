@@ -80,9 +80,9 @@ kal_bool zt_gsensor_check_is_shake_sharp(void)
 	kal_uint16 num;
 	
 #ifdef __ACCE_MMA_7660__
-	num = zt_gsensor_get_shake_num(10, 3);
+	num = zt_gsensor_get_shake_num(10, 5);
 #elif defined(__ACCE_LIS3DH__)
-	num = zt_gsensor_get_shake_num(15, 3);
+	num = zt_gsensor_get_shake_num(15, 5);
 #endif
 
 	if(num>=2)
@@ -106,12 +106,12 @@ kal_bool zt_gsensor_check_is_moving(void)
 {
 	kal_uint16 num;
 #ifdef __ACCE_MMA_7660__
-	num = zt_gsensor_get_shake_num(5, 5);
+	num = zt_gsensor_get_shake_num(5, 15);
 #elif defined(__ACCE_LIS3DH__)
-	num = zt_gsensor_get_shake_num(8, 5);
+	num = zt_gsensor_get_shake_num(8, 15);
 #endif
 
-	if(num>=2)
+	if(num>=3)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -197,7 +197,6 @@ kal_uint8 zt_gsensor_get_shake_change(void)
 	
 	average_change = sum/SHAKE_BUF_LEN;
 
-	zt_trace(TSEN,"shake aver=%d", average_change);
 	return average_change;
 }
 

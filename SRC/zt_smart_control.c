@@ -28,18 +28,22 @@ controller_struct controller_data;
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
 
-#define MAX_BAT 10
-battery_struct battery_array[MAX_BAT];
 void zt_smart_write_hall(void);
+kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 
-kal_uint16 zt_adc_get_value(void)
-{
-	return curr_bat.voltage;
-}
 kal_uint16 zt_adc_get_aver_value(void)
 {
 	return aver_adc;
+}
+kal_bool zt_get_bat_connet_status(void)
+{
+	if(curr_bat.voltage>12000)	//大于12V
+		return KAL_TRUE;
+	else if(adc_convert_mv(zt_adc_get_aver_value())>12000)	//大于12V
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
 }
 kal_uint8 get_electric_gate_status(void)
 {
@@ -341,66 +345,14 @@ kal_uint16 zt_convert_adc(kal_uint16 adc)
 	
 	return result;
 }
-kal_uint16 adc_convert_mv(kal_uint16 adc)
+kal_uint32 adc_convert_mv(kal_uint16 adc_mv)
 {
-	kal_uint16 result;
+	kal_uint32 result;
 
-	result = adc*2800*34/1024;
-	zt_trace(TPERI,"curr=%d,adc=%d,Vol=%dmv",curr_adc,adc,result);
+	result = adc_mv*34;
+	zt_trace(TPERI,"adc_mv=%d,Vol=%dmv",adc_mv,result);
 	return result;
 }
-void zt_smart_collect_battery_proc(void)
-{
-	kal_int8 i;
-
-	for(i=MAX_BAT-1; i>0; i--)
-	{
-		battery_array[i].adc = battery_array[i-1].adc;
-		battery_array[i].electric_gate = battery_array[i-1].electric_gate;
-		//zt_trace(TPERI,"adc=%d,gate=%d", battery_array[i].adc,battery_array[i].electric_gate);
-	}
-	battery_array[0].adc = zt_convert_adc(zt_adc_get_aver_value());
-	battery_array[0].electric_gate = who_open_electric_gate;
-}
-
-/*****************************************************************************
- * FUNCTION
- *  zt_smart_calibrate_adc
- * DESCRIPTION
- *   adc 校准算法，获取最近10次采集的电门是打开状态下的平均值
- * PARAMETERS
- *  void  
- *  
- * RETURNS
- *  kal_uint16
- *****************************************************************************/
-kal_uint16 zt_smart_calibrate_adc(void)
-{
-	kal_int8 i,num=0;
-	kal_uint16 adc=0;
-	kal_uint16 sum=0;
-
-	for(i=0; i<MAX_BAT; i++)
-	{
-		if(battery_array[i].electric_gate && battery_array[i].adc>100)
-		{
-			num++;
-			sum += battery_array[i].adc;
-		}
-	}
-
-	if(num>2)
-	{
-		adc = sum/num;
-	}
-	else
-	{
-		adc = 0;
-	}
-	//zt_trace(TPERI,"%s,adc=%d,num=%d",__func__,adc,num);
-	return adc;	
-}
-
 
 void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 {
@@ -468,9 +420,9 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	ebike.hall = curr_hall/8;
 	ebike.bat.temp = curr_bat.temp;
 	if(curr_bat.voltage>0)	
-		ebike.bat.voltage = curr_bat.voltage;
+		ebike.bat.voltage = curr_bat.voltage/10;
 	else
-		ebike.bat.voltage = adc_convert_mv(zt_adc_get_aver_value());
+		ebike.bat.voltage = (kal_uint16)(adc_convert_mv(zt_adc_get_aver_value())/10);
 
 	ebike.bat.current= curr_bat.current;
 	ebike.bat.residual_cap= curr_bat.residual_cap;
@@ -622,7 +574,6 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 		}
 		else
 		{
-			zt_voice_play(VOICE_LOCK);
 			send_ok_cmd(0x01);
 		}
 	  	break;
@@ -766,7 +717,7 @@ kal_bool zt_gps_valid(void)
 kal_bool zt_time_expiry(void)
 {
 	kal_uint32 real_time = (kal_uint32)GetTimeSec();
-	if((real_time-pre_time)>3600*2)	// 2H
+	if((real_time-pre_time)>3600)	// 1H
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -782,7 +733,7 @@ void zt_agps_process(void)
 }
 void zt_smart_check_gps_pwr(void)
 {
-//	//zt_trace(TPERI,"%s",__func__);
+	//zt_trace(TPERI,"%s",__func__);
 	if(zt_gsensor_check_is_moving())
 	{
 		if(!zt_gps_get_pwr_status())
@@ -966,6 +917,8 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 				break;
 		}
 	}
+	
+	return KAL_TRUE;
 }
 kal_uint8 parse_uart2_hdlr(void* info)
 {
@@ -1005,8 +958,6 @@ kal_uint8 parse_lbs_hdlr(void* info)
 	zt_trace(TLBS,"parse_lbs_hdlr num=%d",lbs_msg->lbs.lbs_nbr_num);
 	if(lbs_msg->lbs.lbs_server.cellid_nid!=0)
 	{
-//		kfd_upload_lbs_package(&lbs_msg->lbs);
-		zt_agps_request();
 	}
 }
 /*kal_uint8 parse_battery_hdlr(void* info)
@@ -1056,6 +1007,6 @@ void zt_smart_init(void)
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_HALL_EINT_SEND_MMI_REQ), (PsIntFuncPtr)parse_hall_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LUNDONG_SEND_MMI_REQ), (PsIntFuncPtr)parse_lundong_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_UART2_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_uart2_hdlr,  KAL_FALSE);
-//	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BAT_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_battery_hdlr,  KAL_FALSE);
+	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BAT_SEND_TO_MMI_REQ), /*(PsIntFuncPtr)parse_battery_hdlr*/NULL,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LBS_SEND_MMI_REQ), (PsIntFuncPtr)parse_lbs_hdlr,  KAL_FALSE);
 }
