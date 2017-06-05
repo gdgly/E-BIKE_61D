@@ -587,7 +587,7 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 	kal_uint8 len;
 
 /*增加还车时判断主电源如没插上就提示失败*/
-	if(zt_get_bat_connet_status())	
+	if(zt_get_bat_connect_status())	
 		give_back_package.lock_state = gate>0?0:1;
 	else
 		give_back_package.lock_state = 0;
@@ -805,7 +805,7 @@ void kfd_upload_alarm_package(void)
 		gps_tracker_alarm.vibr_ind = 0;
 	}
 //断电
-	if(zt_get_bat_connet_status())	
+	if(zt_get_bat_connect_status())	
 	{
 		gps_tracker_alarm.pwr_off_ind =0;
 	}

@@ -36,7 +36,7 @@ kal_uint16 zt_adc_get_aver_value(void)
 {
 	return aver_adc;
 }
-kal_bool zt_get_bat_connet_status(void)
+kal_bool zt_get_bat_connect_status(void)
 {
 	if(curr_bat.voltage>12000)	//´óÓÚ12V
 		return KAL_TRUE;
