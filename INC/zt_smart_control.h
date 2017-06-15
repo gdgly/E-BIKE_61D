@@ -74,6 +74,13 @@ typedef struct
 	DIANYUAN dy;
 	kal_uint8 xiufu;
 }controller_struct;
+
+typedef struct
+{
+	controller_struct require;
+	controller_struct actual;
+}config_struct;
+
 typedef enum
 {
 	CMD_CONTROL=1,
@@ -125,5 +132,6 @@ extern void zt_smart_update_network_data(gps_tracker_control_data_struct* packag
 extern kal_bool zt_get_bat_connect_status(void);
 extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
+extern void zt_smart_pre_uart_data(void);
 
 #endif

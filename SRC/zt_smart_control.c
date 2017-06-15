@@ -2,6 +2,7 @@
 #include "zt_smart_control.h"
 #include "zt_trace.h"
 #include "zt_gsensor.h"
+#include "zt_interface.h"
 
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
@@ -24,7 +25,7 @@ kal_uint16 pre_adc = 0;
 kal_uint32 curr_hall;
 kal_uint32 curr_lundong;
 kal_uint8 gps_delay_off_flag = 0;
-controller_struct controller_data;
+config_struct controller;
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
 
@@ -186,7 +187,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				if(cmd->para[0]==1)
 				{
 					open_dianchi_lock();
-					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),1000,close_dianchi_lock);
+					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
 					pre_adc = 0;	//更换电池时，电量上报当前电池的电量值，所以把上一个电量清零
 				}
 				break;
@@ -233,7 +234,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					{
 						gps_delay_off_flag = 1;
 						zt_gps_power_on();
-						StartTimer(ZT_GPS_DELAY_OFF_TIMER, 900*1000, zt_smart_delay_gps_off);
+						StartTimer(GetTimerID(ZT_GPS_DELAY_OFF_TIMER), 900*1000, zt_smart_delay_gps_off);
 					}
 				}
 				break;
@@ -245,83 +246,95 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x0a:	//调速
 				if(cmd->para[0]==0)
 				{
-					controller_data.tiaosu = HIGH_SPEED;
-					zt_trace(TPROT,"调高速");
+					zt_controller_send(ADDR_CONTROL, CMD_CONTROL,1,HIGH_SPEED);
+					controller.require.tiaosu = HIGH_SPEED;
+					zt_trace(TPROT,"HIGH Speed");
 				}
 				else
 				{
-					controller_data.tiaosu = LOW_SPEED;
-					zt_trace(TPROT,"调低速");
+					zt_controller_send(ADDR_CONTROL, CMD_CONTROL,1,LOW_SPEED);
+					controller.require.tiaosu = LOW_SPEED;
+					zt_trace(TPROT,"LOW Speed");
 				}
-				zt_controller_send(ADDR_CONTROL, CMD_CONTROL,1,controller_data.tiaosu);
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 				break;
 			case 0x0b:	//调欠压值
 				if(cmd->para[0]==0)
 				{
-					controller_data.qianya = HIGH;
-					zt_trace(TPROT,"调高欠压");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,2,HIGH);
+					controller.require.qianya = HIGH;
+					zt_trace(TPROT,"HIGH voltage");
 				}
 				else
 				{
-					controller_data.qianya = LOW;
-					zt_trace(TPROT,"调低欠压");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,2,LOW);
+					controller.require.qianya = LOW;
+					zt_trace(TPROT,"LOW voltage");
 				}
-				zt_controller_send(ADDR_CONTROL,CMD_CONTROL,2,controller_data.qianya);
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 				break;
 			case 0x0c:	//助力切换
 				if(cmd->para[0]==0)
 				{
-					controller_data.zhuli = DIANDONG;
-					zt_trace(TPROT,"纯电动");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,DIANDONG);
+					controller.require.zhuli = DIANDONG;
+					zt_trace(TPROT,"CHUN diandong");
 				}
 				else if(cmd->para[0]==1)
 				{
-					controller_data.zhuli = ZHULI;
-					zt_trace(TPROT,"助力1:1");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,ZHULI);
+					controller.require.zhuli = ZHULI;
+					zt_trace(TPROT,"ZHULI 1:1");
 				}
 				else if(cmd->para[0]==2)
 				{
-					controller_data.zhuli = ZHULI2;
-					zt_trace(TPROT,"助力1:2");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,ZHULI2);
+					controller.require.zhuli = ZHULI2;
+					zt_trace(TPROT,"ZHULI 1:2");
 				}
 				else if(cmd->para[0]==3)
 				{
-					controller_data.zhuli = RENLI; 
-					zt_trace(TPROT,"纯人力");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,RENLI); 
+					controller.require.zhuli = RENLI;
+					zt_trace(TPROT,"CHUN RENLI");
 				}
 				else
 				{
-					controller_data.zhuli = HUNHE; 
-					zt_trace(TPROT,"电动+1:2助力");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,HUNHE); 
+					controller.require.zhuli = HUNHE;
+					zt_trace(TPROT,"DIANDONG+1:2 ZHULI");
 				}
-				zt_controller_send(ADDR_CONTROL,CMD_CONTROL,3,controller_data.zhuli);
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 				break;
 			case 0x0d:	//故障修复
 				if(cmd->para[0]==1)
 				{
-					controller_data.xiufu = XF_OK;
-					zt_trace(TPROT,"故障修复");
-					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,cmd->para[0]);
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,XF_OK);
+					controller.require.xiufu = XF_OK;
+					zt_trace(TPROT,"GUZHANG XIUFU");
 				}
 				else if(cmd->para[0]==0)
 				{
-					controller_data.xiufu = XF_INVALID;
-					zt_trace(TPROT,"故障清除");
-					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,cmd->para[0]);
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,XF_INVALID);
+					controller.require.xiufu = XF_INVALID;
+					zt_trace(TPROT,"GUZHANG QINGCHU");
 				}
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));				
 				break;	
 			case 0x0e:	//切换电源电压
 				if(cmd->para[0]==0)//36V
 				{
-					controller_data.dy = VOT36V;
-					zt_trace(TPROT,"切换电源36V");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,5,VOT36V);
+					controller.require.dy = VOT36V;
+					zt_trace(TPROT,"QIEHUAN 36V");
 				}
 				else if(cmd->para[0]==1)//48V
 				{
-					controller_data.dy = VOT48V;
-					zt_trace(TPROT,"切换电源48V");
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,5, VOT48V);
+					controller.require.dy = VOT48V;
+					zt_trace(TPROT,"QIEHUAN 48V");
 				}
-				zt_controller_send(ADDR_CONTROL,CMD_CONTROL,5,controller_data.dy);
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));				
 				break;		
 			case 0x20:	//切换服务器
 				if(cmd->para[0]==1)
@@ -330,7 +343,6 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				}
 				else if(cmd->para[0]==2)
 				{//测试服务器转现网服务器
-					zt_trace(TPROT,"测试切换现网服务器");
 				}
 			default:
 				break;
@@ -338,6 +350,59 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 	}
 }
 
+void zt_smart_pre_uart_data(void)
+{
+	static kal_uint8 index=0;
+
+	if(index==0)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_READ, 0x00, 0x00);
+	}
+
+	if(controller.require.tiaosu != controller.actual.tiaosu && index==1)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,1,controller.require.tiaosu);
+	}
+
+	if(controller.require.qianya != controller.actual.qianya && index==2)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,2,controller.require.qianya);
+	}
+
+	if(controller.require.zhuli != controller.actual.zhuli && index==3)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,3,controller.require.zhuli);
+	}
+
+	if(controller.require.xiufu != controller.actual.xiufu && index==4)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,4,controller.require.xiufu);
+	}
+
+	if(controller.require.dy != controller.actual.dy && index==5)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,5,controller.require.dy);
+	}
+	
+/*	zt_controller_send(ADDR_BAT, bat_temp, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_vol, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_curr, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_cap, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_total_cap, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_cycle, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_interval, 0x00, 0x00);
+	zt_controller_send(ADDR_BAT, bat_max_interval, 0x00, 0x00);*/
+	if(index>=6)
+	{
+		index=0;
+		StopTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER));
+	}
+	else
+	{
+		index++;
+		StartTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER),100,zt_smart_pre_uart_data);
+	}
+}
 kal_uint16 zt_convert_adc(kal_uint16 adc)
 {
 	kal_uint16 result;
@@ -358,53 +423,41 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 {
 	ebike_struct ebike={0};
 
-	zt_trace(TPERI,"获取电量");
-//	zt_controller_send(ADDR_BAT, bat_vol, 0x00, 0x00);
-
-	zt_controller_send(ADDR_CONTROL, CMD_READ, 0x00, 0x00);
-/*	zt_controller_send(ADDR_BAT, bat_temp, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_vol, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_curr, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_cap, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_total_cap, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_cycle, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_interval, 0x00, 0x00);
-	zt_controller_send(ADDR_BAT, bat_max_interval, 0x00, 0x00);*/
-
+	zt_trace(TPERI,"Get pwr data");
 
 	package->addr = 0x1d;
 	package->value_len = sizeof(ebike_struct);
 
-	ebike.fault = controller_data.fault;
-	if(controller_data.tiaosu==HIGH_SPEED)
+	ebike.fault = controller.actual.fault;
+	if(controller.actual.tiaosu==HIGH_SPEED)
 		ebike.status.tiaosu = 0;
-	else if(controller_data.tiaosu==LOW_SPEED)
+	else if(controller.actual.tiaosu==LOW_SPEED)
 		ebike.status.tiaosu = 1;
 	
-	if(controller_data.qianya==HIGH)
+	if(controller.actual.qianya==HIGH)
 		ebike.status.qianya = 0;
-	else if(controller_data.qianya==LOW)
+	else if(controller.actual.qianya==LOW)
 		ebike.status.qianya = 1;
 
-	if(controller_data.zhuli==DIANDONG)
+	if(controller.actual.zhuli==DIANDONG)
 		ebike.status.zhuli = 0;
-	else if(controller_data.zhuli==ZHULI)
+	else if(controller.actual.zhuli==ZHULI)
 		ebike.status.zhuli = 1;
-	else if(controller_data.zhuli==ZHULI2)
+	else if(controller.actual.zhuli==ZHULI2)
 		ebike.status.zhuli = 2;
-	else if(controller_data.zhuli==RENLI)
+	else if(controller.actual.zhuli==RENLI)
 		ebike.status.zhuli = 3;
-	else
+	else if(controller.actual.zhuli==HUNHE)
 		ebike.status.zhuli = 4;
 	
-	if(controller_data.dy==VOT36V)
+	if(controller.actual.dy==VOT36V)
 		ebike.status.dy = 0;
-	else if(controller_data.dy==VOT48V)
+	else if(controller.actual.dy==VOT48V)
 		ebike.status.dy = 1;
 	
-	if(controller_data.xiufu==XF_INVALID)
+	if(controller.actual.xiufu==XF_INVALID)
 		ebike.status.xiufu = 0;
-	else if(controller_data.xiufu==XF_OK)
+	else if(controller.actual.xiufu==XF_OK)
 		ebike.status.xiufu = 1;	
 	
 	if(who_open_electric_gate)
@@ -727,7 +780,7 @@ void zt_agps_process(void)
 	if(zt_time_expiry()&&(kal_bool)zt_gps_get_pwr_status()&&!zt_gps_valid())
 	{
 		pre_time = (kal_uint32)GetTimeSec();
-		zt_trace(TPERI,"LBS REQ, 时间:%d",pre_time);
+		zt_trace(TPERI,"LBS REQ, time:%d",pre_time);
 		zt_lbs_req();
 	}
 }
@@ -821,7 +874,7 @@ void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 d
 	send_data[6] =check_sum&0xff;
 	send_data[7] =check_sum>>8;
 
-	zt_trace(TPERI,"串口发送数据addr=%x,cmd=%x",addr,cmd);
+	zt_trace(TPERI,"uart2 send addr=%x,cmd=%x,data1=%x",addr,cmd,data1);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
 }
 kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
@@ -841,32 +894,32 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 	{
 		if(buf[1]==0x01)	//控制命令的响应
 		{
-			zt_trace(TPERI,"接收到控制响应命令,长度%d",len);
+			zt_trace(TPERI,"Recv uart2 len = %d",len);
 			switch(buf[3])
 			{
 				case 0x01:	//调速
 					if(buf[4])
-						zt_trace(TPERI,"调速成功");
+						zt_trace(TPERI,"Speed change Success");
 					else
-						zt_trace(TPERI,"调速失败");
+						zt_trace(TPERI,"Speed change Fail");
 					break;
 				case 0x02:	//调欠压值
 					if(buf[4])
-						zt_trace(TPERI,"调欠压值成功");
+						zt_trace(TPERI,"Qianya Success");
 					else
-						zt_trace(TPERI,"调欠压值失败");
+						zt_trace(TPERI,"Qianya Fail");
 					break;
 				case 0x03:	//助力切换
 					if(buf[4])
-						zt_trace(TPERI,"助力切换成功");
+						zt_trace(TPERI,"Zhuli Success");
 					else
-						zt_trace(TPERI,"助力切换失败");
+						zt_trace(TPERI,"Zhuli Fail");
 					break;
 				case 0x04:	//故障修复
 					if(buf[4])
-						zt_trace(TPERI,"故障修复成功");
+						zt_trace(TPERI,"Guzhang xiufu Success");
 					else
-						zt_trace(TPERI,"故障修复失败");
+						zt_trace(TPERI,"Guzhang xiufu Fail");
 					break;
 				default:
 					break;
@@ -874,15 +927,16 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		else if(buf[1]==0x02)	//读取命令
 		{
-			zt_trace(TPERI,"接收到上报命令,长度%d",len);
+			zt_trace(TPERI,"Recv Upload len = %d",len);
 
-			controller_data.fault = buf[3];
-			controller_data.hall = buf[4]+buf[5]<<8+buf[6]<<16+buf[7]<<24;
-			controller_data.tiaosu = buf[8];
-			controller_data.qianya = buf[9];
-			controller_data.zhuli = buf[10];
-			controller_data.dy = buf[11];
-			controller_data.xiufu = buf[12];
+			controller.actual.fault = buf[3];
+			controller.actual.hall = buf[4]+buf[5]<<8+buf[6]<<16+buf[7]<<24;
+			controller.actual.tiaosu = buf[8];
+			controller.actual.qianya = buf[9];
+			controller.actual.zhuli = buf[10];
+			controller.actual.dy = buf[11];
+			controller.actual.xiufu = buf[12];
+			zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 		}
 	}
 	else if(buf[0]==ADDR_BAT)
@@ -920,6 +974,107 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 	
 	return KAL_TRUE;
 }
+
+void get_int_num(kal_uint8*buf,kal_uint8*ip1,kal_uint8*ip2,kal_uint8*ip3,kal_uint8*ip4)
+{
+	kal_uint8 *head,*tail,tmp[4];
+	
+	head = buf;
+	tail = (kal_uint8*)strstr(head,".");
+	memset(tmp,0,sizeof(tmp));
+	memcpy(tmp,head,tail-head);
+	*ip1 = atoi(tmp);
+
+	head = tail+1;
+	tail = (kal_uint8*)strstr(head,".");
+	memset(tmp,0,sizeof(tmp));
+	memcpy(tmp,head,tail-head);
+	*ip2 = atoi(tmp);
+
+	head = tail+1;
+	tail = (kal_uint8*)strstr(head,".");
+	memset(tmp,0,sizeof(tmp));	
+	memcpy(tmp,head,tail-head);
+	*ip3 = atoi(tmp);
+
+	head = tail+1;
+	tail = (kal_uint8*)strstr(head,",");
+	memset(tmp,0,sizeof(tmp));	
+	memcpy(tmp,head,tail-head);
+	*ip4 = atoi(tmp);
+}
+
+void restartSystem(void)
+{
+	zt_reset_system();
+}
+void modify_service_address(kal_uint8* buf)
+{
+	//type:2,domain:www.liabar.com,port:9000#
+	//type:1,ip:193.224.3.220,port:9000#
+	network_info_struct network={0};
+	kal_uint8 tmp[64]={0};
+	kal_uint8 *head=NULL,*tail=NULL;
+	S16 error;
+	
+	head = (kal_uint8*)strstr(buf,"type:");
+	tail = (kal_uint8*)strstr(buf,"#");
+	zt_trace(TPERI,"%s",buf);
+	if(head&&tail)
+	{
+		head += strlen("type:");
+		tail = (kal_uint8*)strstr(head,",");
+		memcpy(tmp, head,tail-head);
+		network.ym_type = atoi(tmp);
+		zt_trace(TPERI,"network.ym_type=%d",network.ym_type);
+		if(network.ym_type==2)
+		{
+			head = (kal_uint8*)strstr(buf,"domain:");
+			if(head)
+			{
+				head+= strlen("domain:");
+				tail = (kal_uint8*)strstr(head,",");
+				memcpy(network.domain,head,tail-head);
+
+				head = (kal_uint8*)strstr(buf,"port:");
+				head+=strlen("port:");
+				tail = (kal_uint8*)strstr(head,"#");
+				memset(tmp,0,sizeof(tmp));
+				memcpy(tmp,head,tail-head);
+				network.port = atoi(tmp);
+
+				sprintf(tmp,"type:%d,%s,%d\r\n",network.ym_type,network.domain,network.port);
+				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
+				zt_write_config_in_fs(NETWORK_FILE, (kal_uint8*)&network,  sizeof(network_info_struct));
+				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+			}
+		}
+		else if(network.ym_type==1)
+		{
+			head = (kal_uint8*)strstr(buf,"ip:");
+			if(head)
+			{
+				head+= strlen("ip:");
+				tail = (kal_uint8*)strstr(head,",")+1;
+				memcpy(tmp, head, tail-head);
+				get_int_num(tmp,&network.ip[0],&network.ip[1],&network.ip[2],&network.ip[3]);
+							
+				head = (kal_uint8*)strstr(buf,"port:");
+				head+=strlen("port:");
+				tail = (kal_uint8*)strstr(head,"#");
+				memset(tmp,0,sizeof(tmp));
+				memcpy(tmp,head,tail-head);
+				network.port = atoi(tmp);
+
+				sprintf(tmp,"type:%d,%d:%d:%d:%d,%d",network.ym_type,network.ip[0],network.ip[1],network.ip[2],network.ip[3],network.port);
+				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
+				zt_trace(TPERI,"%s",tmp);
+				zt_write_config_in_fs(NETWORK_FILE, (kal_uint8*)&network,  sizeof(network_info_struct));
+				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+			}
+		}
+	}
+}
 kal_uint8 parse_uart2_hdlr(void* info)
 {
 	bt_msg_struct* uart2_msg = (bt_msg_struct*)info;
@@ -929,7 +1084,7 @@ kal_uint8 parse_uart2_hdlr(void* info)
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
-	zt_trace(TPERI,"串口数据长度%d",len);
+	zt_trace(TPERI,"Uart 2 len =%d",len);
 	for(i=0; i<len; i++)
 	{
 		zt_trace(TPERI,"[%d] = %x",i,buf[i]);
@@ -949,6 +1104,8 @@ kal_uint8 parse_uart2_hdlr(void* info)
 			}
 		}
 	}
+
+	modify_service_address(buf);
 	
 }
 
@@ -987,8 +1144,9 @@ void zt_smart_read_hall(void)
 }
 void zt_smart_init(void)
 {
-	//zt_trace(TPERI,"%s",__func__);
 	zt_smart_dianmen_init();
+
+	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 
 	zt_smart_key_detect_proc();
 

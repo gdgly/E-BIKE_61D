@@ -76,10 +76,9 @@
 0x0000004A A zt_uart_init_port
 0x0000004B A zt_uart_write_data
 0x0000004C A IsMyTimerExist
-0x0000004D A zt_Malloc
-0x0000004E A zt_Free
-0x0000004F A GetTimeSec
-0x00000050 A zt_battery_handshake_status
-0x00000051 A srv_nw_info_get_signal_strength_in_percentage
-0x00000052 A zt_get_imsi
-0x00000053 A zt_get_imsi_request
+0x0000004D A GetTimeSec
+0x0000004E A zt_Malloc
+0x0000004F A zt_Free
+0x00000050 A srv_nw_info_get_signal_strength_in_percentage
+0x00000051 A zt_get_imsi
+0x00000052 A zt_get_imsi_request

@@ -131,7 +131,7 @@ void zt_agps_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 	pAgps = (kal_uint8*)zt_Malloc(LBS_BUF_SIZE);
 
 	len = GetRcvData(socket_id,pAgps,LBS_BUF_SIZE);
-	zt_trace(TLBS,"Agps ½âÎölen=%d,pAgps=%s",len,pAgps);	
+	zt_trace(TLBS,"Agps parse len=%d,pAgps=%s",len,pAgps);	
 	if(len>0)
 	{
 		zt_agps_write(pAgps);

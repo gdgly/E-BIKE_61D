@@ -144,10 +144,9 @@ $subname    BX      pc
 	Veneer zt_uart_init_port
 	Veneer zt_uart_write_data
 	Veneer IsMyTimerExist
+	Veneer GetTimeSec
 	Veneer zt_Malloc
 	Veneer zt_Free
-	Veneer GetTimeSec
-	Veneer zt_battery_handshake_status
 	Veneer srv_nw_info_get_signal_strength_in_percentage
 	Veneer zt_get_imsi
 	Veneer zt_get_imsi_request

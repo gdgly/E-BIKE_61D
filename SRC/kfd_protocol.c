@@ -4,6 +4,8 @@
 #include "zt_smart_control.h"
 #include "zt_gsensor.h"
 #include "zt_agps.h"
+#include "zt_interface.h"
+
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
@@ -142,7 +144,7 @@ static double GetDistance(double lat1, double lon1, double lat2, double lon2)
 void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
-	if(kfd_connect_times > 30)
+	if(kfd_connect_times > 60)
 	{
 		kfd_connect_times = 0;
 		zt_reset_system();
@@ -290,10 +292,8 @@ kal_int32 kfd_send_package(GT_PROT_TYPE_EN prot_type, kal_uint8* context,kal_uin
 	}
 	
 	zt_hex_convert_str(buffer,len, out);
-#ifdef ENABLE_LOG	
 	zt_trace(TPROT,"%s, GT_PROT_TYPE_EN=%d,sig=%d",__func__,prot_type,(U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1));
 	zt_trace(TPROT,"%s",out);
-#endif
 	return send_len;
 }
 
@@ -317,10 +317,8 @@ void kfd_get_gps_data_per_period(void)
 	}
 	
 	memcpy(&kfd_gps_data_array[0], curr_gps_data, sizeof(gps_info_struct));	
-#ifdef ENABLE_LOG	
 	if(curr_gps_data->state!=0)
 	zt_trace(TGPS,"valid=%c,use=%d,view=%d,speed=%f",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view,curr_gps_data->speed);
-#endif
 
 	StartTimer(GetTimerID(ZT_GPS_PERIOD_TIMER), 1000, kfd_get_gps_data_per_period);
 }
@@ -543,9 +541,7 @@ void kfd_upload_login_package(void)
 	kal_uint8 imei[MAX_GT_IMEI_LEN]={0};
 
 	srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
-	#ifdef ENABLE_LOG
 	zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
-	#endif
 	login_package.dev_type = gps_tracker_config.dev_type;
 	login_package.auth_code = 0;
 	hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
@@ -592,9 +588,7 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 	else
 		give_back_package.lock_state = 0;
 	
-#ifdef ENABLE_LOG	
 	zt_trace(TPROT,"lock_state=%d,gate=%d",give_back_package.lock_state,gate);
-#endif
 
 	for(i=0;i<DATA_INTERVAL;i++)
 	{
@@ -822,9 +816,7 @@ void kfd_upload_alarm_package(void)
 	{	
 		if(ind & (0x01<<i))
 		{	
-		#ifdef ENABLE_LOG	
 			zt_trace(TPROT, "%s,[alarm] alarm No:%d",__func__,i);
-		#endif
 			if(i == EN_GT_AT_VIBR)
 			{
 				if(gps_tracker_config.alarm_switch.vibr == EN_GT_SWT_ON)
@@ -907,6 +899,10 @@ void kfd_upload_alarm_package(void)
 	}	
 }
 
+void kfd_pre_ebike_package_data(void)
+{
+	zt_smart_pre_uart_data();
+}
 /*****************************************************************************
  * FUNCTION
  *  kfd_upload_ebike_package
@@ -994,11 +990,12 @@ void kfd_upload_data_package(void)
 
 	if(delay_index%6==0)
 	{
-		zt_lbs_req();
+	//	zt_lbs_req();
 	}
 	else if((delay_index+1)%6==0)
 	{
 		kfd_upload_alarm_package();
+		kfd_pre_ebike_package_data();
 	}
 	else if((delay_index+2)%6==0)
 	{
@@ -1028,9 +1025,7 @@ void kfd_upload_imsi_package(void)
 	data_package.type = EN_GT_DT_IMSI;
 	data_package.value_len = strlen((kal_uint8*)zt_get_imsi());
 	strcpy(data_package.value, (kal_uint8*)zt_get_imsi());
-#ifdef ENABLE_LOG		
 	zt_trace(TPROT, "IMSI=%s,len=%d",(kal_uint8*)zt_get_imsi(),data_package.value_len);	
-#endif
 
 	kfd_send_package(EN_GT_PT_DEV_DATA, (kal_uint8*)&data_package, data_package.value_len+2);				
 }
@@ -1050,9 +1045,7 @@ void kfd_upload_ver_package(void)
 	data_package.type = EN_GT_DT_VER;
 	data_package.value_len = MAX_GT_VER_STR_LEN;	//strlen(gps_tracker_config.ver);
 	strcpy(data_package.value, gps_tracker_config.ver);
-#ifdef ENABLE_LOG		
 	zt_trace(TPROT, "%s,send ver %s to server",__func__,gps_tracker_config.ver);	
-#endif
 
 	kfd_send_package(EN_GT_PT_DEV_DATA, (kal_uint8*)&data_package, data_package.value_len+2);				
 }
@@ -1262,7 +1255,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf )
 		}
 		case EN_GT_PT_HB: 
 		{	
-			zt_trace(TPROT, "ÐÄÌøÏìÓ¦");
+			zt_trace(TPROT, "HB rsp sn ok");
 			break; 
 		}
 		case EN_GT_PT_ALARM: 					
@@ -1425,7 +1418,8 @@ void kfd_connect_service(void)
 void kfd_protocol_init(void)
 {
 	S16 error;
-	
+	network_info_struct network={0};
+
 	kfd_get_gps_data_per_period();
 	kfd_work_state = EN_INIT_STATE;	
 
@@ -1453,14 +1447,18 @@ void kfd_protocol_init(void)
 		ReadRecord(GetNvramID(NVRAM_EF_GT_ALARM_SWITCH_LID), 1, &gps_tracker_config.alarm_switch, sizeof(gps_tracker_config.alarm_switch),&error);
 		ReadRecord(GetNvramID(NVRAM_EF_GT_DEFENCE_LID), 1, &gps_tracker_config.defence, sizeof(gps_tracker_config.defence),&error);
 	}
+
+	if(zt_read_config_in_fs(NETWORK_FILE, (kal_uint8 *)&network, sizeof(network_info_struct)))
+	{
+		memcpy(&kfd_network_para.network_info, &network,sizeof(network_info_struct));
+		zt_trace(TPROT,"Read FS network info");
+	}
 	
 	gps_tracker_config.time_zone = 8*60;
 	sprintf(gps_tracker_config.ver,"%s%s",GT_VER,(kal_uint8*)GetHWVersion());
 	//zt_trace(TMAIN,"%d %d %d %d %d %d",gps_tracker_config.dev_type,gps_tracker_config.vibr2_thr,gps_tracker_config.vibr_thr,
 //		gps_tracker_config.speed_thr,gps_tracker_config.alarm_switch,gps_tracker_config.defence);
-	#ifdef ENABLE_LOG
 		zt_trace(TPROT,"Ver=%s",gps_tracker_config.ver);
-	#endif
 
 }
 

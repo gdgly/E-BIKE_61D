@@ -17,9 +17,7 @@
  *****************************************************************************/
 void zt_main_full_service(void)
 {
-#ifdef ENABLE_LOG		
 	zt_trace(TMAIN, "%s",__func__);
-#endif
 	kfd_connect_service();
 } 
 
@@ -36,9 +34,7 @@ void zt_main_full_service(void)
  *****************************************************************************/
 void zt_main_wait_full_service(void)
 {
-#ifdef ENABLE_LOG		
 	zt_trace(TMAIN, "%s",__func__);
-#endif
 
 	if(srv_nw_info_get_service_availability(MMI_SIM1) == SRV_NW_INFO_SA_FULL_SERVICE)
 	{
@@ -64,9 +60,7 @@ void zt_main_wait_full_service(void)
 void zt_ota_main(void) 
 { 
 	zt_trace_set(DEBUG_DLEVEL);   
-#ifdef ENABLE_LOG			
 	zt_trace(TMAIN, "%s",__func__); 
-#endif	  
 	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),120*1000,kfd_reconnect_service);
 	kfd_protocol_init(); 
 	zt_gsensor_init();
