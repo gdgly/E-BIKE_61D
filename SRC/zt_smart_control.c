@@ -25,7 +25,9 @@ kal_uint16 pre_adc = 0;
 kal_uint32 curr_hall;
 kal_uint32 curr_lundong;
 kal_uint8 gps_delay_off_flag = 0;
-config_struct controller;
+config_struct controller={
+	{0,0,LOW_SPEED,HIGH,HUNHE,VOT48V,XF_INVALID},
+	{0,0,LOW_SPEED,HIGH,HUNHE,VOT48V,XF_INVALID}};
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
 
@@ -310,13 +312,13 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				if(cmd->para[0]==1)
 				{
 					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,XF_OK);
-					controller.require.xiufu = XF_OK;
+					controller.require.xf = XF_OK;
 					zt_trace(TPROT,"GUZHANG XIUFU");
 				}
 				else if(cmd->para[0]==0)
 				{
 					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,4,XF_INVALID);
-					controller.require.xiufu = XF_INVALID;
+					controller.require.xf = XF_INVALID;
 					zt_trace(TPROT,"GUZHANG QINGCHU");
 				}
 				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));				
@@ -374,9 +376,9 @@ void zt_smart_pre_uart_data(void)
 		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,3,controller.require.zhuli);
 	}
 
-	if(controller.require.xiufu != controller.actual.xiufu && index==4)
+	if(controller.require.xf != controller.actual.xf && index==4)
 	{
-		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,4,controller.require.xiufu);
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,4,controller.require.xf);
 	}
 
 	if(controller.require.dy != controller.actual.dy && index==5)
@@ -400,7 +402,7 @@ void zt_smart_pre_uart_data(void)
 	else
 	{
 		index++;
-		StartTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER),100,zt_smart_pre_uart_data);
+		StartTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER),500,zt_smart_pre_uart_data);
 	}
 }
 kal_uint16 zt_convert_adc(kal_uint16 adc)
@@ -455,10 +457,10 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	else if(controller.actual.dy==VOT48V)
 		ebike.status.dy = 1;
 	
-	if(controller.actual.xiufu==XF_INVALID)
-		ebike.status.xiufu = 0;
-	else if(controller.actual.xiufu==XF_OK)
-		ebike.status.xiufu = 1;	
+	if(controller.actual.xf==XF_INVALID)
+		ebike.status.xf = 0;
+	else if(controller.actual.xf==XF_OK)
+		ebike.status.xf = 1;	
 	
 	if(who_open_electric_gate)
 		ebike.status.lock = 0;
@@ -874,7 +876,7 @@ void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 d
 	send_data[6] =check_sum&0xff;
 	send_data[7] =check_sum>>8;
 
-	zt_trace(TPERI,"uart2 send addr=%x,cmd=%x,data1=%x",addr,cmd,data1);
+	zt_trace(TPERI,"uart2 send addr=%x,cmd=%x,data1=%x,data2=%x",addr,cmd,data1,data2);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
 }
 kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
@@ -890,11 +892,11 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 		return KAL_FALSE;
 	zt_trace(TPERI,"checksum ok");
 
-	if(buf[0]==ADDR_CONTROL)	//控制器地址
+	if(buf[0]==ADDR_CONTROL && get_electric_gate_status())	//控制器地址
 	{
 		if(buf[1]==0x01)	//控制命令的响应
 		{
-			zt_trace(TPERI,"Recv uart2 len = %d",len);
+			zt_trace(TPERI,"Recv Control RSP len = %d",len);
 			switch(buf[3])
 			{
 				case 0x01:	//调速
@@ -927,15 +929,15 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		else if(buf[1]==0x02)	//读取命令
 		{
-			zt_trace(TPERI,"Recv Upload len = %d",len);
-
 			controller.actual.fault = buf[3];
 			controller.actual.hall = buf[4]+buf[5]<<8+buf[6]<<16+buf[7]<<24;
 			controller.actual.tiaosu = buf[8];
 			controller.actual.qianya = buf[9];
 			controller.actual.zhuli = buf[10];
 			controller.actual.dy = buf[11];
-			controller.actual.xiufu = buf[12];
+			controller.actual.xf = buf[12];
+			zt_trace(TPERI,"Recv Upload tiaosu=%d,qy=%d,zhuli=%d,dianyuan=%d,xiufu=%d",controller.actual.tiaosu,controller.actual.qianya,
+				controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 			zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 		}
 	}
@@ -1019,9 +1021,9 @@ void modify_service_address(kal_uint8* buf)
 	
 	head = (kal_uint8*)strstr(buf,"type:");
 	tail = (kal_uint8*)strstr(buf,"#");
-	zt_trace(TPERI,"%s",buf);
 	if(head&&tail)
 	{
+		zt_trace(TPERI,"%s",buf);
 		head += strlen("type:");
 		tail = (kal_uint8*)strstr(head,",");
 		memcpy(tmp, head,tail-head);
@@ -1084,7 +1086,7 @@ kal_uint8 parse_uart2_hdlr(void* info)
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
-	zt_trace(TPERI,"Uart 2 len =%d",len);
+	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
 	for(i=0; i<len; i++)
 	{
 		zt_trace(TPERI,"[%d] = %x",i,buf[i]);
@@ -1147,6 +1149,8 @@ void zt_smart_init(void)
 	zt_smart_dianmen_init();
 
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
+	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
+	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 
 	zt_smart_key_detect_proc();
 

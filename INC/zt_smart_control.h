@@ -72,7 +72,7 @@ typedef struct
 	QIANYA qianya;
 	DONGLI zhuli;
 	DIANYUAN dy;
-	kal_uint8 xiufu;
+	XIUFU xf;
 }controller_struct;
 
 typedef struct
@@ -114,7 +114,7 @@ typedef struct
 	kal_uint16 lock:1;
 	kal_uint16 alarm:1;
 	kal_uint16 dy:1;
-	kal_uint16 xiufu:1;
+	kal_uint16 xf:1;
 }status_struct;
 
 typedef struct
