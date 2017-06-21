@@ -23,6 +23,14 @@ enum {
 	READ_WHETHER_PHONE_NEED_TO_ALERT = 0x0f,
 	SC_LAST_CMD,
 };
+typedef enum
+{
+	BT_LOCK=0x01,
+	BT_UNLOCK,
+	BT_SEARCH,
+	BT_READ_DATA,
+	
+}BT_CMD;
 
 typedef struct
 {
@@ -125,6 +133,12 @@ typedef struct
 	battery_info_struct bat;
 }ebike_struct;
 
+typedef struct
+{
+	kal_uint16 volt;
+	kal_uint32 hall;
+	kal_uint8 lock;
+}read_data_struct;
 #pragma pack ()
 
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);

@@ -335,4 +335,7 @@ extern void kfd_connect_service(void);
 extern void kfd_protocol_init(void);
 extern void kfd_upload_give_back_package(kal_uint8 gate);
 extern void kfd_reconnect_service(void);
+extern kal_uint16 get_crc16(kal_uint8* bytes, kal_uint16 len);
+extern void zt_hex_convert_str(kal_uint8 *in,kal_uint8 len, kal_uint8 *out);
+
 #endif

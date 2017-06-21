@@ -3,7 +3,7 @@
 #include "zt_trace.h"
 #include "zt_gsensor.h"
 #include "zt_interface.h"
-
+#include "time.h"
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
 #define LOCK_A_PIN (28|0x80)
@@ -31,6 +31,7 @@ config_struct controller={
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
 
+kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
 kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
@@ -499,15 +500,11 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
  * DESCRIPTION
  * 准备数据发送给蓝牙app
  * PARAMETERS
- reply:
- 0x01:app->toshiba
- 0x02:toshiba->app
  operate:
- 0x01	普通命令回复
- 0x02	密码命令回复
- 0x03	电量
- 0x04 	查询模式
- 0x05	手机是否有校验
+ 0x01	锁车
+ 0x02	解锁
+ 0x03	寻车
+ 0x04 	读取数据
  param_len:
  参数长度
  param:
@@ -515,160 +512,219 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
  * RETURNS
  *  
  *****************************************************************************/
-void bt_prepare_send_data(kal_uint8 reply, kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
+void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
 {
-	kal_uint8 buffer[16]={0};
-	buffer[0] = 0x0b;
-	buffer[1] = reply;
+	kal_uint8 buffer[32]={0};
+	kal_uint32 ts = GetTimeStamp();
+	kal_uint16 crc;
+	kal_uint8 i;
+	
+	buffer[0] = 0x3a;
+	buffer[1] = 0x02;
 	buffer[2] = operate;
-	buffer[3] = 0;	//param_len;
-	if(param)
+	buffer[3] = param_len;
+	if(param&&param_len)
 		memcpy(buffer+4, param, param_len);
 
-	bt_send_data(buffer,buffer[0]);
+	buffer[4+param_len]=ts&0xff;
+	buffer[4+param_len+1]=(ts>>8)&0xff;
+	buffer[4+param_len+2]=(ts>>16)&0xff;
+	buffer[4+param_len+3]=(ts>>24)&0xff;
+	crc = get_crc16(buffer+1, 3+param_len+4);
+	buffer[4+param_len+4]=crc&0xff;
+	buffer[4+param_len+5]=(crc>>8)&0xff;
+	
+	buffer[4+param_len+6]=0x0d;	
+	buffer[4+param_len+7]=0x0a;	
+
+	for(i=0;i<12+param_len;i++)
+		zt_trace(TPERI,"%x",buffer[i]);
+	
+	bt_send_data(buffer,12+param_len);
+}
+
+void read_data(kal_uint8 operate)
+{
+	read_data_struct data;
+
+	if(curr_bat.voltage>0)	
+		data.volt  = curr_bat.voltage/10;
+	else
+		data.volt  = (kal_uint16)(adc_convert_mv(zt_adc_get_aver_value())/10);
+	data.hall = curr_hall/8;
+	if(who_open_electric_gate)
+		data.lock = 0;
+	else
+		data.lock = 1;
+
+	bt_prepare_send_data(operate, 0x07, (kal_uint8*)&data);
 }
 void send_ok_cmd(kal_uint8 operate)
 {
 	char param[6]={0}; 
 
-	param[0] = 1;
-	bt_prepare_send_data(0x02, operate, 1, param);
+	param[0] = 0;
+	bt_prepare_send_data(operate, 1, param);
 }
-void send_error_cmd(kal_uint8 operate)
+void send_error_cmd(kal_uint8 operate,kal_uint8 type)
 {
 	char param[6]={0};
 
-	param[0] = 0;
-	bt_prepare_send_data(0x02, 0x01, 1, param);
+	param[0] = type;
+	bt_prepare_send_data(operate, 1, param);
 }
 void bt_open_dianmen(void)
 {
 	S16 error;
 	who_open_electric_gate |= BT_OPEN;
 	open_dianmen();
-	send_ok_cmd(0x01);
 	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+}
+
+kal_uint32 GetTimeStamp(void)
+{
+    /*----------------------------------------------------------------*/
+    /* Local Variables                                                */
+    /*----------------------------------------------------------------*/
+    kal_uint32 timeSecs=0;
+    t_rtc rtc;
+    struct tm when;
+
+    /*----------------------------------------------------------------*/
+    /* Code Body                                                      */
+    /*----------------------------------------------------------------*/
+
+    RTC_GetTime_(&rtc);
+    when.tm_sec = rtc.rtc_sec;
+    when.tm_min = rtc.rtc_min;
+    when.tm_hour = rtc.rtc_hour;
+    when.tm_mday = rtc.rtc_day;
+    when.tm_mon =rtc.rtc_mon-1;
+    when.tm_year = rtc.rtc_year+100;
+    when.tm_isdst = 0;
+    timeSecs = (kal_uint32) mktime(&when);
+    return timeSecs-60*60*8;
+}
+
+void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
+{
+	S16 error;
+	kal_uint8 out[32]={0};
+	kal_uint16 i,crc1,crc2;
+	kal_uint8 cmd = buf[2];
+	kal_uint8 para_len = buf[3];
+	kal_uint32 timestamp1 = GetTimeStamp();
+	kal_uint32 timestamp2 = buf[len-8]+buf[len-7]*0x100+buf[len-6]*0x10000+buf[len-5]*0x1000000;
+
+	 zt_hex_convert_str(buf,len,out);
+	 zt_trace(TPERI,"bt_recv=%s,len=%d",out,len);
+	 	
+	crc1 = get_crc16(buf+1,len-5);
+	crc2 = buf[len-4]+buf[len-3]*0x100;
+	zt_trace(TPERI,"crc1=%x,crc2=%x,timestamp1=%d,timestamp2=%d",crc1,crc2,timestamp1,timestamp2);
+	if(crc1 != crc2)
+	{
+		zt_trace(TPERI,"check sum error");
+		send_error_cmd(cmd,2);
+		return;
+	}
+	if(abs(timestamp1-timestamp2)>300)
+	{
+		zt_trace(TPERI,"cmd more than 5 minute,return");
+		send_error_cmd(cmd,3);
+		return;
+	}
+
+	switch(cmd)
+	{
+		case BT_LOCK:
+		{
+			if(who_open_electric_gate & KEY_OPEN)
+			{//error
+				send_error_cmd(cmd,1);
+			}
+			else if(who_open_electric_gate &(GPRS_OPEN|BT_OPEN))
+			{
+				if(!zt_smart_check_hall_is_run())
+				{
+					who_open_electric_gate = 0; 
+					tangze_is_locking = 1;
+					close_dianmen();
+					StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000, tangze_lock_bike);	
+					WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+					zt_voice_play(VOICE_LOCK);
+					send_ok_cmd(cmd);	
+		  		}
+		  		else
+		  		{
+					send_error_cmd(cmd,1);
+		  		}
+			}
+			else
+			{
+				send_error_cmd(cmd,1);
+			}
+			break;
+		}
+		case BT_UNLOCK:
+		{
+			if(!who_open_electric_gate)
+			{
+				unlock_bike();
+				StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,bt_open_dianmen);	
+				zt_voice_play(VOICE_UNLOCK);
+				send_ok_cmd(cmd);
+			}
+			else
+			{
+				send_error_cmd(cmd,1);
+			}
+			break;
+		}
+		case BT_SEARCH:
+		{
+			zt_voice_play(VOICE_SEARCH);
+			send_ok_cmd(cmd);
+			break;
+		}
+		case BT_READ_DATA:
+		{
+			read_data(cmd);
+			break;
+		}
+		default:
+			send_error_cmd(cmd,1);
+			break;
+	}
+	
 }
 kal_uint8 bt_parse_actual_data_hdlr(void* info)
 {
 	bt_msg_struct* bt_msg = (bt_msg_struct*)info;
-	kal_uint8 result = 1;
-	kal_uint8 i;
-	S16 error;
-	char param[6]={0};
-	kal_uint16 adc = 0;
+	kal_uint8 i,*buf,*head=NULL,*tail=NULL;
+	kal_uint16 len;
+	kal_uint8 req[64]={0};
 
-	//zt_trace(TPERI, "bt_parse_actual_data_hdlr,cmd=%d",*(bt_msg->data+2)); 
-/*	for(i=0;i<bt_msg->dataLen;i++)
-	{
-	//zt_trace(TPERI, "[%d]=%x ",i,*(bt_msg->data+i));
-	}*/
+	buf = bt_msg->data;
+	len = bt_msg->dataLen;
 	
-	if (0x0B != *(bt_msg->data + 0)) {
-		send_error_cmd(0x01);
-		result = 0;
-		return result;
-	}
-	switch (*(bt_msg->data + 2)) {
-	case CHECK_PHONE_WHETHER_VERIFIED_CMD:
-		//zt_trace(TPERI, "CHECK_PHONE_WHETHER_VERIFIED_CMD");
-		send_ok_cmd(0x05);
-		break;
-	case INQUIRE_PWD_STATUS_CMD:
-		//zt_trace(TPERI, "INQUIRE_PWD_STATUS_CMD");
-		send_ok_cmd(0x02);
-	  	break;
-	case SET_PWD_CMD:
-		//zt_trace(TPERI, "SET_PWD_CMD");
-	  	break;
-	case INQUIRE_MODE_CMD:
-		//zt_trace(TPERI, "INQUIRE_MODE_CMD");
-		send_ok_cmd(0x04);
-	  	break;
-	case READ_VOLTAGE_VALUE:
-		//zt_trace(TPERI, "READ_VOLTAGE_VALUE");
-		adc = (kal_uint16)zt_convert_adc(zt_adc_get_aver_value());
-		param[0]= adc&0xff;
-		param[1]= (adc>>8)&0xff;
-		bt_prepare_send_data(0x02, 0x03, 2, param);
-	  	break;
-	case SWITCH_TO_GANYING_MODE_CMD:
-		//zt_trace(TPERI, "SWITCH_TO_GANYING_MODE_CMD");
-		send_ok_cmd(0x01);
-	  	break;
-	case SWITCH_TO_YAOKONG_MODE_CMD:
-		//zt_trace(TPERI, "SWITCH_TO_YAOKONG_MODE_CMD");
-		send_ok_cmd(0x01);
-	  	break;
-	case PWD_VERIFY_CMD:
-		//zt_trace(TPERI, "PWD_VERIFY_CMD");
-		send_ok_cmd(0x01);
-	  	break;
-	case LOCK_CMD:
-		//zt_trace(TPERI, "LOCK_CMD,who_open_electric_gate=%d",who_open_electric_gate);
-		if(who_open_electric_gate & KEY_OPEN)
-		{//error
-			send_error_cmd(0x01);
-		}
-		else if(who_open_electric_gate &(GPRS_OPEN|BT_OPEN))
+	for(i=0; i<len; i++)
+	{
+		if(buf[i]==0x3a)
 		{
-			if(!zt_smart_check_hall_is_run())
+			head = buf+i;
+		}
+		else if(buf[i]==0x0d&&buf[i+1]==0x0a)
+		{
+			tail = buf+i+2;
+			if(head)
 			{
-				who_open_electric_gate = 0; 
-				tangze_is_locking = 1;
-				close_dianmen();
-				StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000, tangze_lock_bike);	
-				send_ok_cmd(0x01);
-				WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
-				zt_voice_play(VOICE_LOCK);
-	  		}
-	  		else
-	  		{
-				send_error_cmd(0x01);
-	  		}
+				memcpy(req, head, tail-head);
+				bt_parse_proc(req,tail-head);
+			}
 		}
-		else
-		{
-			send_ok_cmd(0x01);
-		}
-	  	break;
-	case UNLOCK_CMD:
-		//zt_trace(TPERI, "UNLOCK_CMD,who_open_electric_gate=%d",who_open_electric_gate);
-		if(!who_open_electric_gate)
-		{
-			unlock_bike();
-			StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,bt_open_dianmen);	
-			zt_voice_play(VOICE_UNLOCK);
-		}
-		else
-		{
-			send_ok_cmd(0x01);
-		}
-	  	break;
-	case SEARCH_CMD:
-		//zt_trace(TPERI, "SEARCH_CMD");
-		zt_voice_play(VOICE_SEARCH);
-		send_ok_cmd(0x01);
-	  	break;
-	case LOW_VOLTAGE_NOTICE_CMD:
-		//zt_trace(TPERI, "LOW_VOLTAGE_NOTICE_CMD");
-	  	send_ok_cmd(0x01);
-	  	break;
-	case KEEP_QUIET_CMD:
-	  	//zt_trace(TPERI, "KEEP_QUIET_CMD");
-	  	break;
-	case SET_SENSITIVITY:
-	  	//zt_trace(TPERI, "SET_SENSITIVITY");
-	 	break;
-	case READ_WHETHER_PHONE_NEED_TO_ALERT:
-	  	//zt_trace(TPERI, "READ_WHETHER_PHONE_NEED_TO_ALERT");
-	  	break;
-	default:
-		send_error_cmd(0x01);
-		error=0;
-	  	break;
 	}
-	return result;
+	
 }
 
 kal_bool zt_smart_check_lundong_is_run(void)

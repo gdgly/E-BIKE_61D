@@ -1216,21 +1216,33 @@ void kfd_dev_data_proc(gps_tracker_data_content_struct* data)
  * RETURNS
  * 错误码
  *****************************************************************************/
-kal_int32 kfd_protocol_proc(kal_uint8* buf )
+kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 {	
 	gps_tracker_msg_head_struct* head;
+	kal_uint8 out[256];
+	kal_uint16 crc1,crc2;
 
 	if (buf == NULL)
 		return KAL_FALSE;
 
 	head = (gps_tracker_msg_head_struct*)buf;
-	//zt_trace(TPROT, "%s",__func__);
+
+	crc2 = buf[2]*0x100+buf[3];
+	crc1 = get_crc16(buf+4, len-6);
+	zt_hex_convert_str(buf,len, out);
+	zt_trace(TPROT,"crc=%x, Recv=%s",crc1,out);
+	if(crc1 != crc2)
+	{
+		zt_trace(TPROT,"check sum error");
+	//	return KAL_FALSE;
+	}
+
 	kfd_hb_send_times = 0;
 	switch(head->prot_type)
 	{
 		case EN_GT_PT_LOGIN:						
 		{	
-			//zt_trace(TPROT, "login rsp sn ok");
+			zt_trace(TPROT, "login rsp sn ok");
 			kfd_work_state = EN_WORKING_STATE;
 			kfd_connect_times = 0;
 			StopTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER));
@@ -1371,7 +1383,7 @@ void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 			{
 				//合法
 				memcpy(req, head, tail-head);
-				 kfd_protocol_proc(req);
+				 kfd_protocol_proc(req,tail-head);
 
 				//找到合法结尾
 				head = tail;
