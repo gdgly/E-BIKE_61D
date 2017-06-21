@@ -1145,7 +1145,6 @@ kal_uint8 parse_uart2_hdlr(void* info)
 	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
 	for(i=0; i<len; i++)
 	{
-		zt_trace(TPERI,"[%d] = %x",i,buf[i]);
 		if(buf[i]==0x3a)
 		{
 			head = buf+i;
