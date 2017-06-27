@@ -33,6 +33,8 @@ kal_uint32 pre_time=0;
 
 kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
+void zt_smart_write_lundong(void);
+kal_bool zt_smart_check_lundong_is_run(void);
 kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 
@@ -162,7 +164,11 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
 					{
+					#ifdef __MEILING__
+						if(!zt_smart_check_lundong_is_run())
+					#else
 						if(!zt_smart_check_hall_is_run())
+					#endif
 						{
 							close_dianmen();
 							tangze_is_locking = 1;
@@ -211,7 +217,11 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
 					{
+					#ifdef __MEILING__
+						if(!zt_smart_check_lundong_is_run())
+					#else
 						if(!zt_smart_check_hall_is_run())
+					#endif
 						{
 							close_dianmen();
 							tangze_is_locking = 1;
@@ -473,7 +483,11 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	else
 		ebike.status.alarm = 0;
 
+#ifdef __MEILING__
+	ebike.hall = curr_lundong/8;
+#else
 	ebike.hall = curr_hall/8;
+#endif
 	ebike.bat.temp = curr_bat.temp;
 	if(curr_bat.voltage>0)	
 		ebike.bat.voltage = curr_bat.voltage/10;
@@ -489,6 +503,7 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 
 	memcpy(package->value,&ebike,sizeof(ebike_struct));
 	zt_smart_write_hall();
+	zt_smart_write_lundong();
 	zt_trace(TPERI,"%s,len=%d",__func__,sizeof(ebike_struct));
 
 }
@@ -551,7 +566,11 @@ void read_data(kal_uint8 operate)
 		data.volt  = curr_bat.voltage/10;
 	else
 		data.volt  = (kal_uint16)(adc_convert_mv(zt_adc_get_aver_value())/10);
+#ifdef __MEILING__
+	data.hall = curr_lundong/8;
+#else
 	data.hall = curr_hall/8;
+#endif
 	if(who_open_electric_gate)
 		data.lock = 0;
 	else
@@ -645,7 +664,11 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			}
 			else if(who_open_electric_gate &(GPRS_OPEN|BT_OPEN))
 			{
+			#ifdef __MEILING__
+				if(!zt_smart_check_lundong_is_run())
+			#else
 				if(!zt_smart_check_hall_is_run())
+			#endif
 				{
 					who_open_electric_gate = 0; 
 					tangze_is_locking = 1;
@@ -730,7 +753,7 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 kal_bool zt_smart_check_lundong_is_run(void)
 {
 //	//zt_trace(TPERI,"%s,lundong_count_1sec=%d",__func__,lundong_count_1sec);
-	if(lundong_count_1sec>=3)
+	if(lundong_count_1sec>=2)
 	{
 		return KAL_TRUE;
 	}
@@ -756,7 +779,7 @@ void zt_smart_check_lundong(void)
 	lundong_count_1sec = curr_count-pre_count;
 	pre_count = curr_count;
 
-//	//zt_trace(TPERI,"%s,curr_count=%d,pre_count=%d",__func__,curr_count,pre_count);
+	zt_trace(TPERI,"curr_count=%d,lundong_count_1sec=%d",curr_count,lundong_count_1sec);
 
 	if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
 	{
@@ -1199,6 +1222,27 @@ void zt_smart_read_hall(void)
 	ReadRecord(GetNvramID(NVRAM_EF_ZT_HALL_LID), 1, hall_array, 4, &error);
 	curr_hall = hall_array[3]*0x1000000+hall_array[2]*0x10000+hall_array[1]*0x100+hall_array[0];
 }
+
+void zt_smart_write_lundong(void)
+{
+	S16 error;
+	kal_uint8 lundong_array[4];
+	kal_uint32 lundong = curr_lundong;
+	
+	lundong_array[0] = lundong&0xff;
+	lundong_array[1] = (lundong>>8)&0xff;
+	lundong_array[2] = (lundong>>16)&0xff;
+	lundong_array[3] = (lundong>>24)&0xff;
+	WriteRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+}
+void zt_smart_read_lundong(void)
+{
+	S16 error;
+	kal_uint8 lundong_array[4];
+
+	ReadRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+	curr_lundong = lundong_array[3]*0x1000000+lundong_array[2]*0x10000+lundong_array[1]*0x100+lundong_array[0];
+}
 void zt_smart_init(void)
 {
 	zt_smart_dianmen_init();
@@ -1211,6 +1255,7 @@ void zt_smart_init(void)
 
 /*总里程*/
 	zt_smart_read_hall();
+	zt_smart_read_lundong();
 
 /*轮动报警*/	
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 5000, zt_smart_check_lundong);

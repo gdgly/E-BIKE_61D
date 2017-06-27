@@ -24,6 +24,21 @@ gps_tracker_config_struct gps_tracker_config;
 gps_info_struct kfd_gps_data_array[DATA_INTERVAL];
 
 kal_int8 kfd_soc_app_id;
+#ifdef __MEILING__
+network_para_struct kfd_network_para ={
+	CONNECT_LONG,
+	{
+	 2,	// 1 ip; 2 domain
+	"rentma.mlddc.com",	//domain	
+	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
+	4,		//ip len
+	9000			//port
+	},
+	NULL,	//kfd_upload_login_package,
+	NULL, 	//kfd_free_connect,
+	NULL,	//kfd_protocol_parse
+};
+#else
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
@@ -37,6 +52,7 @@ network_para_struct kfd_network_para ={
 	NULL, 	//kfd_free_connect,
 	NULL,	//kfd_protocol_parse
 };
+#endif
 static kal_uint16 CRC16_TABLE[] = {
 	0x0000, 0x1189, 0x2312, 0x329b, 0x4624, 0x57ad, 0x6536, 0x74bf,
 	0x8c48, 0x9dc1, 0xaf5a, 0xbed3, 0xca6c, 0xdbe5, 0xe97e, 0xf8f7,
@@ -1234,7 +1250,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 	if(crc1 != crc2)
 	{
 		zt_trace(TPROT,"check sum error");
-	//	return KAL_FALSE;
+		return KAL_FALSE;
 	}
 
 	kfd_hb_send_times = 0;
