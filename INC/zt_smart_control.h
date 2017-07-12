@@ -29,6 +29,7 @@ typedef enum
 	BT_UNLOCK,
 	BT_SEARCH,
 	BT_READ_DATA,
+	BT_DIANCHI,
 	
 }BT_CMD;
 
@@ -147,5 +148,5 @@ extern kal_bool zt_get_bat_connect_status(void);
 extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
 extern void zt_smart_pre_uart_data(void);
-
+extern kal_bool zt_gps_valid(void);
 #endif

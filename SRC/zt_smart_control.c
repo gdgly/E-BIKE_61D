@@ -4,6 +4,7 @@
 #include "zt_gsensor.h"
 #include "zt_interface.h"
 #include "time.h"
+#include "zt_agps.h"
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
 #define LOCK_A_PIN (28|0x80)
@@ -46,7 +47,7 @@ kal_bool zt_get_bat_connect_status(void)
 {
 	if(curr_bat.voltage>12000)	//大于12V
 		return KAL_TRUE;
-	else if(adc_convert_mv(zt_adc_get_aver_value())>12000)	//大于12V
+	else if(adc_convert_mv(curr_adc)>12000)	//大于12V
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -254,7 +255,6 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x09:	//报警开关指令
 				gps_tracker_config.vibr2_thr = cmd->para[0];
 				WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
-				zt_lbs_req();
 				break;
 			case 0x0a:	//调速
 				if(cmd->para[0]==0)
@@ -715,6 +715,13 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			read_data(cmd);
 			break;
 		}
+		case BT_DIANCHI:
+		{
+			open_dianchi_lock();
+			StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
+			send_ok_cmd(cmd);
+			break;
+		}
 		default:
 			send_error_cmd(cmd,1);
 			break;
@@ -779,7 +786,7 @@ void zt_smart_check_lundong(void)
 	lundong_count_1sec = curr_count-pre_count;
 	pre_count = curr_count;
 
-	zt_trace(TPERI,"curr_count=%d,lundong_count_1sec=%d",curr_count,lundong_count_1sec);
+//	zt_trace(TPERI,"curr_count=%d,lundong_count_1sec=%d",curr_count,lundong_count_1sec);
 
 	if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
 	{
@@ -863,6 +870,7 @@ void zt_agps_process(void)
 		pre_time = (kal_uint32)GetTimeSec();
 		zt_trace(TPERI,"LBS REQ, time:%d",pre_time);
 		zt_lbs_req();
+		StartTimer(GetTimerID(ZT_AGPS_LAUCH_TIMER),3000,zt_agps_request);
 	}
 }
 void zt_smart_check_gps_pwr(void)
@@ -1124,7 +1132,7 @@ void modify_service_address(kal_uint8* buf)
 				memcpy(tmp,head,tail-head);
 				network.port = atoi(tmp);
 
-				sprintf(tmp,"type:%d,%s,%d\r\n",network.ym_type,network.domain,network.port);
+				sprintf(tmp,"OK type:%d,%s,%d\r\n",network.ym_type,network.domain,network.port);
 				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
 				zt_write_config_in_fs(NETWORK_FILE, (kal_uint8*)&network,  sizeof(network_info_struct));
 				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
@@ -1147,7 +1155,7 @@ void modify_service_address(kal_uint8* buf)
 				memcpy(tmp,head,tail-head);
 				network.port = atoi(tmp);
 
-				sprintf(tmp,"type:%d,%d:%d:%d:%d,%d",network.ym_type,network.ip[0],network.ip[1],network.ip[2],network.ip[3],network.port);
+				sprintf(tmp,"OK type:%d,%d:%d:%d:%d,%d",network.ym_type,network.ip[0],network.ip[1],network.ip[2],network.ip[3],network.port);
 				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
 				zt_trace(TPERI,"%s",tmp);
 				zt_write_config_in_fs(NETWORK_FILE, (kal_uint8*)&network,  sizeof(network_info_struct));
@@ -1165,7 +1173,7 @@ kal_uint8 parse_uart2_hdlr(void* info)
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
-	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
+//	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
 	for(i=0; i<len; i++)
 	{
 		if(buf[i]==0x3a)

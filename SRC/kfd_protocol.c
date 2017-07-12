@@ -9,7 +9,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.00_"
+#define GT_VER "SW2.0.01_"
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -336,6 +336,8 @@ void kfd_get_gps_data_per_period(void)
 	if(curr_gps_data->state!=0)
 	zt_trace(TGPS,"valid=%c,use=%d,view=%d,speed=%f",curr_gps_data->state,curr_gps_data->sat_uesd,curr_gps_data->sat_view,curr_gps_data->speed);
 
+	if(curr_gps_data->state=='A')
+		zt_agps_set_location(curr_gps_data->latitude,curr_gps_data->longitude);
 	StartTimer(GetTimerID(ZT_GPS_PERIOD_TIMER), 1000, kfd_get_gps_data_per_period);
 }
 
@@ -955,8 +957,8 @@ void kfd_upload_lbs_package(void)
 	kal_uint8 package_len;
 	lbs_info_struct* lbs_info =  (lbs_info_struct*)zt_lbs_get_curr_lbs_info(); 
 
-/*检测震动和轮动才上传*/
-	if(!(zt_gsensor_check_is_moving()&&zt_smart_check_hall_is_run()))
+/*检测震动才上传*/
+	if(!zt_gsensor_check_is_moving())
 		return;
 	
 	zt_trace(TPROT, "%s",__func__);
@@ -1006,7 +1008,10 @@ void kfd_upload_data_package(void)
 
 	if(delay_index%6==0)
 	{
-	//	zt_lbs_req();
+		if(!zt_gps_valid())
+		{
+			zt_lbs_req();
+		}
 	}
 	else if((delay_index+1)%6==0)
 	{
