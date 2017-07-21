@@ -9,7 +9,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.01_"
+#define GT_VER "SW2.0.02_"
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -135,6 +135,13 @@ void zt_hex_convert_str(kal_uint8 *in,kal_uint8 len, kal_uint8 *out)
 			*(out+2*i+1) = low+55;
 	}
 }
+kal_bool GetNetworkService(void)
+{
+	if(srv_nw_info_get_service_availability(MMI_SIM1) == SRV_NW_INFO_SA_FULL_SERVICE)
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
 
 static double GPS_ToRad(double delta)
 {
@@ -169,7 +176,10 @@ void kfd_reconnect_service(void)
 	{
 		kfd_connect_times++;
 		zt_socket_free(kfd_soc_app_id);
-		kfd_connect_service();
+		if(GetNetworkService())
+		{
+			kfd_connect_service();
+		}
 	}
 	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER), 60000, kfd_reconnect_service);
 }

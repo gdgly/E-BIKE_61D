@@ -103,7 +103,8 @@ void zt_agps_write(char* buf)
 						if(pContent)
 						{
 							zt_trace(TLBS,"Write AGPS data %d",len);
-							zt_uart_write_data(uart_port2,pContent+4,len);
+							zt_write_config_in_fs(L"C:\\AGPS.txt",pContent+4,len);
+							zt_uart_write_data(uart_port3,pContent+4,len);
 						}
 					}
 				}
@@ -130,8 +131,10 @@ void zt_agps_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 	
 	pAgps = (kal_uint8*)zt_Malloc(LBS_BUF_SIZE);
 
+	memset(pAgps, 0, LBS_BUF_SIZE );
 	len = GetRcvData(socket_id,pAgps,LBS_BUF_SIZE);
-	zt_trace(TLBS,"Agps parse len=%d,pAgps=%s",len,pAgps);	
+	zt_trace(TLBS,"Agps parse len=%d,pAgps=%s",len,pAgps);
+	zt_write_config_in_fs(L"C:\\AGPS_full.txt",pAgps,len);
 	if(len>0)
 	{
 		zt_agps_write(pAgps);

@@ -111,7 +111,7 @@ kal_bool zt_gsensor_check_is_moving(void)
 	num = zt_gsensor_get_shake_num(8, 15);
 #endif
 
-	if(num>=3)
+	if(num>=10)// 3
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -132,11 +132,12 @@ kal_bool zt_gsensor_check_is_motionless(void)
 	kal_uint16 num;
 
 #ifdef __ACCE_MMA_7660__
-	num = zt_gsensor_get_shake_num(6, MAX_SHAKE_NUM);
+	num = zt_gsensor_get_shake_num(5, MAX_SHAKE_NUM);
 #elif defined(__ACCE_LIS3DH__)
 	num = zt_gsensor_get_shake_num(8, MAX_SHAKE_NUM);
 #endif
-	if(num < 5)
+
+	if(num < 10)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;

@@ -36,7 +36,7 @@ void zt_main_wait_full_service(void)
 {
 	zt_trace(TMAIN, "%s",__func__);
 
-	if(srv_nw_info_get_service_availability(MMI_SIM1) == SRV_NW_INFO_SA_FULL_SERVICE)
+	if(GetNetworkService())
 	{
 		StartTimer(GetTimerID(ZT_NETWORK_CHECK_TIMER),2000,zt_main_full_service);
 	}

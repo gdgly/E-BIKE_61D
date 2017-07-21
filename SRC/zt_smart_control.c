@@ -45,9 +45,9 @@ kal_uint16 zt_adc_get_aver_value(void)
 }
 kal_bool zt_get_bat_connect_status(void)
 {
-	if(curr_bat.voltage>12000)	//大于12V
+	if(curr_bat.voltage>6000)	//大于6V
 		return KAL_TRUE;
-	else if(adc_convert_mv(curr_adc)>12000)	//大于12V
+	else if(adc_convert_mv(curr_adc)>6000)	//大于6V
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -855,9 +855,19 @@ kal_bool zt_gps_valid(void)
 	else
 		return KAL_FALSE;
 }
+kal_bool zt_lbs_valid(void)
+{
+	lbs_info_struct* lbs_info = (lbs_info_struct*)zt_lbs_get_curr_lbs_info();
+
+	if(lbs_info->lbs_server.cellid_nid != 0)
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
 kal_bool zt_time_expiry(void)
 {
 	kal_uint32 real_time = (kal_uint32)GetTimeSec();
+	zt_trace(TPERI,"time_expiry=%d",real_time-pre_time);
 	if((real_time-pre_time)>3600)	// 1H
 		return KAL_TRUE;
 	else
@@ -865,18 +875,17 @@ kal_bool zt_time_expiry(void)
 }
 void zt_agps_process(void)
 {
-	if(zt_time_expiry()&&(kal_bool)zt_gps_get_pwr_status()&&!zt_gps_valid())
+	if(zt_time_expiry()&&(kal_bool)zt_gps_get_pwr_status()&&!zt_gps_valid()&&GetNetworkService()&&zt_lbs_valid())
 	{
 		pre_time = (kal_uint32)GetTimeSec();
 		zt_trace(TPERI,"LBS REQ, time:%d",pre_time);
-		zt_lbs_req();
-		StartTimer(GetTimerID(ZT_AGPS_LAUCH_TIMER),3000,zt_agps_request);
+		zt_agps_request();
 	}
 }
 void zt_smart_check_gps_pwr(void)
 {
-	//zt_trace(TPERI,"%s",__func__);
-	if(zt_gsensor_check_is_moving())
+//	zt_trace(TPERI,"%s",__func__);
+	if(zt_gsensor_check_is_moving()||get_electric_gate_status())
 	{
 		if(!zt_gps_get_pwr_status())
 		{
@@ -892,7 +901,7 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_off();
 		}
 	}
-//	zt_agps_process();
+	zt_agps_process();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 
@@ -1100,7 +1109,7 @@ void restartSystem(void)
 void modify_service_address(kal_uint8* buf)
 {
 	//type:2,domain:www.liabar.com,port:9000#
-	//type:1,ip:193.224.3.220,port:9000#
+	//type:1,ip:139.224.3.220,port:9000#
 	network_info_struct network={0};
 	kal_uint8 tmp[64]={0};
 	kal_uint8 *head=NULL,*tail=NULL;
