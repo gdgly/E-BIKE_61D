@@ -916,7 +916,7 @@ void zt_smart_dianmen_init(void)
 	{
 		who_open_electric_gate = dianmen;
 		open_dianmen(); 
-		unlock_bike();
+//		unlock_bike();
 	}
 }
 kal_uint8 parse_adc_hdlr(void* info)
@@ -950,7 +950,7 @@ kal_uint8 parse_lundong_hdlr(void* info)
  * kal_uint8 addr  地址
  * cmd cmd_control 控制命令
  *        cmd_read  读取命令
- *  data 1:调速2:调欠压值3:助力切换4:故障修复
+ *  data 1:调速2:调欠压值3:助力切换4:故障修复5:电源电压
  *  data 2: 值
  * RETURNS
  *  void
@@ -1268,7 +1268,7 @@ void zt_smart_init(void)
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 
-	zt_smart_key_detect_proc();
+//	zt_smart_key_detect_proc();	//去掉钥匙检测
 
 /*总里程*/
 	zt_smart_read_hall();
