@@ -42,9 +42,9 @@ network_para_struct kfd_network_para ={
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 2,	// 1 ip; 2 domain
+	 1,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain	//"rentma.bat100.com"
-	{139,224,3,220},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
+	{139,224,67,207},	//{139,224,3,220},	//{14,215,133,125},		//ip 	
 	4,		//ip len
 	9000			//port
 	},
@@ -174,6 +174,7 @@ void kfd_reconnect_service(void)
 	}
 	else
 	{
+		kfd_network_para.network_info.ym_type = 2;
 		kfd_connect_times++;
 		zt_socket_free(kfd_soc_app_id);
 		if(GetNetworkService())

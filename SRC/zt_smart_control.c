@@ -31,6 +31,7 @@ config_struct controller={
 	{0,0,LOW_SPEED,HIGH,HUNHE,VOT48V,XF_INVALID}};
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
+default_setting_struct default_set={0};
 
 kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
@@ -38,6 +39,8 @@ void zt_smart_write_lundong(void);
 kal_bool zt_smart_check_lundong_is_run(void);
 kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
+kal_bool zt_smart_check_lundong_is_run(void);
+kal_bool zt_smart_check_hall_is_run(void);
 
 kal_uint16 zt_adc_get_aver_value(void)
 {
@@ -102,6 +105,30 @@ void controller_lock_bike(void)
 
 	StartTimer(GetTimerID(ZT_LOCK_DELAY_TIMER),4000,controller_lock_bike_callback);
 }
+kal_bool lock_bike(void)
+{
+	kal_bool result = KAL_FALSE;
+	S16 error;
+	
+	if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
+	{
+	#ifdef __MEILING__
+		if(!zt_smart_check_lundong_is_run())
+	#else
+		if((!zt_smart_check_hall_is_run()&&default_set.motor==0)||(!zt_smart_check_lundong_is_run()&&default_set.motor==1))
+	#endif
+		{
+			close_dianmen();
+			tangze_is_locking = 1;
+			StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
+			who_open_electric_gate = 0;
+			WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+			result = KAL_TRUE;
+		}
+	}
+
+	return result;
+}
 void unlock_bike(void)
 {
 	//zt_trace(TPERI,"%s",__func__);
@@ -163,22 +190,8 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x02:	
 				if(cmd->para[0]==1)	//锁车
 				{
-					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
-					{
-					#ifdef __MEILING__
-						if(!zt_smart_check_lundong_is_run())
-					#else
-						if(!zt_smart_check_hall_is_run())
-					#endif
-						{
-							close_dianmen();
-							tangze_is_locking = 1;
-							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
-							who_open_electric_gate = 0;
-							WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
-							zt_voice_play(VOICE_LOCK);
-						}
-					}
+					if(lock_bike())
+						zt_voice_play(VOICE_LOCK);
 				}
 				else if(cmd->para[0]==0)	//解锁
 				{
@@ -216,21 +229,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x07:	//还车
 				if(cmd->para[0]==1)	//还车指令
 				{
-					if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
-					{
-					#ifdef __MEILING__
-						if(!zt_smart_check_lundong_is_run())
-					#else
-						if(!zt_smart_check_hall_is_run())
-					#endif
-						{
-							close_dianmen();
-							tangze_is_locking = 1;
-							StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
-							who_open_electric_gate = 0;
-							WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
-						}
-					}
+					lock_bike();
 					kfd_upload_give_back_package(who_open_electric_gate);
 				}
 				else if(cmd->para[0]==2)	//服务器判断还车成功之后下发指令
@@ -348,7 +347,20 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					zt_trace(TPROT,"QIEHUAN 48V");
 				}
 				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));				
-				break;		
+				break;	
+			case 0x0f:
+				if(cmd->para[0]==0)	//普通电机
+				{
+					default_set.motor = 0;
+					zt_trace(TPROT,"General Motor");
+				}
+				else if(cmd->para[0]==1)//高速电机
+				{
+					default_set.motor = 1;
+					zt_trace(TPROT,"High Speed Motor");
+				}
+				zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));				
+				break;
 			case 0x20:	//切换服务器
 				if(cmd->para[0]==1)
 				{//现网转测试服务器
@@ -483,10 +495,18 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	else
 		ebike.status.alarm = 0;
 
+	if(default_set.motor == 1)
+		ebike.status.motor = 1;
+	else
+		ebike.status.motor = 0;
+	
 #ifdef __MEILING__
 	ebike.hall = curr_lundong/8;
 #else
-	ebike.hall = curr_hall/8;
+	if(default_set.motor==1)
+		ebike.hall = curr_lundong/8;
+	else
+		ebike.hall = curr_hall/8;
 #endif
 	ebike.bat.temp = curr_bat.temp;
 	if(curr_bat.voltage>0)	
@@ -569,7 +589,10 @@ void read_data(kal_uint8 operate)
 #ifdef __MEILING__
 	data.hall = curr_lundong/8;
 #else
-	data.hall = curr_hall/8;
+	if(default_set.motor==1)
+		data.hall = curr_lundong/8;
+	else
+		data.hall = curr_hall/8;
 #endif
 	if(who_open_electric_gate)
 		data.lock = 0;
@@ -625,6 +648,75 @@ kal_uint32 GetTimeStamp(void)
     return timeSecs-60*60*8;
 }
 
+void bt_giveback_package(kal_uint8 operate)
+{
+	kal_uint8 i,num=0;
+	gps_tracker_give_back_struct give_back_package;
+	gps_tracker_gps_struct gps_tracker_gps;
+	kal_uint8 len;
+
+/*增加还车时判断主电源如没插上就提示失败*/
+	if(zt_get_bat_connect_status())	
+		give_back_package.lock_state = who_open_electric_gate>0?0:1;
+	else
+		give_back_package.lock_state = 0;
+	
+	for(i=0;i<5;i++)
+	{
+		if(kfd_gps_data_array[i].state=='A')
+		{
+			memset(&gps_tracker_gps,0,sizeof(gps_tracker_gps_struct));
+			kfd_convert_gps_data_for_protocol(&kfd_gps_data_array[i],&gps_tracker_gps);
+			
+			give_back_package.gps_array[num].latitude = gps_tracker_gps.latitude;
+			give_back_package.gps_array[num].longitude = gps_tracker_gps.longitude;
+			give_back_package.gps_array[num].speed = gps_tracker_gps.speed;					
+			give_back_package.gps_array[num].course= gps_tracker_gps.course;
+			give_back_package.gps_array[num].reserv_satnum = gps_tracker_gps.sat_uesed;
+			if(gps_tracker_gps.lat_ind == EN_GT_SOUTH)
+			{
+				give_back_package.gps_array[num].property.lat_ind = 0;	
+			}
+			else if(gps_tracker_gps.lat_ind == EN_GT_NORTH)
+			{
+				give_back_package.gps_array[num].property.lat_ind = 1;
+			}
+
+			if(gps_tracker_gps.long_ind == EN_GT_WEST)
+			{
+				give_back_package.gps_array[num].property.long_ind = 0;	
+			}
+			else if(gps_tracker_gps.long_ind == EN_GT_EAST)
+			{
+				give_back_package.gps_array[num].property.long_ind = 1;
+			}
+
+			if(gps_tracker_gps.mode == EN_GT_GM_A)
+			{
+				give_back_package.gps_array[num].property.mode = 0;	
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_D)
+			{
+				give_back_package.gps_array[num].property.mode = 1;
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_E)
+			{
+				give_back_package.gps_array[num].property.mode = 2;
+			}
+			else if(gps_tracker_gps.mode == EN_GT_GM_N)
+			{
+				give_back_package.gps_array[num].property.mode = 3;
+			}
+		
+			num++;
+		}
+	}
+	give_back_package.gps_data_num = num;
+	len = 2+sizeof(gps_tracker_slim_struct)*num;
+
+	bt_prepare_send_data(operate, len, (kal_uint8*)&give_back_package);
+}
+
 void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 {
 	S16 error;
@@ -664,17 +756,8 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			}
 			else if(who_open_electric_gate &(GPRS_OPEN|BT_OPEN))
 			{
-			#ifdef __MEILING__
-				if(!zt_smart_check_lundong_is_run())
-			#else
-				if(!zt_smart_check_hall_is_run())
-			#endif
+				if(lock_bike())
 				{
-					who_open_electric_gate = 0; 
-					tangze_is_locking = 1;
-					close_dianmen();
-					StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000, tangze_lock_bike);	
-					WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
 					zt_voice_play(VOICE_LOCK);
 					send_ok_cmd(cmd);	
 		  		}
@@ -720,6 +803,20 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			open_dianchi_lock();
 			StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
 			send_ok_cmd(cmd);
+			break;
+		}
+		case BT_GIVEBACK:
+		{
+			lock_bike();
+			bt_giveback_package(cmd);
+			break;
+		}
+		case BT_GIVEBACK_SUCCESS:
+		{
+			if(zt_gps_get_pwr_status())
+			{
+				zt_gps_power_off();
+			}
 			break;
 		}
 		default:
@@ -1264,6 +1361,9 @@ void zt_smart_init(void)
 {
 	zt_smart_dianmen_init();
 
+	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
+	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
+	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);

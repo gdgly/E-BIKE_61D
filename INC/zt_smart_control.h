@@ -30,6 +30,8 @@ typedef enum
 	BT_SEARCH,
 	BT_READ_DATA,
 	BT_DIANCHI,
+	BT_GIVEBACK,
+	BT_GIVEBACK_SUCCESS,
 	
 }BT_CMD;
 
@@ -90,6 +92,11 @@ typedef struct
 	controller_struct actual;
 }config_struct;
 
+typedef struct
+{
+	kal_uint8 motor;
+}default_setting_struct;
+
 typedef enum
 {
 	CMD_CONTROL=1,
@@ -124,6 +131,7 @@ typedef struct
 	kal_uint16 alarm:1;
 	kal_uint16 dy:1;
 	kal_uint16 xf:1;
+	kal_uint16 motor:1;
 }status_struct;
 
 typedef struct
