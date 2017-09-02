@@ -148,6 +148,13 @@ typedef struct
 	kal_uint32 hall;
 	kal_uint8 lock;
 }read_data_struct;
+
+typedef struct
+{
+	kal_uint8 lock_state;
+	gps_tracker_slim_struct gps;
+}bt_giveback_struct;
+
 #pragma pack ()
 
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);

@@ -5,6 +5,8 @@
 #include "zt_interface.h"
 #include "time.h"
 #include "zt_agps.h"
+#include "kfd_protocol.h"
+
 #define DIANMEN_PIN (44|0x80)
 #define KEY_DETECT_PIN (8|0x80)
 #define LOCK_A_PIN (28|0x80)
@@ -191,7 +193,9 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				if(cmd->para[0]==1)	//锁车
 				{
 					if(lock_bike())
+					{
 						zt_voice_play(VOICE_LOCK);
+					}
 				}
 				else if(cmd->para[0]==0)	//解锁
 				{
@@ -229,7 +233,10 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 			case 0x07:	//还车
 				if(cmd->para[0]==1)	//还车指令
 				{
-					lock_bike();
+					if(lock_bike())
+					{
+						zt_voice_play(VOICE_LOCK);
+					}
 					kfd_upload_give_back_package(who_open_electric_gate);
 				}
 				else if(cmd->para[0]==2)	//服务器判断还车成功之后下发指令
@@ -549,7 +556,7 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
  *****************************************************************************/
 void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
 {
-	kal_uint8 buffer[32]={0};
+	kal_uint8 buffer[128]={0};
 	kal_uint32 ts = GetTimeStamp();
 	kal_uint16 crc;
 	kal_uint8 i;
@@ -650,71 +657,64 @@ kal_uint32 GetTimeStamp(void)
 
 void bt_giveback_package(kal_uint8 operate)
 {
-	kal_uint8 i,num=0;
-	gps_tracker_give_back_struct give_back_package;
+	bt_giveback_struct bt_giveback_data={0};
 	gps_tracker_gps_struct gps_tracker_gps;
+	gps_info_struct *gps_info=kfd_get_best_hdop_gps_data();
 	kal_uint8 len;
 
 /*增加还车时判断主电源如没插上就提示失败*/
 	if(zt_get_bat_connect_status())	
-		give_back_package.lock_state = who_open_electric_gate>0?0:1;
+		bt_giveback_data.lock_state = who_open_electric_gate>0?0:1;
 	else
-		give_back_package.lock_state = 0;
+		bt_giveback_data.lock_state = 0;
 	
-	for(i=0;i<5;i++)
+	if(gps_info)
 	{
-		if(kfd_gps_data_array[i].state=='A')
-		{
-			memset(&gps_tracker_gps,0,sizeof(gps_tracker_gps_struct));
-			kfd_convert_gps_data_for_protocol(&kfd_gps_data_array[i],&gps_tracker_gps);
-			
-			give_back_package.gps_array[num].latitude = gps_tracker_gps.latitude;
-			give_back_package.gps_array[num].longitude = gps_tracker_gps.longitude;
-			give_back_package.gps_array[num].speed = gps_tracker_gps.speed;					
-			give_back_package.gps_array[num].course= gps_tracker_gps.course;
-			give_back_package.gps_array[num].reserv_satnum = gps_tracker_gps.sat_uesed;
-			if(gps_tracker_gps.lat_ind == EN_GT_SOUTH)
-			{
-				give_back_package.gps_array[num].property.lat_ind = 0;	
-			}
-			else if(gps_tracker_gps.lat_ind == EN_GT_NORTH)
-			{
-				give_back_package.gps_array[num].property.lat_ind = 1;
-			}
-
-			if(gps_tracker_gps.long_ind == EN_GT_WEST)
-			{
-				give_back_package.gps_array[num].property.long_ind = 0;	
-			}
-			else if(gps_tracker_gps.long_ind == EN_GT_EAST)
-			{
-				give_back_package.gps_array[num].property.long_ind = 1;
-			}
-
-			if(gps_tracker_gps.mode == EN_GT_GM_A)
-			{
-				give_back_package.gps_array[num].property.mode = 0;	
-			}
-			else if(gps_tracker_gps.mode == EN_GT_GM_D)
-			{
-				give_back_package.gps_array[num].property.mode = 1;
-			}
-			else if(gps_tracker_gps.mode == EN_GT_GM_E)
-			{
-				give_back_package.gps_array[num].property.mode = 2;
-			}
-			else if(gps_tracker_gps.mode == EN_GT_GM_N)
-			{
-				give_back_package.gps_array[num].property.mode = 3;
-			}
+		kfd_convert_gps_data_for_protocol(gps_info,&gps_tracker_gps);
 		
-			num++;
+		bt_giveback_data.gps.latitude = gps_tracker_gps.latitude;
+		bt_giveback_data.gps.longitude = gps_tracker_gps.longitude;
+		bt_giveback_data.gps.speed = gps_tracker_gps.speed;					
+		bt_giveback_data.gps.course= gps_tracker_gps.course;
+		bt_giveback_data.gps.reserv_satnum = gps_tracker_gps.sat_uesed;
+		if(gps_tracker_gps.lat_ind == EN_GT_SOUTH)
+		{
+			bt_giveback_data.gps.property.lat_ind = 0;	
 		}
-	}
-	give_back_package.gps_data_num = num;
-	len = 2+sizeof(gps_tracker_slim_struct)*num;
+		else if(gps_tracker_gps.lat_ind == EN_GT_NORTH)
+		{
+			bt_giveback_data.gps.property.lat_ind = 1;
+		}
 
-	bt_prepare_send_data(operate, len, (kal_uint8*)&give_back_package);
+		if(gps_tracker_gps.long_ind == EN_GT_WEST)
+		{
+			bt_giveback_data.gps.property.long_ind = 0;	
+		}
+		else if(gps_tracker_gps.long_ind == EN_GT_EAST)
+		{
+			bt_giveback_data.gps.property.long_ind = 1;
+		}
+
+		if(gps_tracker_gps.mode == EN_GT_GM_A)
+		{
+			bt_giveback_data.gps.property.mode = 0;	
+		}
+		else if(gps_tracker_gps.mode == EN_GT_GM_D)
+		{
+			bt_giveback_data.gps.property.mode = 1;
+		}
+		else if(gps_tracker_gps.mode == EN_GT_GM_E)
+		{
+			bt_giveback_data.gps.property.mode = 2;
+		}
+		else if(gps_tracker_gps.mode == EN_GT_GM_N)
+		{
+			bt_giveback_data.gps.property.mode = 3;
+		}
+	}	
+	len = 1+sizeof(bt_giveback_struct);
+
+	bt_prepare_send_data(operate, len, (kal_uint8*)&bt_giveback_data);
 }
 
 void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
@@ -807,7 +807,10 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		case BT_GIVEBACK:
 		{
-			lock_bike();
+			if(lock_bike())
+			{
+				zt_voice_play(VOICE_LOCK);
+			}
 			bt_giveback_package(cmd);
 			break;
 		}
