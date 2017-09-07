@@ -151,8 +151,13 @@ typedef struct
 
 typedef struct
 {
+	kal_uint32 latitude;
+	kal_uint32 longitude;
+}location_struct;
+typedef struct
+{
 	kal_uint8 lock_state;
-	gps_tracker_slim_struct gps;
+	location_struct gps;
 }bt_giveback_struct;
 
 #pragma pack ()

@@ -33,7 +33,11 @@ config_struct controller={
 	{0,0,LOW_SPEED,HIGH,HUNHE,VOT48V,XF_INVALID}};
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
+#ifdef __MEILING__
+default_setting_struct default_set={1};
+#else
 default_setting_struct default_set={0};
+#endif
 
 kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
@@ -585,6 +589,36 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	bt_send_data(buffer,12+param_len);
 }
 
+void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
+{
+	kal_uint8 buffer[128]={0};
+	kal_uint32 ts = GetTimeStamp();
+	kal_uint16 crc;
+	kal_uint8 i;
+	
+	buffer[0] = 0x3a;
+	buffer[1] = 0x02;
+	buffer[2] = operate;
+	if(param&&param_len)
+		memcpy(buffer+3, param, param_len);
+
+	buffer[3+param_len]=ts&0xff;
+	buffer[3+param_len+1]=(ts>>8)&0xff;
+	buffer[3+param_len+2]=(ts>>16)&0xff;
+	buffer[3+param_len+3]=(ts>>24)&0xff;
+	crc = get_crc16(buffer+1, 3+param_len+4);
+	buffer[3+param_len+4]=crc&0xff;
+	buffer[3+param_len+5]=(crc>>8)&0xff;
+	
+	buffer[3+param_len+6]=0x0d;	
+	buffer[3+param_len+7]=0x0a;	
+
+	for(i=0;i<11+param_len;i++)
+		zt_trace(TPERI,"%x",buffer[i]);
+	
+	bt_send_data(buffer,11+param_len);
+}
+
 void read_data(kal_uint8 operate)
 {
 	read_data_struct data;
@@ -674,47 +708,10 @@ void bt_giveback_package(kal_uint8 operate)
 		
 		bt_giveback_data.gps.latitude = gps_tracker_gps.latitude;
 		bt_giveback_data.gps.longitude = gps_tracker_gps.longitude;
-		bt_giveback_data.gps.speed = gps_tracker_gps.speed;					
-		bt_giveback_data.gps.course= gps_tracker_gps.course;
-		bt_giveback_data.gps.reserv_satnum = gps_tracker_gps.sat_uesed;
-		if(gps_tracker_gps.lat_ind == EN_GT_SOUTH)
-		{
-			bt_giveback_data.gps.property.lat_ind = 0;	
-		}
-		else if(gps_tracker_gps.lat_ind == EN_GT_NORTH)
-		{
-			bt_giveback_data.gps.property.lat_ind = 1;
-		}
-
-		if(gps_tracker_gps.long_ind == EN_GT_WEST)
-		{
-			bt_giveback_data.gps.property.long_ind = 0;	
-		}
-		else if(gps_tracker_gps.long_ind == EN_GT_EAST)
-		{
-			bt_giveback_data.gps.property.long_ind = 1;
-		}
-
-		if(gps_tracker_gps.mode == EN_GT_GM_A)
-		{
-			bt_giveback_data.gps.property.mode = 0;	
-		}
-		else if(gps_tracker_gps.mode == EN_GT_GM_D)
-		{
-			bt_giveback_data.gps.property.mode = 1;
-		}
-		else if(gps_tracker_gps.mode == EN_GT_GM_E)
-		{
-			bt_giveback_data.gps.property.mode = 2;
-		}
-		else if(gps_tracker_gps.mode == EN_GT_GM_N)
-		{
-			bt_giveback_data.gps.property.mode = 3;
-		}
 	}	
-	len = 1+sizeof(bt_giveback_struct);
+	len = sizeof(bt_giveback_struct);
 
-	bt_prepare_send_data(operate, len, (kal_uint8*)&bt_giveback_data);
+	bt_prepare_send_data_ext(operate, len, (kal_uint8*)&bt_giveback_data);
 }
 
 void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
