@@ -9,7 +9,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.04_"
+#define GT_VER "SW2.0.05_"
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -28,7 +28,7 @@ kal_int8 kfd_soc_app_id;
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 1,	// 1 ip; 2 domain
+	 2,	// 1 ip; 2 domain
 	"rentma.mlddc.com",	//domain	
 	{106,14,171,41},	//{14,215,133,125},	//{139,224,67,207},	//ip 	
 	4,		//ip len

@@ -885,6 +885,9 @@ void zt_smart_check_lundong(void)
 
 //	zt_trace(TPERI,"curr_count=%d,lundong_count_1sec=%d",curr_count,lundong_count_1sec);
 
+/*美翎里程信号采用轮动脚，无需轮动锁车，而且霍尔有误信号触发轮动，导致电门时开时关，
+而且经常触发会执行delayms(10),导致MMI挂死*/
+#ifndef __MEILING__
 	if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
 	{
 		if(!who_open_electric_gate)
@@ -894,6 +897,7 @@ void zt_smart_check_lundong(void)
 		//	zt_voice_play(VOICE_ALARM);
 		}
 	}
+#endif
 
 	if(gps_tracker_config.vibr2_thr==1)
 	{
