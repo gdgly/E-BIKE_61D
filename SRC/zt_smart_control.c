@@ -817,6 +817,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			{
 				zt_gps_power_off();
 			}
+			send_ok_cmd(cmd);
 			break;
 		}
 		default:
