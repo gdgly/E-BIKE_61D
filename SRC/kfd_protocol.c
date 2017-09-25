@@ -167,7 +167,7 @@ static double GetDistance(double lat1, double lon1, double lat2, double lon2)
 void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
-	if(kfd_connect_times > 60)
+	if(kfd_connect_times > 30)
 	{
 		kfd_connect_times = 0;
 		zt_reset_system();
@@ -613,9 +613,20 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 
 /*增加还车时判断主电源如没插上就提示失败*/
 	if(zt_get_bat_connect_status())	
-		give_back_package.lock_state = gate>0?0:1;
+	{
+		if(gate)
+		{
+			give_back_package.lock_state = 0;
+		}
+		else
+		{
+			give_back_package.lock_state = 1;
+		}
+	}
 	else
+	{
 		give_back_package.lock_state = 0;
+	}
 	
 	zt_trace(TPROT,"lock_state=%d,gate=%d",give_back_package.lock_state,gate);
 
@@ -971,6 +982,7 @@ void kfd_upload_lbs_package(void)
 /*检测震动才上传*/
 	if(!zt_gsensor_check_is_moving())
 		return;
+	
 	
 	zt_trace(TPROT, "%s",__func__);
 	lbs_package.service.mcc = lbs_info->lbs_server.mcc;

@@ -91,8 +91,8 @@ void tangze_lock_bike(void)
 	//zt_trace(TPERI,"%s",__func__);
 	GPIO_WriteIO(1, LOCK_A_PIN);
 	GPIO_WriteIO(0, LOCK_B_PIN);
-	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/120);
-	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 600, clear_tangze_lock_flag);
+	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/195);
+	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 900, clear_tangze_lock_flag);
 }
 void controller_lock_bike_callback(void)
 {
@@ -116,7 +116,7 @@ kal_bool lock_bike(void)
 	kal_bool result = KAL_FALSE;
 	S16 error;
 	
-	if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN)))
+	if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN))&&!IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)))
 	{
 	#ifdef __MEILING__
 		if(!zt_smart_check_lundong_is_run())
@@ -126,13 +126,14 @@ kal_bool lock_bike(void)
 		{
 			close_dianmen();
 			tangze_is_locking = 1;
-			StartTimer(GetTimerID(ZT_DIANMEN_LOCK_TIMER), 1000,tangze_lock_bike);	
+			tangze_lock_bike();
 			who_open_electric_gate = 0;
 			WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
 			result = KAL_TRUE;
 		}
 	}
 
+	zt_trace(TPERI,"gate=%d,timer=%d",who_open_electric_gate,IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)));
 	return result;
 }
 void unlock_bike(void)
@@ -140,17 +141,18 @@ void unlock_bike(void)
 	//zt_trace(TPERI,"%s",__func__);
 	GPIO_WriteIO(0, LOCK_A_PIN);
 	GPIO_WriteIO(1, LOCK_B_PIN);
-	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/120);
+	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/195);
 
-	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),600,clear_tangze_lock_flag);
+	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),900,clear_tangze_lock_flag);
 }
 void gprs_open_dianmen(void)
 {
 	S16 error;
-	
+
+	unlock_bike();
 	who_open_electric_gate |= GPRS_OPEN;
 	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
-	open_dianmen();
+	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);
 }
 kal_bool zt_smart_check_hall_is_run(void)
 {
@@ -205,8 +207,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					if(!who_open_electric_gate)
 					{
-						unlock_bike();
-						StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,gprs_open_dianmen);
+						gprs_open_dianmen();
 						zt_voice_play(VOICE_UNLOCK);
 					}
 				}
@@ -380,6 +381,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				else if(cmd->para[0]==2)
 				{//测试服务器转现网服务器
 				}
+				break;
 			default:
 				break;
 		}	
@@ -457,6 +459,7 @@ kal_uint32 adc_convert_mv(kal_uint16 adc_mv)
 
 void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 {
+	gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
 	ebike_struct ebike={0};
 
 	zt_trace(TPERI,"Get pwr data");
@@ -532,6 +535,10 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	ebike.bat.interval= curr_bat.interval;
 	ebike.bat.max_interval= curr_bat.max_interval;
 
+	ebike.sig.gsm_signal = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
+	ebike.sig.gps_viewd = curr_gps_data->sat_view;
+	ebike.sig.gps_used = curr_gps_data->sat_uesd;
+	
 	memcpy(package->value,&ebike,sizeof(ebike_struct));
 	zt_smart_write_hall();
 	zt_smart_write_lundong();
@@ -583,8 +590,8 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	buffer[4+param_len+6]=0x0d;	
 	buffer[4+param_len+7]=0x0a;	
 
-	for(i=0;i<12+param_len;i++)
-		zt_trace(TPERI,"%x",buffer[i]);
+/*	for(i=0;i<12+param_len;i++)
+		zt_trace(TPERI,"%x",buffer[i]);*/
 	
 	bt_send_data(buffer,12+param_len);
 }
@@ -606,7 +613,7 @@ void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8*
 	buffer[3+param_len+1]=(ts>>8)&0xff;
 	buffer[3+param_len+2]=(ts>>16)&0xff;
 	buffer[3+param_len+3]=(ts>>24)&0xff;
-	crc = get_crc16(buffer+1, 3+param_len+4);
+	crc = get_crc16(buffer+1, 2+param_len+4);
 	buffer[3+param_len+4]=crc&0xff;
 	buffer[3+param_len+5]=(crc>>8)&0xff;
 	
@@ -659,9 +666,11 @@ void send_error_cmd(kal_uint8 operate,kal_uint8 type)
 void bt_open_dianmen(void)
 {
 	S16 error;
+	
+	unlock_bike();
 	who_open_electric_gate |= BT_OPEN;
-	open_dianmen();
 	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);	
 }
 
 kal_uint32 GetTimeStamp(void)
@@ -698,9 +707,20 @@ void bt_giveback_package(kal_uint8 operate)
 
 /*增加还车时判断主电源如没插上就提示失败*/
 	if(zt_get_bat_connect_status())	
-		bt_giveback_data.lock_state = who_open_electric_gate>0?0:1;
+	{
+		if(who_open_electric_gate)
+		{
+			bt_giveback_data.lock_state = 0;
+		}
+		else
+		{
+			bt_giveback_data.lock_state = 1;
+		}
+	}
 	else
+	{
 		bt_giveback_data.lock_state = 0;
+	}
 	
 	if(gps_info)
 	{
@@ -771,10 +791,10 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		case BT_UNLOCK:
 		{
+			zt_trace(TPERI,"bluetooth unlock");
 			if(!who_open_electric_gate)
 			{
-				unlock_bike();
-				StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,bt_open_dianmen);	
+				bt_open_dianmen();
 				zt_voice_play(VOICE_UNLOCK);
 				send_ok_cmd(cmd);
 			}
@@ -858,7 +878,7 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 kal_bool zt_smart_check_lundong_is_run(void)
 {
 //	//zt_trace(TPERI,"%s,lundong_count_1sec=%d",__func__,lundong_count_1sec);
-	if(lundong_count_1sec>=2)
+	if(lundong_count_1sec>=4)
 	{
 		return KAL_TRUE;
 	}
@@ -969,7 +989,7 @@ kal_bool zt_lbs_valid(void)
 kal_bool zt_time_expiry(void)
 {
 	kal_uint32 real_time = (kal_uint32)GetTimeSec();
-	zt_trace(TPERI,"time_expiry=%d",real_time-pre_time);
+//	zt_trace(TPERI,"time_expiry=%d",real_time-pre_time);
 	if((real_time-pre_time)>3600)	// 1H
 		return KAL_TRUE;
 	else

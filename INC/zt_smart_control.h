@@ -136,10 +136,18 @@ typedef struct
 
 typedef struct
 {
+	kal_uint8 gsm_signal;
+	kal_uint8 gps_viewd;
+	kal_uint8 gps_used;
+}signal_struct;
+
+typedef struct
+{
 	kal_uint8 fault;
 	status_struct status;
 	kal_uint32 hall;
 	battery_info_struct bat;
+	signal_struct sig;
 }ebike_struct;
 
 typedef struct
@@ -162,6 +170,7 @@ typedef struct
 
 #pragma pack ()
 
+extern kal_uint8 gps_delay_off_flag;
 extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);
 extern void zt_smart_update_network_data(gps_tracker_control_data_struct* package);
 extern kal_bool zt_get_bat_connect_status(void);
