@@ -1393,7 +1393,7 @@ void zt_smart_init(void)
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 
-//	zt_smart_key_detect_proc();	//去掉钥匙检测
+	zt_smart_key_detect_proc();	
 
 /*总里程*/
 	zt_smart_read_hall();
@@ -1410,7 +1410,7 @@ void zt_smart_init(void)
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_ADC_UEM_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_adc_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_HALL_EINT_SEND_MMI_REQ), (PsIntFuncPtr)parse_hall_hdlr,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LUNDONG_SEND_MMI_REQ), (PsIntFuncPtr)parse_lundong_hdlr,  KAL_FALSE);
-	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_UART2_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_uart2_hdlr,  KAL_FALSE);
+	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_UART2_SEND_TO_MMI_REQ), (PsIntFuncPtr)parse_uart2_hdlr,  KAL_FALSE);	
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BAT_SEND_TO_MMI_REQ), /*(PsIntFuncPtr)parse_battery_hdlr*/NULL,  KAL_FALSE);
 	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_LBS_SEND_MMI_REQ), (PsIntFuncPtr)parse_lbs_hdlr,  KAL_FALSE);
 }

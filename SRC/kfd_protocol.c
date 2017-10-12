@@ -588,7 +588,7 @@ void kfd_upload_login_package(void)
  *****************************************************************************/
 void kfd_upload_hb_package(void)
 {
-	//zt_trace(TPROT,"%s,kfd_hb_send_times=%d",__func__,kfd_hb_send_times);
+	zt_trace(TPROT,"%s,kfd_hb_send_times=%d",__func__,kfd_hb_send_times);
 	
 	kfd_send_package(EN_GT_PT_HB,NULL,0);
 
@@ -1295,7 +1295,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 			kfd_upload_ver_package();
 			kfd_upload_imsi_package();
 			zt_led_open_gsm_led();
-			StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL, kfd_upload_hb_package);
+			StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL*1000, kfd_upload_hb_package);
 			StartTimer(GetTimerID(ZT_UPLOAD_TIMER), DATA_INTERVAL, kfd_upload_data_package);	
 			break;																	
 		}		
@@ -1377,7 +1377,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 			gps_tracker_data_content_struct* data;
 			data = (gps_tracker_data_content_struct*)((kal_uint8*)head + sizeof(gps_tracker_msg_head_struct));	
 			kfd_srv_data_req_proc(data);
-			kfd_upload_command_rsp_package((kal_uint8*)head);
+		//	kfd_upload_command_rsp_package((kal_uint8*)head);
 			break;	
 		}		
 		default:
