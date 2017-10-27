@@ -94,7 +94,7 @@ typedef struct
 
 typedef struct
 {
-	kal_uint8 motor;
+	kal_uint8 motor;	//0 普通电机 1高速电机
 }default_setting_struct;
 
 typedef enum

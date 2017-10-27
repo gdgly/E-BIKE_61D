@@ -42,7 +42,6 @@ default_setting_struct default_set={0};
 kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
 void zt_smart_write_lundong(void);
-kal_bool zt_smart_check_lundong_is_run(void);
 kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 kal_bool zt_smart_check_lundong_is_run(void);
@@ -878,13 +877,27 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 kal_bool zt_smart_check_lundong_is_run(void)
 {
 //	//zt_trace(TPERI,"%s,lundong_count_1sec=%d",__func__,lundong_count_1sec);
-	if(lundong_count_1sec>=4)
+	if(default_set.motor==1)
 	{
-		return KAL_TRUE;
+		if(lundong_count_1sec>=2)
+		{
+			return KAL_TRUE;
+		}
+		else
+		{
+			return KAL_FALSE;
+		}
 	}
 	else
 	{
-		return KAL_FALSE;
+		if(lundong_count_1sec>=4)
+		{
+			return KAL_TRUE;
+		}
+		else
+		{
+			return KAL_FALSE;
+		}
 	}
 }
 
@@ -1393,7 +1406,7 @@ void zt_smart_init(void)
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 
-	zt_smart_key_detect_proc();	
+//	zt_smart_key_detect_proc();	
 
 /*×ÜÀï³Ì*/
 	zt_smart_read_hall();
