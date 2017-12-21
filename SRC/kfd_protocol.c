@@ -9,7 +9,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.06_"
+#define GT_VER "SW2.0.07_"
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -38,11 +38,25 @@ network_para_struct kfd_network_para ={
 	NULL, 	//kfd_free_connect,
 	NULL,	//kfd_protocol_parse
 };
-#else
+#elif defined(__BAOJIA__)
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
 	 1,	// 1 ip; 2 domain
+	"www.liabar.com",	//domain	//"rentma.bat100.com"
+	{47,95,64,117},	//{139,224,3,220},	//{14,215,133,125},		//ip 	
+	4,		//ip len
+	3080			//port
+	},
+	NULL,	//kfd_upload_login_package,
+	NULL, 	//kfd_free_connect,
+	NULL,	//kfd_protocol_parse
+};
+#else
+network_para_struct kfd_network_para ={
+	CONNECT_LONG,
+	{
+	 2,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain	//"rentma.bat100.com"
 	{139,224,67,207},	//{139,224,3,220},	//{14,215,133,125},		//ip 	
 	4,		//ip len
@@ -174,7 +188,6 @@ void kfd_reconnect_service(void)
 	}
 	else
 	{
-		kfd_network_para.network_info.ym_type = 2;
 		kfd_connect_times++;
 		zt_socket_free(kfd_soc_app_id);
 		if(GetNetworkService())
@@ -571,8 +584,13 @@ void kfd_upload_login_package(void)
 
 	srv_imei_get_imei(MMI_SIM1, imei, MAX_GT_IMEI_LEN);
 	zt_trace(TPROT,"%s,dev_id=%s",__func__,imei);
+#ifdef __BAOJIA__
+	login_package.dev_type = 0x11;
+	login_package.auth_code = 0x1234;
+#else
 	login_package.dev_type = gps_tracker_config.dev_type;
 	login_package.auth_code = 0;
+#endif
 	hex_str_2_bytes(imei, strlen(imei), login_package.dev_id, 8);
 	kfd_work_state = EN_LOGING_STATE;
 	kfd_send_package(EN_GT_PT_LOGIN,(kal_uint8*)&login_package,sizeof(gps_tracker_login_req_content_struct));
@@ -1404,6 +1422,7 @@ void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 	kal_uint8* head,*pBuf;
 	kal_uint8* tail = NULL;
 	kal_uint16 i = 0;
+	kal_uint8 head_first = 1;
 	kal_uint8 req[MAX_READ_COUNT] = {0};
 
 	pBuf = (kal_uint8*)zt_Malloc(MAX_READ_COUNT);
@@ -1414,11 +1433,12 @@ void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 	{
 		memset(req, 0, sizeof(req));
 		//’“∞¸Õ∑ 0xffff
-		if(pBuf[i]==0xff && pBuf[i+1]==0xff)
+		if(pBuf[i]==0xff && pBuf[i+1]==0xff && head_first)
 		{
 			head = pBuf+i;
+			head_first = 0;
 		}
-		else if(pBuf[i]==0x0d && pBuf[i+1]==0x0a)
+		else if(pBuf[i]==0x0d && pBuf[i+1]==0x0a && (i+2==len))
 		{
 			tail = pBuf+i+2;//Ω·Œ≤
 

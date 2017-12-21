@@ -619,8 +619,8 @@ void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8*
 	buffer[3+param_len+6]=0x0d;	
 	buffer[3+param_len+7]=0x0a;	
 
-	for(i=0;i<11+param_len;i++)
-		zt_trace(TPERI,"%x",buffer[i]);
+//	for(i=0;i<11+param_len;i++)
+//		zt_trace(TPERI,"%x",buffer[i]);
 	
 	bt_send_data(buffer,11+param_len);
 }
@@ -851,17 +851,19 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 	kal_uint8 i,*buf,*head=NULL,*tail=NULL;
 	kal_uint16 len;
 	kal_uint8 req[64]={0};
+	kal_uint8 head_first = 1;
 
 	buf = bt_msg->data;
 	len = bt_msg->dataLen;
 	
 	for(i=0; i<len; i++)
 	{
-		if(buf[i]==0x3a)
+		if(buf[i]==0x3a && head_first)
 		{
 			head = buf+i;
+			head_first = 0;
 		}
-		else if(buf[i]==0x0d&&buf[i+1]==0x0a)
+		else if(buf[i]==0x0d&&buf[i+1]==0x0a&& (i+2==len))
 		{
 			tail = buf+i+2;
 			if(head)
@@ -890,7 +892,7 @@ kal_bool zt_smart_check_lundong_is_run(void)
 	}
 	else
 	{
-		if(lundong_count_1sec>=4)
+		if(lundong_count_1sec>=4 && lundong_count_1sec<=20)
 		{
 			return KAL_TRUE;
 		}
@@ -1413,7 +1415,7 @@ void zt_smart_init(void)
 	zt_smart_read_lundong();
 
 /*轮动报警*/	
-	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 5000, zt_smart_check_lundong);
+	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 8000, zt_smart_check_lundong);
 
 /*GPS电源开启检测*/
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER), 90000, zt_smart_check_gps_pwr);
