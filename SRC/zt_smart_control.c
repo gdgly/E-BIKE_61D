@@ -39,6 +39,7 @@ default_setting_struct default_set={1};
 default_setting_struct default_set={0};
 #endif
 
+void restartSystem(void);
 kal_uint32 GetTimeStamp(void);
 void zt_smart_write_hall(void);
 void zt_smart_write_lundong(void);
@@ -540,7 +541,14 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	
 	memcpy(package->value,&ebike,sizeof(ebike_struct));
 	zt_smart_write_hall();
+#ifdef __MEILING__	
 	zt_smart_write_lundong();
+#else
+	if(default_set.motor==1)
+	{
+		zt_smart_write_lundong();
+	}
+#endif
 	zt_trace(TPERI,"%s,len=%d",__func__,sizeof(ebike_struct));
 
 }
@@ -837,6 +845,12 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 				zt_gps_power_off();
 			}
 			send_ok_cmd(cmd);
+			break;
+		}
+		case BT_RESET:
+		{
+			send_ok_cmd(cmd);
+			StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
 			break;
 		}
 		default:
@@ -1412,8 +1426,14 @@ void zt_smart_init(void)
 
 /*总里程*/
 	zt_smart_read_hall();
+#ifdef __MEILING__
 	zt_smart_read_lundong();
-
+#else
+	if(default_set.motor==1)
+	{
+		zt_smart_read_lundong();
+	}
+#endif
 /*轮动报警*/	
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 8000, zt_smart_check_lundong);
 

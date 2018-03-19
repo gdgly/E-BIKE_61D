@@ -32,7 +32,7 @@ typedef enum
 	BT_DIANCHI,
 	BT_GIVEBACK,
 	BT_GIVEBACK_SUCCESS,
-	
+	BT_RESET=0x0C,
 }BT_CMD;
 
 typedef struct
