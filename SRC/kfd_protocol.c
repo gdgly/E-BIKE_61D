@@ -706,7 +706,7 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 
 kal_bool check_gps_upload_valid(gps_info_struct* gps_info)
 {
-	if(!zt_gsensor_check_is_moving())
+	if(!zt_gsensor_check_is_moving()&&!get_electric_gate_status())
 	{
 		if(gps_info->hdop>5.5)
 		{
@@ -998,7 +998,7 @@ void kfd_upload_lbs_package(void)
 	lbs_info_struct* lbs_info =  (lbs_info_struct*)zt_lbs_get_curr_lbs_info(); 
 
 /*检测震动才上传*/
-	if(!zt_gsensor_check_is_moving())
+	if(!zt_gsensor_check_is_moving() && !get_electric_gate_status())
 		return;
 	
 	
