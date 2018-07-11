@@ -47,6 +47,9 @@ kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 kal_bool zt_smart_check_lundong_is_run(void);
 kal_bool zt_smart_check_hall_is_run(void);
+#ifdef __BT_UART__
+void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* param);
+#endif
 
 kal_uint16 zt_adc_get_aver_value(void)
 {
@@ -382,6 +385,30 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{//测试服务器转现网服务器
 				}
 				break;
+		#ifdef __BT_UART__		
+			case 0x21:	//蓝牙名称
+				{
+					char bt_name[6]={0};
+					char param[16]={0};
+
+					memcpy(bt_name,cmd->para,6);
+					sprintf(param,"CC90%s",bt_name);
+
+					zt_trace(TPERI,"bt name=%s",bt_name);
+					bt_uart_send_data(BT_UART_NAME,strlen(param),param);
+				}
+				break;
+			case 0x22:	//rssi值
+				{
+					char param[2];
+					param[0]=cmd->para[0];	//开锁rssi
+					param[1]=cmd->para[1];	//锁车rssi
+
+					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+					bt_uart_send_data(BT_UART_RSSI,2,param);
+				}
+				break;
+		#endif		
 			default:
 				break;
 		}	
@@ -741,6 +768,136 @@ void bt_giveback_package(kal_uint8 operate)
 	bt_prepare_send_data_ext(operate, len, (kal_uint8*)&bt_giveback_data);
 }
 
+#ifdef __BT_UART__
+void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* param)
+{
+	kal_uint8 buffer[128]={0};
+	kal_uint32 ts = GetTimeStamp();
+	kal_uint16 crc;
+	kal_uint8 i;
+	
+	buffer[0] = 0x3a;
+	buffer[1] = 0x02;
+	buffer[2] = operate;
+	buffer[3] = param_len;
+	if(param&&param_len)
+		memcpy(buffer+4, param, param_len);
+
+	buffer[4+param_len]=ts&0xff;
+	buffer[4+param_len+1]=(ts>>8)&0xff;
+	buffer[4+param_len+2]=(ts>>16)&0xff;
+	buffer[4+param_len+3]=(ts>>24)&0xff;
+	crc = get_crc16(buffer+1, 3+param_len+4);
+	buffer[4+param_len+4]=crc&0xff;
+	buffer[4+param_len+5]=(crc>>8)&0xff;
+	
+	buffer[4+param_len+6]=0x0d;	
+	buffer[4+param_len+7]=0x0a;	
+
+	zt_uart_write_data(uart_port1,buffer,12+param_len);
+}
+
+void bt_uart_send_heart(void)
+{
+	bt_uart_send_data(BT_UART_HEART, 0, NULL);
+
+	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),30*1000,bt_uart_send_heart);
+}
+
+void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
+{
+	S16 error;
+	kal_uint8 out[32]={0};
+	kal_uint16 i,crc1,crc2;
+	kal_uint8 cmd = buf[2];
+	kal_uint8 para_len = buf[3];
+	kal_uint32 timestamp1 = GetTimeStamp();
+	kal_uint32 timestamp2 = buf[len-8]+buf[len-7]*0x100+buf[len-6]*0x10000+buf[len-5]*0x1000000;
+
+	 zt_hex_convert_str(buf,len,out);
+	 zt_trace(TPERI,"bt_recv=%s,len=%d",out,len);
+	 	
+	crc1 = get_crc16(buf+1,len-5);
+	crc2 = buf[len-4]+buf[len-3]*0x100;
+	zt_trace(TPERI,"crc1=%x,crc2=%x,timestamp1=%d,timestamp2=%d",crc1,crc2,timestamp1,timestamp2);
+	if(crc1 != crc2)
+	{
+		zt_trace(TPERI,"check sum error");
+		send_error_cmd(cmd,2);
+		return;
+	}
+	if(abs(timestamp1-timestamp2)>300)
+	{
+		zt_trace(TPERI,"cmd more than 5 minute,return");
+//		send_error_cmd(cmd,3);
+//		return;
+	}
+
+	switch(cmd)
+	{
+		case BT_UART_NAME:
+			if(buf[4]==0)
+				zt_trace(TPERI,"BT_UART_NAME success");
+			else
+				zt_trace(TPERI,"BT_UART_NAME fail");
+			break;
+		case BT_UART_RSSI:
+			if(buf[4]==0)
+				zt_trace(TPERI,"BT_UART_RSSI success");
+			else
+				zt_trace(TPERI,"BT_UART_RSSI fail");
+			break;
+		case BT_UART_HEART:
+			if(buf[4]==0)
+				zt_trace(TPERI,"BT_UART_HEART success");
+			else
+				zt_trace(TPERI,"BT_UART_HEART fail");
+			break;
+		case BT_UART_LOCK:
+			if(buf[4]==0)	//锁车
+			{
+				if(who_open_electric_gate & KEY_OPEN)
+				{//error
+					send_error_cmd(cmd,1);
+				}
+				else if(who_open_electric_gate &(GPRS_OPEN|BT_OPEN))
+				{
+					if(lock_bike())
+					{
+						zt_voice_play(VOICE_LOCK);
+						send_ok_cmd(cmd);	
+			  		}
+			  		else
+			  		{
+						send_error_cmd(cmd,1);
+			  		}
+				}
+				else
+				{
+					send_error_cmd(cmd,1);
+				}
+			}
+			else if(buf[4]==1)	//解锁
+			{
+				if(!who_open_electric_gate)
+				{
+					bt_open_dianmen();
+					zt_voice_play(VOICE_UNLOCK);
+					send_ok_cmd(cmd);
+				}
+				else
+				{
+					send_error_cmd(cmd,1);
+				}
+			}
+			break;
+		default:
+			break;
+	}
+	
+}
+#endif
+
 void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 {
 	S16 error;
@@ -859,6 +1016,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 	}
 	
 }
+
 kal_uint8 bt_parse_actual_data_hdlr(void* info)
 {
 	bt_msg_struct* bt_msg = (bt_msg_struct*)info;
@@ -883,7 +1041,11 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 			if(head)
 			{
 				memcpy(req, head, tail-head);
+			#ifdef __BT_UART__
+				uart1_parse_proc(req,tail-head);
+			#else
 				bt_parse_proc(req,tail-head);
+			#endif
 			}
 		}
 	}

@@ -35,6 +35,14 @@ typedef enum
 	BT_RESET=0x0C,
 }BT_CMD;
 
+typedef enum
+{
+	BT_UART_NAME=0x01,
+	BT_UART_RSSI,
+	BT_UART_HEART,
+	BT_UART_LOCK,
+}BT_UART_CMD;
+
 typedef struct
 {
 	kal_uint8 type;		//0x01 寻车,0x02 锁车，0x03 报警开关
@@ -178,4 +186,7 @@ extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
 extern void zt_smart_pre_uart_data(void);
 extern kal_bool zt_gps_valid(void);
+#ifdef __BT_UART__
+extern void bt_uart_send_heart(void);
+#endif
 #endif
