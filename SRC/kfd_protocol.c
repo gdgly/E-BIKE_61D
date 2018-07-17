@@ -9,7 +9,7 @@
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.08_"
+#define GT_VER "SW2.0.09_"
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -181,7 +181,12 @@ static double GetDistance(double lat1, double lon1, double lat2, double lon2)
 void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
+
+#ifdef __BT_UART__
+	if(kfd_connect_times > 3)
+#else
 	if(kfd_connect_times > 30)
+#endif		
 	{
 		kfd_connect_times = 0;
 		zt_reset_system();
@@ -1059,7 +1064,7 @@ void kfd_upload_data_package(void)
 		kfd_upload_alarm_package();
 		kfd_pre_ebike_package_data();
 	}
-	else if((delay_index+2)%6==0)
+	else if((delay_index+2)%12==0)
 	{
 		kfd_upload_ebike_package();
 	}

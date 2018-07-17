@@ -41,6 +41,7 @@ typedef enum
 	BT_UART_RSSI,
 	BT_UART_HEART,
 	BT_UART_LOCK,
+	BT_UART_STATUS,
 }BT_UART_CMD;
 
 typedef struct

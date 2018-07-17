@@ -777,7 +777,7 @@ void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* para
 	kal_uint8 i;
 	
 	buffer[0] = 0x3a;
-	buffer[1] = 0x02;
+	buffer[1] = 0x01;
 	buffer[2] = operate;
 	buffer[3] = param_len;
 	if(param&&param_len)
@@ -889,6 +889,16 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 				{
 					send_error_cmd(cmd,1);
 				}
+			}
+			break;
+		case BT_UART_STATUS:
+			if(buf[4]==1)	//À¶ÑÀÁ¬½Ó
+			{
+				zt_voice_play(VOICE_SEARCH);
+			}
+			else if(buf[4]==0)	//À¶ÑÀ¶Ï¿ª
+			{
+				zt_voice_play(VOICE_ALARM);
 			}
 			break;
 		default:
@@ -1214,7 +1224,7 @@ void zt_smart_check_gps_pwr(void)
 			zt_gps_power_off();
 		}
 	}
-	zt_agps_process();
+//	zt_agps_process();
 	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
 }
 
