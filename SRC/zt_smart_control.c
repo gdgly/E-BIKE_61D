@@ -38,6 +38,9 @@ default_setting_struct default_set={1};
 #else
 default_setting_struct default_set={0};
 #endif
+#ifdef __BT_UART__
+kal_uint32 zuche_stamptime=0;
+#endif
 
 void restartSystem(void);
 kal_uint32 GetTimeStamp(void);
@@ -112,7 +115,7 @@ void controller_lock_bike(void)
 	ztDelayms(10);
 	GPIO_WriteIO(1, CONTROL_PIN);
 
-	StartTimer(GetTimerID(ZT_LOCK_DELAY_TIMER),4000,controller_lock_bike_callback);
+	StartTimer(GetTimerID(ZT_LOCK_DELAY_TIMER),6000,controller_lock_bike_callback);
 }
 kal_bool lock_bike(void)
 {
@@ -408,6 +411,16 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					bt_uart_send_data(BT_UART_RSSI,2,param);
 				}
 				break;
+			case 0x23:
+				{
+					char param[4];
+					
+					memcpy(param,cmd->para,4);
+					zuche_stamptime = (kal_uint32)param;
+					default_set.timestamp = zuche_stamptime;
+					zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));				
+					break;
+				}
 		#endif		
 			default:
 				break;
@@ -769,6 +782,14 @@ void bt_giveback_package(kal_uint8 operate)
 }
 
 #ifdef __BT_UART__
+kal_bool judge_zuche_valid(void)
+{
+	kal_uint32 stamp=GetTimeStamp();
+	if(stamp<zuche_stamptime)
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
 void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* param)
 {
 	kal_uint8 buffer[128]={0};
@@ -966,6 +987,13 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		case BT_UNLOCK:
 		{
 			zt_trace(TPERI,"bluetooth unlock");
+		#ifdef __BT_UART__
+			if(!judge_zuche_valid())
+			{
+				send_error_cmd(cmd,1);
+			}
+			else
+		#endif		
 			if(!who_open_electric_gate)
 			{
 				bt_open_dianmen();
@@ -1589,7 +1617,9 @@ void zt_smart_init(void)
 
 	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
-	
+#ifdef __BT_UART__
+	zuche_stamptime = default_set.timestamp;
+#endif	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);

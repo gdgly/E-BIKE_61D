@@ -2,6 +2,7 @@
 #define __ZT_SMART_CONTROL_H__
 #include "global_types_def.h"
 #include "kfd_protocol.h"
+#include "zt_trace.h"
 
 /* commands from APP */
 enum { 
@@ -104,6 +105,9 @@ typedef struct
 typedef struct
 {
 	kal_uint8 motor;	//0 普通电机 1高速电机
+#ifdef __BT_UART__
+	kal_uint32 timestamp;
+#endif	
 }default_setting_struct;
 
 typedef enum
