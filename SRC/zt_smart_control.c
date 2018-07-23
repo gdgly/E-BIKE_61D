@@ -416,8 +416,9 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					char param[4];
 					
 					memcpy(param,cmd->para,4);
-					zuche_stamptime = (kal_uint32)param;
+					zuche_stamptime = param[3]*0x1000000+param[2]*0x10000+param[1]*0x100+param[0];
 					default_set.timestamp = zuche_stamptime;
+					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
 					zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));				
 					break;
 				}
@@ -900,7 +901,7 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			}
 			else if(buf[4]==1)	//解锁
 			{
-				if(!who_open_electric_gate)
+				if(!who_open_electric_gate && judge_zuche_valid())
 				{
 					bt_open_dianmen();
 					zt_voice_play(VOICE_UNLOCK);
@@ -987,13 +988,6 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		case BT_UNLOCK:
 		{
 			zt_trace(TPERI,"bluetooth unlock");
-		#ifdef __BT_UART__
-			if(!judge_zuche_valid())
-			{
-				send_error_cmd(cmd,1);
-			}
-			else
-		#endif		
 			if(!who_open_electric_gate)
 			{
 				bt_open_dianmen();
