@@ -38,7 +38,7 @@ default_setting_struct default_set={1};
 #else
 default_setting_struct default_set={0};
 #endif
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 kal_uint32 zuche_stamptime=0;
 #endif
 
@@ -50,9 +50,7 @@ kal_uint32 adc_convert_mv(kal_uint16 adc_mv);
 void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 data2);
 kal_bool zt_smart_check_lundong_is_run(void);
 kal_bool zt_smart_check_hall_is_run(void);
-#ifdef __BT_UART__
-void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* param);
-#endif
+void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param);
 
 kal_uint16 zt_adc_get_aver_value(void)
 {
@@ -388,7 +386,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{//测试服务器转现网服务器
 				}
 				break;
-		#ifdef __BT_UART__		
+		#ifdef __WAIMAI__		
 			case 0x21:	//蓝牙名称
 				{
 					char bt_name[6]={0};
@@ -398,7 +396,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					sprintf(param,"CC90%s",bt_name);
 
 					zt_trace(TPERI,"bt name=%s",bt_name);
-					bt_uart_send_data(BT_UART_NAME,strlen(param),param);
+					bt_prepare_send_data(BT_UART_NAME,strlen(param),param);
 				}
 				break;
 			case 0x22:	//rssi值
@@ -408,7 +406,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					param[1]=cmd->para[1];	//锁车rssi
 
 					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
-					bt_uart_send_data(BT_UART_RSSI,2,param);
+					bt_prepare_send_data(BT_UART_RSSI,2,param);
 				}
 				break;
 			case 0x23:
@@ -621,7 +619,11 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	kal_uint8 i;
 	
 	buffer[0] = 0x3a;
+#ifdef __WAIMAI__
+	buffer[1] = 0x01;
+#else	
 	buffer[1] = 0x02;
+#endif
 	buffer[2] = operate;
 	buffer[3] = param_len;
 	if(param&&param_len)
@@ -640,8 +642,12 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 
 /*	for(i=0;i<12+param_len;i++)
 		zt_trace(TPERI,"%x",buffer[i]);*/
-	
+
+#ifdef __WAIMAI__
+	zt_uart_write_data(uart_port1,buffer,12+param_len);
+#else	
 	bt_send_data(buffer,12+param_len);
+#endif
 }
 
 void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
@@ -782,7 +788,7 @@ void bt_giveback_package(kal_uint8 operate)
 	bt_prepare_send_data_ext(operate, len, (kal_uint8*)&bt_giveback_data);
 }
 
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 kal_bool judge_zuche_valid(void)
 {
 	kal_uint32 stamp=GetTimeStamp();
@@ -791,37 +797,10 @@ kal_bool judge_zuche_valid(void)
 	else
 		return KAL_FALSE;
 }
-void bt_uart_send_data(BT_UART_CMD operate, kal_uint8 param_len, kal_uint8* param)
-{
-	kal_uint8 buffer[128]={0};
-	kal_uint32 ts = GetTimeStamp();
-	kal_uint16 crc;
-	kal_uint8 i;
-	
-	buffer[0] = 0x3a;
-	buffer[1] = 0x01;
-	buffer[2] = operate;
-	buffer[3] = param_len;
-	if(param&&param_len)
-		memcpy(buffer+4, param, param_len);
-
-	buffer[4+param_len]=ts&0xff;
-	buffer[4+param_len+1]=(ts>>8)&0xff;
-	buffer[4+param_len+2]=(ts>>16)&0xff;
-	buffer[4+param_len+3]=(ts>>24)&0xff;
-	crc = get_crc16(buffer+1, 3+param_len+4);
-	buffer[4+param_len+4]=crc&0xff;
-	buffer[4+param_len+5]=(crc>>8)&0xff;
-	
-	buffer[4+param_len+6]=0x0d;	
-	buffer[4+param_len+7]=0x0a;	
-
-	zt_uart_write_data(uart_port1,buffer,12+param_len);
-}
 
 void bt_uart_send_heart(void)
 {
-	bt_uart_send_data(BT_UART_HEART, 0, NULL);
+	bt_prepare_send_data(BT_UART_HEART, 0, NULL);
 
 	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),30*1000,bt_uart_send_heart);
 }
@@ -876,6 +855,7 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 				zt_trace(TPERI,"BT_UART_HEART fail");
 			break;
 		case BT_UART_LOCK:
+			zt_trace(TPERI,"BT_UART_LOCK, buf[4]=%d,who_open_electric_gate=%d",buf[4],who_open_electric_gate);
 			if(buf[4]==0)	//锁车
 			{
 				if(who_open_electric_gate & KEY_OPEN)
@@ -914,6 +894,7 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			}
 			break;
 		case BT_UART_STATUS:
+			zt_trace(TPERI,"BT_UART_STATUS buf[4]=%d",buf[4]);
 			if(buf[4]==1)	//蓝牙连接
 			{
 				zt_voice_play(VOICE_SEARCH);
@@ -1073,7 +1054,7 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 			if(head)
 			{
 				memcpy(req, head, tail-head);
-			#ifdef __BT_UART__
+			#ifdef __WAIMAI__
 				uart1_parse_proc(req,tail-head);
 			#else
 				bt_parse_proc(req,tail-head);
@@ -1611,7 +1592,7 @@ void zt_smart_init(void)
 
 	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 	zuche_stamptime = default_set.timestamp;
 #endif	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));

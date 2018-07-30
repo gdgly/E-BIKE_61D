@@ -52,11 +52,25 @@ network_para_struct kfd_network_para ={
 	NULL, 	//kfd_free_connect,
 	NULL,	//kfd_protocol_parse
 };
+#elif defined(__WAIMAI__)
+network_para_struct kfd_network_para ={
+	CONNECT_LONG,
+	{
+	   2,	// 1 ip; 2 domain
+	"device.liabar.com",	//domain	
+	{139,224,67,207},			//ip 	
+	4,		//ip len
+	9001			//port
+	},
+	NULL,	//kfd_upload_login_package,
+	NULL, 	//kfd_free_connect,
+	NULL,	//kfd_protocol_parse
+};
 #else
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
-	 2,	// 1 ip; 2 domain
+	   2,	// 1 ip; 2 domain
 	"www.liabar.com",	//domain	//"rentma.bat100.com"
 	{139,224,67,207},	//{139,224,3,220},	//{14,215,133,125},		//ip 	
 	4,		//ip len
@@ -182,7 +196,7 @@ void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
 
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 	if(kfd_connect_times > 3)
 #else
 	if(kfd_connect_times > 30)

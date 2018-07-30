@@ -105,7 +105,7 @@ typedef struct
 typedef struct
 {
 	kal_uint8 motor;	//0 普通电机 1高速电机
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 	kal_uint32 timestamp;
 #endif	
 }default_setting_struct;
@@ -191,7 +191,7 @@ extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
 extern void zt_smart_pre_uart_data(void);
 extern kal_bool zt_gps_valid(void);
-#ifdef __BT_UART__
+#ifdef __WAIMAI__
 extern void bt_uart_send_heart(void);
 #endif
 #endif
