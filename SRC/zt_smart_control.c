@@ -40,6 +40,7 @@ default_setting_struct default_set={0};
 #endif
 #ifdef __WAIMAI__
 kal_uint32 zuche_stamptime=0;
+kal_uint8 bt_connect_status=0;
 #endif
 
 void restartSystem(void);
@@ -805,6 +806,17 @@ void bt_uart_send_heart(void)
 	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),30*1000,bt_uart_send_heart);
 }
 
+void bt_disconnect_callback(void)
+{
+	if(!bt_connect_status)
+	{
+		if(lock_bike())
+		{
+			zt_voice_play(VOICE_LOCK);
+		}
+	}
+}
+
 void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 {
 	S16 error;
@@ -881,7 +893,7 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			}
 			else if(buf[4]==1)	//解锁
 			{
-				if(!who_open_electric_gate && judge_zuche_valid())
+				if(!who_open_electric_gate/* && judge_zuche_valid()*/)
 				{
 					bt_open_dianmen();
 					zt_voice_play(VOICE_UNLOCK);
@@ -897,11 +909,14 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			zt_trace(TPERI,"BT_UART_STATUS buf[4]=%d",buf[4]);
 			if(buf[4]==1)	//蓝牙连接
 			{
-				zt_voice_play(VOICE_SEARCH);
+				bt_connect_status = 1;
+		//		zt_voice_play(VOICE_SEARCH);
 			}
 			else if(buf[4]==0)	//蓝牙断开
 			{
-				zt_voice_play(VOICE_ALARM);
+				bt_connect_status = 0;
+				StartTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER),3*1000,bt_disconnect_callback);
+		//		zt_voice_play(VOICE_ALARM);
 			}
 			break;
 		default:
@@ -1041,14 +1056,14 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 	buf = bt_msg->data;
 	len = bt_msg->dataLen;
 	
-	for(i=0; i<len; i++)
+	for(i=0; i<len-1; i++)
 	{
 		if(buf[i]==0x3a && head_first)
 		{
 			head = buf+i;
 			head_first = 0;
 		}
-		else if(buf[i]==0x0d&&buf[i+1]==0x0a&& (i+2==len))
+		else if(buf[i]==0x0d&&buf[i+1]==0x0a&& (buf+i-head==11))
 		{
 			tail = buf+i+2;
 			if(head)

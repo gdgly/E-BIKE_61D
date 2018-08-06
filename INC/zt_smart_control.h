@@ -82,8 +82,8 @@ typedef enum
 }DIANYUAN;
 typedef enum
 {
-	XF_INVALID=1,
-	XF_OK=2,	
+	XF_INVALID=0,
+	XF_OK=1,	
 }XIUFU;
 typedef struct
 {

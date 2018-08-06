@@ -1450,14 +1450,13 @@ void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 	
 	for(i = 0; i<len-1; i++)
 	{
-		memset(req, 0, sizeof(req));
 		//找包头 0xffff
 		if(pBuf[i]==0xff && pBuf[i+1]==0xff && head_first)
 		{
 			head = pBuf+i;
 			head_first = 0;
 		}
-		else if(pBuf[i]==0x0d && pBuf[i+1]==0x0a && (i+2==len))
+		else if(pBuf[i]==0x0d && pBuf[i+1]==0x0a)
 		{
 			tail = pBuf+i+2;//结尾
 
@@ -1465,9 +1464,11 @@ void kfd_protocol_parse(kal_int8 socket_id,RcvDataPtr GetRcvData)
 			if(tail - head == head[4] + PACKET_FRAME_LEN)
 			{
 				//合法
+				memset(req, 0, sizeof(req));
 				memcpy(req, head, tail-head);
 				 kfd_protocol_proc(req,tail-head);
-
+				head_first = 1;
+				
 				//找到合法结尾
 				head = tail;
 			}
