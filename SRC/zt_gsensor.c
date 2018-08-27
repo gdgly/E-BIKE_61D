@@ -80,12 +80,12 @@ kal_bool zt_gsensor_check_is_shake_sharp(void)
 	kal_uint16 num;
 	
 #ifdef __ACCE_MMA_7660__
-	num = zt_gsensor_get_shake_num(10, 5);
+	num = zt_gsensor_get_shake_num(12, 5);
 #elif defined(__ACCE_LIS3DH__)
 	num = zt_gsensor_get_shake_num(15, 5);
 #endif
 
-	if(num>=2)
+	if(num>=3)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;

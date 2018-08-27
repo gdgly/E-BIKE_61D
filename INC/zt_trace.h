@@ -20,7 +20,7 @@
 
 #define DEBUG_DLEVEL  TMAIN|TSOC|TPROT|TPERI   //TMAIN|TSOC|TGPS|TSEN|TUART|TCONT|TI2C|TMCU|TBAT|TPROT|TPERI|TBT|TOTA|TLBS    
 
-#define __WAIMAI__	//与蓝牙只走串口协议
+//#define __WAIMAI__	//与蓝牙只走串口协议
 
 //#define __MEILING__
 //#define __BAOJIA__

@@ -34,6 +34,7 @@ typedef enum
 	BT_GIVEBACK,
 	BT_GIVEBACK_SUCCESS,
 	BT_RESET=0x0C,
+	BT_SIGNAL=0x0D,
 }BT_CMD;
 
 typedef enum

@@ -253,7 +253,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					if(zt_gps_get_pwr_status())
 					{
-						zt_gps_power_off();
+		//				zt_gps_power_off();
 					}
 				}
 				break;
@@ -1027,7 +1027,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		{
 			if(zt_gps_get_pwr_status())
 			{
-				zt_gps_power_off();
+//				zt_gps_power_off();
 			}
 			send_ok_cmd(cmd);
 			break;
@@ -1036,6 +1036,18 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		{
 			send_ok_cmd(cmd);
 			StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+			break;
+		}
+		case BT_SIGNAL:
+		{
+			gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
+			char param[6]={0}; 
+
+			param[0] = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
+			param[1] = curr_gps_data->sat_view;
+			param[2] = curr_gps_data->sat_uesd;
+			zt_trace(TPERI,"sig=%d,view=%d,used=%d",param[0],param[1],param[2]);
+			bt_prepare_send_data(cmd, 3, param);
 			break;
 		}
 		default:
@@ -1063,10 +1075,10 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 			head = buf+i;
 			head_first = 0;
 		}
-		else if(buf[i]==0x0d&&buf[i+1]==0x0a&& (buf+i-head==11))
+		else if(buf[i]==0x0d&&buf[i+1]==0x0a)
 		{
 			tail = buf+i+2;
-			if(head)
+			if(head && tail-head==buf[3]+12)
 			{
 				memcpy(req, head, tail-head);
 			#ifdef __WAIMAI__
@@ -1239,7 +1251,7 @@ void zt_smart_check_gps_pwr(void)
 		if(zt_gps_get_pwr_status())
 		{
 			//zt_trace(TPERI,"gps pwr off");
-			zt_gps_power_off();
+	//		zt_gps_power_off();
 		}
 	}
 //	zt_agps_process();
