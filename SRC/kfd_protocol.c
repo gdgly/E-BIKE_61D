@@ -71,7 +71,7 @@ network_para_struct kfd_network_para ={
 	CONNECT_LONG,
 	{
 	   2,	// 1 ip; 2 domain
-	"www.liabar.com",	//domain	//"rentma.bat100.com"
+	"devzuche.liabar.com",	//"www.liabar.com",	//domain	//"rentma.bat100.com"
 	{139,224,67,207},	//{139,224,3,220},	//{14,215,133,125},		//ip 	
 	4,		//ip len
 	9000			//port
@@ -191,7 +191,10 @@ static double GetDistance(double lat1, double lon1, double lat2, double lon2)
 
 	return distance;
 }
-
+kal_uint8 GetConnectTimes(void)
+{
+	return kfd_connect_times;
+}
 void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
@@ -199,7 +202,7 @@ void kfd_reconnect_service(void)
 #ifdef __WAIMAI__
 	if(kfd_connect_times > 3)
 #else
-	if(kfd_connect_times > 30)
+	if(kfd_connect_times > 10/*30*/)
 #endif		
 	{
 		kfd_connect_times = 0;
@@ -725,9 +728,9 @@ void kfd_upload_give_back_package(kal_uint8 gate)
 
 kal_bool check_gps_upload_valid(gps_info_struct* gps_info)
 {
-	if(!zt_gsensor_check_is_moving()&&!get_electric_gate_status())
+	if(!zt_gsensor_check_is_moving()&&!get_electric_gate_status()&&zt_get_bat_connect_status())
 	{
-		if(gps_info->hdop>5.5)
+//		if(gps_info->hdop>5.5)
 		{
 			return KAL_FALSE;
 		}
@@ -1017,7 +1020,7 @@ void kfd_upload_lbs_package(void)
 	lbs_info_struct* lbs_info =  (lbs_info_struct*)zt_lbs_get_curr_lbs_info(); 
 
 /*检测震动才上传*/
-	if(!zt_gsensor_check_is_moving() && !get_electric_gate_status())
+	if(!zt_gsensor_check_is_moving() && !get_electric_gate_status() && zt_get_bat_connect_status())
 		return;
 	
 	

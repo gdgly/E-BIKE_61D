@@ -1046,8 +1046,9 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			param[0] = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
 			param[1] = curr_gps_data->sat_view;
 			param[2] = curr_gps_data->sat_uesd;
-			zt_trace(TPERI,"sig=%d,view=%d,used=%d",param[0],param[1],param[2]);
-			bt_prepare_send_data(cmd, 3, param);
+			param[3] = GetConnectTimes();
+			zt_trace(TPERI,"sig=%d,view=%d,used=%d,connect_times=%d",param[0],param[1],param[2],param[3]);
+			bt_prepare_send_data(cmd, 4, param);
 			break;
 		}
 		default:
@@ -1140,13 +1141,16 @@ void zt_smart_check_lundong(void)
 /*美翎里程信号采用轮动脚，无需轮动锁车，而且霍尔有误信号触发轮动，导致电门时开时关，
 而且经常触发会执行delayms(10),导致MMI挂死*/
 #ifndef __MEILING__
-	if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
+	if(gps_tracker_config.vibr2_thr==1)
 	{
-		if(!who_open_electric_gate)
+		if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
 		{
-			lundong_is_locking = 1;
-			controller_lock_bike();
-		//	zt_voice_play(VOICE_ALARM);
+			if(!who_open_electric_gate)
+			{
+				lundong_is_locking = 1;
+				controller_lock_bike();
+				zt_voice_play(VOICE_ALARM);
+			}
 		}
 	}
 #endif
@@ -1155,7 +1159,7 @@ void zt_smart_check_lundong(void)
 	{
 		if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
 		{
-			zt_voice_play(VOICE_ALARM);
+		//	zt_voice_play(VOICE_ALARM);
 		}
 	}
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
@@ -1613,6 +1617,7 @@ void zt_smart_read_lundong(void)
 	ReadRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
 	curr_lundong = lundong_array[3]*0x1000000+lundong_array[2]*0x10000+lundong_array[1]*0x100+lundong_array[0];
 }
+
 void zt_smart_init(void)
 {
 	zt_smart_dianmen_init();
