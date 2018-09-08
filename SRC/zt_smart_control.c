@@ -1159,7 +1159,7 @@ void zt_smart_check_lundong(void)
 	{
 		if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
 		{
-		//	zt_voice_play(VOICE_ALARM);
+			zt_voice_play(VOICE_ALARM);
 		}
 	}
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
