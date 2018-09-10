@@ -205,6 +205,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					if(lock_bike())
 					{
+						kfd_upload_ebike_package();
 						zt_voice_play(VOICE_LOCK);
 					}
 				}
@@ -213,6 +214,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 					if(!who_open_electric_gate)
 					{
 						gprs_open_dianmen();
+						kfd_upload_ebike_package();
 						zt_voice_play(VOICE_UNLOCK);
 					}
 				}
@@ -910,6 +912,7 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			if(buf[4]==1)	//À¶ÑÀÁ¬½Ó
 			{
 				bt_connect_status = 1;
+				StopTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER));
 		//		zt_voice_play(VOICE_SEARCH);
 			}
 			else if(buf[4]==0)	//À¶ÑÀ¶Ï¿ª
@@ -967,6 +970,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			{
 				if(lock_bike())
 				{
+					kfd_upload_ebike_package();
 					zt_voice_play(VOICE_LOCK);
 					send_ok_cmd(cmd);	
 		  		}
@@ -987,6 +991,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 			if(!who_open_electric_gate)
 			{
 				bt_open_dianmen();
+				kfd_upload_ebike_package();
 				zt_voice_play(VOICE_UNLOCK);
 				send_ok_cmd(cmd);
 			}
