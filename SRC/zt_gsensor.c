@@ -13,6 +13,10 @@ kal_uint8 shake_buf[SHAKE_BUF_LEN] = {0};
 kal_uint8 shake_buf_index = 0;
 
 zt_acce_struct zt_acce = {0};
+#ifdef __HW_2018__
+extern kal_bool check_zhendong(void);
+extern kal_bool check_sharp_zhendong(void);
+#endif
 
 kal_uint8 abs_S8(kal_uint8 v)
 {
@@ -78,7 +82,10 @@ kal_uint16 zt_gsensor_get_shake_num(kal_uint16 shake_value, kal_uint16 during_ti
 kal_bool zt_gsensor_check_is_shake_sharp(void)
 {
 	kal_uint16 num;
-	
+
+#ifdef __HW_2018__
+	return check_sharp_zhendong();
+#else	
 #ifdef __ACCE_MMA_7660__
 	num = zt_gsensor_get_shake_num(12, 5);
 #elif defined(__ACCE_LIS3DH__)
@@ -89,6 +96,7 @@ kal_bool zt_gsensor_check_is_shake_sharp(void)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
+#endif
 }
 
 /*****************************************************************************
@@ -105,6 +113,10 @@ kal_bool zt_gsensor_check_is_shake_sharp(void)
 kal_bool zt_gsensor_check_is_moving(void)
 {
 	kal_uint16 num;
+
+#ifdef __HW_2018__
+	return check_zhendong();
+#else	
 #ifdef __ACCE_MMA_7660__
 	num = zt_gsensor_get_shake_num(5, 15);
 #elif defined(__ACCE_LIS3DH__)
@@ -115,6 +127,7 @@ kal_bool zt_gsensor_check_is_moving(void)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
+#endif
 }
 /*****************************************************************************
  * FUNCTION

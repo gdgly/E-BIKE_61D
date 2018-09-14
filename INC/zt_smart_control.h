@@ -106,7 +106,7 @@ typedef struct
 typedef struct
 {
 	kal_uint8 motor;	//0 普通电机 1高速电机
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 	kal_uint32 timestamp;
 #endif	
 }default_setting_struct;
@@ -135,6 +135,28 @@ typedef enum
 
 
 #pragma pack (1)
+
+#ifdef __BAT_PROT__
+typedef struct
+{
+	kal_uint8 head;
+	kal_uint8 cmd;
+	kal_uint8 type;
+	kal_uint8 num[12];
+	kal_uint16 fixed_vol;
+	kal_uint8 fixed_current;
+	kal_uint16 curr_vol;
+	kal_uint8 curr_current;
+	kal_uint8 rest_per;
+	kal_uint8 temp;
+	kal_uint8 status;
+	kal_uint16 fault;
+	kal_uint16 times;
+	kal_uint8 reserve;
+	kal_uint8 checksum;
+	kal_uint8 tail;
+}bat_cw_struct;
+#endif
 
 typedef struct
 {
@@ -192,7 +214,7 @@ extern void zt_smart_init(void);
 extern kal_uint8 get_electric_gate_status(void);
 extern void zt_smart_pre_uart_data(void);
 extern kal_bool zt_gps_valid(void);
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 extern void bt_uart_send_heart(void);
 #endif
 #endif

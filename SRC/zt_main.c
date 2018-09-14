@@ -62,7 +62,7 @@ void zt_ota_main(void)
 	zt_trace_set(DEBUG_DLEVEL);   
 	zt_trace(TMAIN, "%s",__func__); 
 	StartTimer(GetTimerID(ZT_ONLINE_CHECK_PROTECT_TIMER),120*1000,kfd_reconnect_service);
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 	bt_uart_send_heart();
 #endif	
 	kfd_protocol_init(); 

@@ -38,9 +38,14 @@ default_setting_struct default_set={1};
 #else
 default_setting_struct default_set={0};
 #endif
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 kal_uint32 zuche_stamptime=0;
 kal_uint8 bt_connect_status=0;
+kal_uint32 zhendong_count_1sec=0;
+#endif
+
+#ifdef __BAT_PROT__
+bat_cw_struct g_bat_cw;
 #endif
 
 void restartSystem(void);
@@ -389,7 +394,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{//测试服务器转现网服务器
 				}
 				break;
-		#ifdef __WAIMAI__		
+		#ifdef __HW_2018__		
 			case 0x21:	//蓝牙名称
 				{
 					char bt_name[6]={0};
@@ -791,7 +796,7 @@ void bt_giveback_package(kal_uint8 operate)
 	bt_prepare_send_data_ext(operate, len, (kal_uint8*)&bt_giveback_data);
 }
 
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 kal_bool judge_zuche_valid(void)
 {
 	kal_uint32 stamp=GetTimeStamp();
@@ -801,9 +806,41 @@ kal_bool judge_zuche_valid(void)
 		return KAL_FALSE;
 }
 
+void bt_prepare_send_heart_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
+{
+	kal_uint8 buffer[128]={0};
+	kal_uint32 ts = GetTimeStamp();
+	kal_uint16 crc;
+	kal_uint8 i;
+	
+	buffer[0] = 0x3a;
+	buffer[1] = 0x01;
+	buffer[2] = operate;
+	buffer[3] = param_len;
+	if(param&&param_len)
+		memcpy(buffer+4, param, param_len);
+
+	buffer[4+param_len]=ts&0xff;
+	buffer[4+param_len+1]=(ts>>8)&0xff;
+	buffer[4+param_len+2]=(ts>>16)&0xff;
+	buffer[4+param_len+3]=(ts>>24)&0xff;
+	crc = get_crc16(buffer+1, 3+param_len+4);
+	buffer[4+param_len+4]=crc&0xff;
+	buffer[4+param_len+5]=(crc>>8)&0xff;
+	
+	buffer[4+param_len+6]=0x0d;	
+	buffer[4+param_len+7]=0x0a;	
+
+/*	for(i=0;i<12+param_len;i++)
+		zt_trace(TPERI,"%x",buffer[i]);*/
+
+	zt_uart_write_data(uart_port1,buffer,12+param_len);
+}
+
 void bt_uart_send_heart(void)
 {
-	bt_prepare_send_data(BT_UART_HEART, 0, NULL);
+	zt_trace(TPERI,"send BT heart");
+	bt_prepare_send_heart_data(BT_UART_HEART, 0, NULL);
 
 	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),30*1000,bt_uart_send_heart);
 }
@@ -1003,8 +1040,20 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		case BT_SEARCH:
 		{
-			zt_voice_play(VOICE_SEARCH);
-			send_ok_cmd(cmd);
+		#ifdef __HW_2018__
+			if(buf[1]==2)	//新的蓝牙芯片有心跳指令，需兼容协议
+			{
+				if(buf[4]==0)
+					zt_trace(TPERI,"BT_UART_HEART2 success");
+				else
+					zt_trace(TPERI,"BT_UART_HEART2 fail");
+			}
+			else
+		#endif
+			{
+				zt_voice_play(VOICE_SEARCH);
+				send_ok_cmd(cmd);
+			}
 			break;
 		}
 		case BT_READ_DATA:
@@ -1125,12 +1174,40 @@ kal_bool zt_smart_check_lundong_is_run(void)
 	}
 }
 
+#ifdef __HW_2018__
+kal_bool check_zhendong(void)
+{
+	if(zhendong_count_1sec>100)
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
+
+kal_bool check_sharp_zhendong(void)
+{
+	if(zhendong_count_1sec>300)
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
+#endif
 void zt_smart_check_lundong(void)
 {
 	 static kal_uint32 pre_count=0;
 	 kal_uint32 curr_count;
 	 static kal_uint32 pre_hall = 0;
 	 kal_uint32 curr_hall_tmp = 0;
+
+#ifdef __HW_2018__
+	 static kal_uint32 pre_zhendong = 0;
+	 kal_uint32 curr_zhendong_tmp = 0;
+
+	 curr_zhendong_tmp = zt_lundong_get_curr_count();
+	 zhendong_count_1sec = curr_zhendong_tmp-pre_zhendong;
+	 pre_zhendong = curr_zhendong_tmp;
+
+	 zt_trace(TPERI,"zhendong=%d,count=%d",zhendong_count_1sec,curr_zhendong_tmp);
+#endif	 
 
 	curr_hall_tmp = curr_hall;
 	curr_count = curr_lundong;
@@ -1303,6 +1380,7 @@ kal_uint8 parse_lundong_hdlr(void* info)
 	curr_lundong = eint_msg->data;
 	return 1;
 }
+
 /*****************************************************************************
  * FUNCTION
  *  zt_controller_send
@@ -1535,12 +1613,48 @@ void modify_service_address(kal_uint8* buf)
 		}
 	}
 }
+
+#ifdef __BAT_PROT__
+kal_bool zt_bat_parse(kal_uint8* buf, kal_uint16 len)
+{
+	kal_bool ret = KAL_FALSE;
+	kal_uint16 i;
+	kal_uint8* head=NULL, *tail=NULL;
+	kal_uint8 req[64]={0};	
+
+	for(i=0; i<len; i++)
+	{
+		if(buf[i]==0x7e)
+		{
+			if(!head)
+			{
+				head = buf+i;
+			}
+			else
+			{
+				tail = buf+i;
+				if(tail-head==34)
+				{
+					memcpy(&g_bat_cw,head,tail-head+1);
+					ret = KAL_TRUE;
+				}
+					
+			}
+		}
+			
+	}
+
+	return ret;
+}
+#endif
+
 kal_uint8 parse_uart2_hdlr(void* info)
 {
 	bt_msg_struct* uart2_msg = (bt_msg_struct*)info;
 	kal_uint16 len,i,len2;
 	kal_uint8 *buf,*head=NULL,*tail=NULL;
 	kal_uint8 req[64]={0};
+	kal_bool ret = KAL_FALSE;
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
@@ -1559,12 +1673,21 @@ kal_uint8 parse_uart2_hdlr(void* info)
 				len2 = tail-(head+1);
 				memset(req,0,sizeof(req));
 				memcpy(req, head+1, len2);
-				zt_controller_proc(req,len2);
+				ret = zt_controller_proc(req,len2);
 			}
 		}
 	}
+#ifdef __BAT_PROT__
+	if(!ret)
+	{
+		ret = zt_bat_parse(buf,len);
+	}
+#endif
 
-	modify_service_address(buf);
+	if(!ret)
+	{
+		modify_service_address(buf);
+	}
 	
 }
 
@@ -1629,7 +1752,8 @@ void zt_smart_init(void)
 
 	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
+	bluetooth_reset();
 	zuche_stamptime = default_set.timestamp;
 #endif	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));

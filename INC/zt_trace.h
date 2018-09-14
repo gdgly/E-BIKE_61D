@@ -18,9 +18,11 @@
 #define TLBS 1<<13
 
 
-#define DEBUG_DLEVEL  TMAIN|TSOC|TPROT|TPERI   //TMAIN|TSOC|TGPS|TSEN|TUART|TCONT|TI2C|TMCU|TBAT|TPROT|TPERI|TBT|TOTA|TLBS    
+#define DEBUG_DLEVEL  TMAIN|TSOC|TPROT|TPERI  //TMAIN|TSOC|TGPS|TSEN|TUART|TCONT|TI2C|TMCU|TBAT|TPROT|TPERI|TBT|TOTA|TLBS    
 
-//#define __WAIMAI__	//与蓝牙只走串口协议
+#define __HW_2018__	//新版硬件
+#define __WAIMAI__	//外卖版本，与蓝牙只走串口协议
+#define __BAT_PROT__	//电池通讯协议
 
 //#define __MEILING__
 //#define __BAOJIA__

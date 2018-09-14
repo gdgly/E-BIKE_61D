@@ -199,7 +199,7 @@ void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
 
-#ifdef __WAIMAI__
+#ifdef __HW_2018__
 	if(kfd_connect_times > 3)
 #else
 	if(kfd_connect_times > 10/*30*/)
