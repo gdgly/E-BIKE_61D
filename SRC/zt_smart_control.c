@@ -867,20 +867,20 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 	kal_uint32 timestamp2 = buf[len-8]+buf[len-7]*0x100+buf[len-6]*0x10000+buf[len-5]*0x1000000;
 
 	 zt_hex_convert_str(buf,len,out);
-	 zt_trace(TPERI,"bt_recv=%s,len=%d",out,len);
+	 zt_trace(TPERI,"bt_recv_uart1=%s,len=%d",out,len);
 	 	
 	crc1 = get_crc16(buf+1,len-5);
 	crc2 = buf[len-4]+buf[len-3]*0x100;
-	zt_trace(TPERI,"crc1=%x,crc2=%x,timestamp1=%d,timestamp2=%d",crc1,crc2,timestamp1,timestamp2);
+	zt_trace(TPERI,"BT crc1=%x,crc2=%x,timestamp1=%d,timestamp2=%d",crc1,crc2,timestamp1,timestamp2);
 	if(crc1 != crc2)
 	{
-		zt_trace(TPERI,"check sum error");
+		zt_trace(TPERI,"BT check sum error");
 		send_error_cmd(cmd,2);
 		return;
 	}
 	if(abs(timestamp1-timestamp2)>300)
 	{
-		zt_trace(TPERI,"cmd more than 5 minute,return");
+		zt_trace(TPERI,"BT cmd more than 5 minute,return");
 //		send_error_cmd(cmd,3);
 //		return;
 	}
@@ -1041,6 +1041,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		case BT_SEARCH:
 		{
 		#ifdef __HW_2018__
+		zt_trace(TPERI,"buf[1]=%d",buf[1]);
 			if(buf[1]==2)	//新的蓝牙芯片有心跳指令，需兼容协议
 			{
 				if(buf[4]==0)
@@ -1206,7 +1207,7 @@ void zt_smart_check_lundong(void)
 	 zhendong_count_1sec = curr_zhendong_tmp-pre_zhendong;
 	 pre_zhendong = curr_zhendong_tmp;
 
-	 zt_trace(TPERI,"zhendong=%d,count=%d",zhendong_count_1sec,curr_zhendong_tmp);
+	 zt_trace(TPERI,"zhendong=%d,count=%d,vib2=%d",zhendong_count_1sec,curr_zhendong_tmp,gps_tracker_config.vibr2_thr);
 #endif	 
 
 	curr_hall_tmp = curr_hall;

@@ -195,6 +195,7 @@ kal_uint8 GetConnectTimes(void)
 {
 	return kfd_connect_times;
 }
+
 void kfd_reconnect_service(void)
 {
 	zt_trace(TPROT,"%s,times=%d",__func__,kfd_connect_times);
