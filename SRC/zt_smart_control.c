@@ -1198,6 +1198,7 @@ void zt_smart_check_lundong(void)
 	 kal_uint32 curr_count;
 	 static kal_uint32 pre_hall = 0;
 	 kal_uint32 curr_hall_tmp = 0;
+	 static kal_uint8 bat_flag = 0;
 
 #ifdef __HW_2018__
 	 static kal_uint32 pre_zhendong = 0;
@@ -1224,14 +1225,14 @@ void zt_smart_check_lundong(void)
 /*美翎里程信号采用轮动脚，无需轮动锁车，而且霍尔有误信号触发轮动，导致电门时开时关，
 而且经常触发会执行delayms(10),导致MMI挂死*/
 #ifndef __MEILING__
-	if(gps_tracker_config.vibr2_thr==1)
+	if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
 	{
-		if(zt_smart_check_lundong_is_run() && !lundong_is_locking && !tangze_is_locking)
+		if(!who_open_electric_gate)
 		{
-			if(!who_open_electric_gate)
+			lundong_is_locking = 1;
+			controller_lock_bike();
+			if(gps_tracker_config.vibr2_thr==1)
 			{
-				lundong_is_locking = 1;
-				controller_lock_bike();
 				zt_voice_play(VOICE_ALARM);
 			}
 		}
@@ -1245,6 +1246,17 @@ void zt_smart_check_lundong(void)
 			zt_voice_play(VOICE_ALARM);
 		}
 	}
+
+	if(!zt_get_bat_connect_status() && bat_flag==0)
+	{
+		kfd_upload_ebike_package();
+		bat_flag = 1;
+	}
+	else
+	{
+		bat_flag = 0;
+	}
+		
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
 }
 
