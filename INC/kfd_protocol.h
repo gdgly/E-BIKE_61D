@@ -342,5 +342,6 @@ extern kal_bool GetNetworkService(void);
 extern kal_bool kfd_convert_gps_data_for_protocol(gps_info_struct* gps_data, gps_tracker_gps_struct* kfd_gps_data);
 extern gps_info_struct* kfd_get_best_hdop_gps_data(void);
 extern kal_uint8 GetConnectTimes(void);
-
+extern void kfd_upload_alarm_package(void);
+extern void kfd_upload_ebike_package(void);
 #endif

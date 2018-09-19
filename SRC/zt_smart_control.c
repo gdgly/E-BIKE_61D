@@ -225,7 +225,15 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				}
 				break;
 			case 0x03:	//¾²Òô
-				
+				if(cmd->para[0]==1)
+				{
+					default_set.zd_alarm = 1;
+				}
+				else
+				{
+					default_set.zd_alarm = 0;
+				}
+				zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 				break;
 			case 0x04:	//¿ªÆôµç³ØËø
 				if(cmd->para[0]==1)
@@ -560,6 +568,11 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 		ebike.status.motor = 1;
 	else
 		ebike.status.motor = 0;
+
+	if(default_set.zd_alarm == 1)
+		ebike.status.zd_alarm = 1;
+	else
+		ebike.status.zd_alarm = 0;
 	
 #ifdef __MEILING__
 	ebike.hall = curr_lundong/8;
@@ -988,7 +1001,8 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		send_error_cmd(cmd,2);
 		return;
 	}
-	if(abs(timestamp1-timestamp2)>300 && timestamp1>1433088000/*20150601*/)
+	/*1433088000-20150601, 1420041600-20150101*/
+	if(abs(timestamp1-timestamp2)>300 && (timestamp1>1433088000||timestamp1<1420041600))
 	{
 		zt_trace(TPERI,"cmd more than 5 minute,return");
 		send_error_cmd(cmd,3);
@@ -1239,13 +1253,15 @@ void zt_smart_check_lundong(void)
 	}
 #endif
 
-	if(gps_tracker_config.vibr2_thr==1)
+	if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
 	{
-		if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
+		kfd_upload_alarm_package();
+		if(default_set.zd_alarm == 1)
 		{
-	//		zt_voice_play(VOICE_ALARM);
+			zt_voice_play(VOICE_ALARM);
 		}
 	}
+	
 
 	if(!zt_get_bat_connect_status() && bat_flag==0)
 	{

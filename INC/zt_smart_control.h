@@ -109,6 +109,7 @@ typedef struct
 #ifdef __HW_2018__
 	kal_uint32 timestamp;
 #endif	
+	kal_uint8 zd_alarm;
 }default_setting_struct;
 
 typedef enum
@@ -168,6 +169,7 @@ typedef struct
 	kal_uint16 dy:1;
 	kal_uint16 xf:1;
 	kal_uint16 motor:1;
+	kal_uint16 zd_alarm:1;
 }status_struct;
 
 typedef struct
