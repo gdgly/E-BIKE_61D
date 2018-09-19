@@ -988,7 +988,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		send_error_cmd(cmd,2);
 		return;
 	}
-	if(abs(timestamp1-timestamp2)>300)
+	if(abs(timestamp1-timestamp2)>300 && timestamp1>1433088000/*20150601*/)
 	{
 		zt_trace(TPERI,"cmd more than 5 minute,return");
 		send_error_cmd(cmd,3);
@@ -1243,7 +1243,7 @@ void zt_smart_check_lundong(void)
 	{
 		if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
 		{
-			zt_voice_play(VOICE_ALARM);
+	//		zt_voice_play(VOICE_ALARM);
 		}
 	}
 
@@ -1252,8 +1252,9 @@ void zt_smart_check_lundong(void)
 		kfd_upload_ebike_package();
 		bat_flag = 1;
 	}
-	else
+	else if(zt_get_bat_connect_status() && bat_flag==1)
 	{
+		kfd_upload_ebike_package();
 		bat_flag = 0;
 	}
 		
