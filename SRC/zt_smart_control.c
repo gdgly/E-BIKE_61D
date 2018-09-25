@@ -33,6 +33,7 @@ config_struct controller={
 	{0,0,LOW_SPEED,HIGH,HUNHE,VOT48V,XF_INVALID}};
 battery_info_struct curr_bat;
 kal_uint32 pre_time=0;
+kal_uint8 alarm_flag = 0;
 #ifdef __MEILING__
 default_setting_struct default_set={1};
 #else
@@ -1200,12 +1201,18 @@ kal_bool check_zhendong(void)
 
 kal_bool check_sharp_zhendong(void)
 {
-	if(zhendong_count_1sec>300)
+	if(zhendong_count_1sec>200)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
 }
 #endif
+
+void zt_alarm_period_callback(void)
+{
+	alarm_flag = 0;
+}
+
 void zt_smart_check_lundong(void)
 {
 	 static kal_uint32 pre_count=0;
@@ -1222,7 +1229,7 @@ void zt_smart_check_lundong(void)
 	 zhendong_count_1sec = curr_zhendong_tmp-pre_zhendong;
 	 pre_zhendong = curr_zhendong_tmp;
 
-	 zt_trace(TPERI,"zhendong=%d,count=%d,vib2=%d",zhendong_count_1sec,curr_zhendong_tmp,gps_tracker_config.vibr2_thr);
+	 zt_trace(TPERI,"zhendong=%d,count=%d,alarm_flag=%d,zd_alarm=%d",zhendong_count_1sec,curr_zhendong_tmp,alarm_flag,default_set.zd_alarm);
 #endif	 
 
 	curr_hall_tmp = curr_hall;
@@ -1253,13 +1260,15 @@ void zt_smart_check_lundong(void)
 	}
 #endif
 
-	if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status())
+	if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status() && alarm_flag==0)
 	{
 		kfd_upload_alarm_package();
 		if(default_set.zd_alarm == 1)
 		{
 			zt_voice_play(VOICE_ALARM);
 		}
+		alarm_flag = 1;
+		StartTimer(GetTimerID(ZT_ALARM_PERIOD_TIMER),6000,zt_alarm_period_callback);
 	}
 	
 
@@ -1645,6 +1654,42 @@ void modify_service_address(kal_uint8* buf)
 }
 
 #ifdef __BAT_PROT__
+void zt_bat_send(void)
+{
+	kal_uint8 check_sum = 0;
+	kal_uint8 i, send_data[] = {0x7e,0x03,0x01,0x01,0x01,0x00,0x7e};
+
+	for(i=0; i<5;i++)
+		check_sum += send_data[i];
+	
+	send_data[5] =check_sum&0xff;
+
+	zt_trace(TPERI,"zt_bat_send check_sum=%x",check_sum);
+	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
+}
+
+void zt_bat_send_hand(void)
+{
+	kal_uint8 check_sum = 0;
+	kal_uint8 i, send_data[] = {0x7e,0x05,0x01,0x00,0x00,0x00,0x7e};
+	kal_uint8 key[11]={0};
+	kal_uint16 tea;
+
+	sprintf(key,"%s%02d%d%d","liabar",g_bat_cw.curr_vol,g_bat_cw.curr_current,g_bat_cw.rest_per);
+
+	tea = get_crc16(key, 10);
+	send_data[3]=tea&0xff;
+	send_data[4]=tea>>8;
+
+	for(i=0; i<5;i++)
+		check_sum += send_data[i];
+	
+	send_data[5] =check_sum&0xff;
+
+	zt_trace(TPERI,"zt_bat_send tea=%x,check_sum=%x",tea,check_sum);
+	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
+}
+
 kal_bool zt_bat_parse(kal_uint8* buf, kal_uint16 len)
 {
 	kal_bool ret = KAL_FALSE;
