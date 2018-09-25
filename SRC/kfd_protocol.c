@@ -66,6 +66,20 @@ network_para_struct kfd_network_para ={
 	NULL, 	//kfd_free_connect,
 	NULL,	//kfd_protocol_parse
 };
+#elif defined(__CHAOWEI__)
+network_para_struct kfd_network_para ={
+	CONNECT_LONG,
+	{
+	 2,	// 1 ip; 2 domain
+	"lb.cnyxcx.com",	//"zklb.cnyxcx.com",	
+	{124,160,63,242},	
+	4,		//ip len
+	11000	//9000			//port
+	},
+	NULL,	//kfd_upload_login_package,
+	NULL, 	//kfd_free_connect,
+	NULL,	//kfd_protocol_parse
+};
 #else
 network_para_struct kfd_network_para ={
 	CONNECT_LONG,
@@ -115,6 +129,55 @@ static kal_uint16 CRC16_TABLE[] = {
 	0xf78f, 0xe606, 0xd49d, 0xc514, 0xb1ab, 0xa022, 0x92b9, 0x8330,
 	0x7bc7, 0x6a4e, 0x58d5, 0x495c, 0x3de3, 0x2c6a, 0x1ef1, 0x0f78
 };	
+
+#ifdef __CHAOWEI__
+void InvertUint8(unsigned char *dBuf,unsigned char *srcBuf)
+{
+	int i;
+	unsigned char tmp[4];
+	tmp[0] = 0;
+	for (i=0; i< 8; i++) {
+		if (srcBuf[0]& (1 << i))
+			tmp[0]|=1<<(7-i);
+	}
+	dBuf[0] = tmp[0];
+}
+void InvertUint16(unsigned short *dBuf,unsigned short *srcBuf)  
+{
+	int i;
+	unsigned short tmp[4];
+	tmp[0] = 0;
+	for (i=0; i< 16; i++) {
+		if (srcBuf[0]& (1 << i))
+			tmp[0]|=1<<(15 - i);
+	}
+	dBuf[0] = tmp[0];
+}
+
+unsigned short CRC16_CCITT(unsigned char *puchMsg, unsigned int usDataLen)  
+{  
+	unsigned short wCRCin = 0x0000;  
+	unsigned short wCPoly = 0x1021;  
+	unsigned char wChar = 0;  
+	int i;
+
+	while (usDataLen--)     
+	{  
+		wChar = *(puchMsg++);  
+		InvertUint8(&wChar,&wChar);  
+		wCRCin ^= (wChar<<8);  
+		for( i= 0;i < 8;i++)  
+		{  
+			if(wCRCin & 0x8000)  
+				wCRCin = (wCRCin<<1) ^ wCPoly;  
+			else  
+				wCRCin = wCRCin<<1;  
+		}  
+	}  
+	InvertUint16(&wCRCin,&wCRCin);  
+	return (wCRCin) ;  
+} 
+#endif
 
 /*****************************************************************************
  * FUNCTION
@@ -322,8 +385,11 @@ kal_uint8 kfd_format_cb_to_buffer(GT_PROT_TYPE_EN prot_type, kal_uint8 *outbuf, 
 	
 	crc = (kal_uint16*)(outbuf + 2);
 	crc_len = 	sizeof(gps_tracker_msg_head_struct)+context_len-4;	
+#ifdef __CHAOWEI__
+	*crc = CRC16_CCITT(outbuf+4, crc_len);
+#else
 	*crc = get_crc16(outbuf+4, crc_len);
-	
+#endif	
 	sum_len = sizeof(gps_tracker_msg_head_struct)+context_len+sizeof(gps_tracker_msg_tail_struct);		
 	
 	return sum_len;
@@ -610,6 +676,9 @@ void kfd_upload_login_package(void)
 #ifdef __BAOJIA__
 	login_package.dev_type = 0x11;
 	login_package.auth_code = 0x1234;
+#elif defined(__CHAOWEI__)
+	login_package.dev_type = 0x12;
+	login_package.auth_code = 0x12341234;
 #else
 	login_package.dev_type = gps_tracker_config.dev_type;
 	login_package.auth_code = 0;
@@ -1313,7 +1382,11 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 	head = (gps_tracker_msg_head_struct*)buf;
 
 	crc2 = buf[2]*0x100+buf[3];
+#ifdef __CHAOWEI__	
+	crc1 = CRC16_CCITT(buf+4, len-6);
+#else	
 	crc1 = get_crc16(buf+4, len-6);
+#endif
 	zt_hex_convert_str(buf,len, out);
 	zt_trace(TPROT,"crc=%x, Recv=%s",crc1,out);
 	if(crc1 != crc2)

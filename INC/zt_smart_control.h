@@ -24,6 +24,25 @@ enum {
 	READ_WHETHER_PHONE_NEED_TO_ALERT = 0x0f,
 	SC_LAST_CMD,
 };
+#ifdef __CHAOWEI__
+typedef enum
+{
+	BT_LOCK=0x13,
+	BT_UNLOCK=0x25,
+	BT_SEARCH=0x36,
+	BT_READ_DATA=0x46,
+	BT_DIANCHI=0x53,
+	BT_GIVEBACK=0x66,
+	BT_GIVEBACK_SUCCESS=0x77,
+	BT_DIANMEN_ON,
+	BT_CHEFANG_CMD,
+	BT_ALARM_SWITCH=0x0a,
+	BT_ALARM_PUSH,
+	BT_RESET=0x0C,
+	BT_SIGNAL=0x0D,
+	
+}BT_CMD;
+#else
 typedef enum
 {
 	BT_LOCK=0x01,
@@ -36,6 +55,7 @@ typedef enum
 	BT_RESET=0x0C,
 	BT_SIGNAL=0x0D,
 }BT_CMD;
+#endif
 
 typedef enum
 {
@@ -86,6 +106,18 @@ typedef enum
 	XF_INVALID=0,
 	XF_OK=1,	
 }XIUFU;
+#ifdef __CHAOWEI__
+typedef enum
+{
+	ACC_ON=1,
+	ACC_OFF=2,
+}DIANMEN;
+typedef enum
+{
+	SHEFANG=1,
+	CHEFANG=2,
+}FANGYU;
+#endif
 typedef struct
 {
 	kal_uint8 fault;
@@ -95,6 +127,10 @@ typedef struct
 	DONGLI zhuli;
 	DIANYUAN dy;
 	XIUFU xf;
+#ifdef __CHAOWEI__	
+	DIANMEN acc;
+	FANGYU fy;
+#endif
 }controller_struct;
 
 typedef struct
@@ -169,7 +205,12 @@ typedef struct
 	kal_uint16 dy:1;
 	kal_uint16 xf:1;
 	kal_uint16 motor:1;
+#ifdef __CHAOWEI__
+	kal_uint16 acc:1;
+	kal_uint16 fy:1;
+#else
 	kal_uint16 zd_alarm:1;
+#endif
 }status_struct;
 
 typedef struct

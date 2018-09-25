@@ -394,6 +394,38 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				}
 				zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));				
 				break;
+		#ifdef __CHAOWEI__		
+			case 0x10:	//电门
+				if(cmd->para[0]==0)//ACC ON
+				{
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,6,ACC_ON);
+					controller.require.acc= ACC_ON;
+					zt_trace(TPROT,"ACC_ON");
+				}
+				else if(cmd->para[0]==1)//ACC_OFF
+				{
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,6, ACC_OFF);
+					controller.require.acc= ACC_OFF;
+					zt_trace(TPROT,"ACC_OFF");
+				}
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));	
+				break;
+			case 0x11:	//设置防御
+				if(cmd->para[0]==0)//设防
+				{
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,7,SHEFANG);
+					controller.require.fy = SHEFANG;
+					zt_trace(TPROT,"SHEFANG");
+				}
+				else if(cmd->para[0]==1)//撤防
+				{
+					zt_controller_send(ADDR_CONTROL,CMD_CONTROL,7, CHEFANG);
+					controller.require.fy = CHEFANG;
+					zt_trace(TPROT,"CHEFANG");
+				}
+				zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));	
+				break;	
+		#endif		
 			case 0x20:	//切换服务器
 				if(cmd->para[0]==1)
 				{//现网转测试服务器
@@ -477,7 +509,17 @@ void zt_smart_pre_uart_data(void)
 	{
 		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,5,controller.require.dy);
 	}
-	
+#ifdef __CHAOWEI__		
+	if(controller.require.acc != controller.actual.acc && index==6)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,6,controller.require.acc);
+	}
+
+	if(controller.require.fy!= controller.actual.fy&& index==7)
+	{
+		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,7,controller.require.fy);
+	}
+#endif	
 /*	zt_controller_send(ADDR_BAT, bat_temp, 0x00, 0x00);
 	zt_controller_send(ADDR_BAT, bat_vol, 0x00, 0x00);
 	zt_controller_send(ADDR_BAT, bat_curr, 0x00, 0x00);
@@ -486,7 +528,11 @@ void zt_smart_pre_uart_data(void)
 	zt_controller_send(ADDR_BAT, bat_cycle, 0x00, 0x00);
 	zt_controller_send(ADDR_BAT, bat_interval, 0x00, 0x00);
 	zt_controller_send(ADDR_BAT, bat_max_interval, 0x00, 0x00);*/
+#ifdef __CHAOWEI__	
+	if(index>=7)
+#else
 	if(index>=6)
+#endif		
 	{
 		index=0;
 		StopTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER));
@@ -554,7 +600,18 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 		ebike.status.xf = 0;
 	else if(controller.actual.xf==XF_OK)
 		ebike.status.xf = 1;	
+#ifdef __CHAOWEI__		
+	if(controller.actual.acc==ACC_ON)
+		ebike.status.acc = 0;
+	else if(controller.actual.acc==ACC_OFF)
+		ebike.status.acc = 1;
 	
+	if(controller.actual.fy==SHEFANG)
+		ebike.status.fy = 0;
+	else if(controller.actual.fy==CHEFANG)
+		ebike.status.fy= 1;
+#endif
+
 	if(who_open_electric_gate)
 		ebike.status.lock = 0;
 	else
@@ -569,12 +626,13 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 		ebike.status.motor = 1;
 	else
 		ebike.status.motor = 0;
-
+#ifndef __CHAOWEI__
 	if(default_set.zd_alarm == 1)
 		ebike.status.zd_alarm = 1;
 	else
 		ebike.status.zd_alarm = 0;
-	
+#endif
+
 #ifdef __MEILING__
 	ebike.hall = curr_lundong/8;
 #else
@@ -639,8 +697,13 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	kal_uint32 ts = GetTimeStamp();
 	kal_uint16 crc;
 	kal_uint8 i;
-	
+
+#ifdef __CHAOWEI__	
+	buffer[0] = 0x5b;
+#else	
 	buffer[0] = 0x3a;
+#endif
+
 #ifdef __WAIMAI__
 	buffer[1] = 0x01;
 #else	
@@ -655,11 +718,19 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	buffer[4+param_len+1]=(ts>>8)&0xff;
 	buffer[4+param_len+2]=(ts>>16)&0xff;
 	buffer[4+param_len+3]=(ts>>24)&0xff;
+#ifdef __CHAOWEI__	
+	crc = CRC16_CCITT(buffer+1, 3+param_len+4);
+#else	
 	crc = get_crc16(buffer+1, 3+param_len+4);
+#endif
 	buffer[4+param_len+4]=crc&0xff;
 	buffer[4+param_len+5]=(crc>>8)&0xff;
-	
+
+#ifdef __CHAOWEI__	
+	buffer[4+param_len+6]=0x5d;	
+#else	
 	buffer[4+param_len+6]=0x0d;	
+#endif
 	buffer[4+param_len+7]=0x0a;	
 
 /*	for(i=0;i<12+param_len;i++)
@@ -678,8 +749,12 @@ void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8*
 	kal_uint32 ts = GetTimeStamp();
 	kal_uint16 crc;
 	kal_uint8 i;
-	
+
+#ifdef __CHAOWEI__
+	buffer[0] = 0x5b;
+#else
 	buffer[0] = 0x3a;
+#endif
 	buffer[1] = 0x02;
 	buffer[2] = operate;
 	if(param&&param_len)
@@ -689,11 +764,18 @@ void bt_prepare_send_data_ext(kal_uint8 operate, kal_uint8 param_len, kal_uint8*
 	buffer[3+param_len+1]=(ts>>8)&0xff;
 	buffer[3+param_len+2]=(ts>>16)&0xff;
 	buffer[3+param_len+3]=(ts>>24)&0xff;
+#ifdef __CHAOWEI__
+	crc = CRC16_CCITT(buffer+1, 2+param_len+4);
+#else	
 	crc = get_crc16(buffer+1, 2+param_len+4);
+#endif
 	buffer[3+param_len+4]=crc&0xff;
 	buffer[3+param_len+5]=(crc>>8)&0xff;
-	
+#ifdef __CHAOWEI__
+	buffer[3+param_len+6]=0x5d;	
+#else	
 	buffer[3+param_len+6]=0x0d;	
+#endif
 	buffer[3+param_len+7]=0x0a;	
 
 //	for(i=0;i<11+param_len;i++)
@@ -992,8 +1074,11 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 
 	 zt_hex_convert_str(buf,len,out);
 	 zt_trace(TPERI,"bt_recv=%s,len=%d",out,len);
-	 	
+#ifdef __CHAOWEI__
+	crc1 = CRC16_CCITT(buf+1,len-5);
+#else
 	crc1 = get_crc16(buf+1,len-5);
+#endif
 	crc2 = buf[len-4]+buf[len-3]*0x100;
 	zt_trace(TPERI,"crc1=%x,crc2=%x,timestamp1=%d,timestamp2=%d",crc1,crc2,timestamp1,timestamp2);
 	if(crc1 != crc2)
@@ -1141,12 +1226,20 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 	
 	for(i=0; i<len-1; i++)
 	{
+	#ifdef __CHAOWEI__
+		if(buf[i]==0x5b && head_first)
+	#else
 		if(buf[i]==0x3a && head_first)
+	#endif		
 		{
 			head = buf+i;
 			head_first = 0;
 		}
+	#ifdef __CHAOWEI__	
+		else if(buf[i]==0x5d&&buf[i+1]==0x0a)
+	#else
 		else if(buf[i]==0x0d&&buf[i+1]==0x0a)
+	#endif		
 		{
 			tail = buf+i+2;
 			if(head && tail-head==buf[3]+12)
@@ -1454,6 +1547,7 @@ void zt_controller_send(kal_uint8 addr,cmd_enum cmd, kal_uint8 data1,kal_uint8 d
 	zt_trace(TPERI,"uart2 send addr=%x,cmd=%x,data1=%x,data2=%x",addr,cmd,data1,data2);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
 }
+
 kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 {
 	kal_uint16 i,checksum=0;
@@ -1498,6 +1592,26 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 					else
 						zt_trace(TPERI,"Guzhang xiufu Fail");
 					break;
+			#ifdef __CHAOWEI__			
+				case 0x05:	//电源电压
+					if(buf[4])
+						zt_trace(TPERI,"dianya qiehuan Success");
+					else
+						zt_trace(TPERI,"dianya qiehuan Fail");
+					break;
+				case 0x06:	//开关电门
+					if(buf[4])
+						zt_trace(TPERI,"ACC Success");
+					else
+						zt_trace(TPERI,"ACC Fail");
+					break;	
+				case 0x07:	//设防/撤防
+					if(buf[4])
+						zt_trace(TPERI,"fangyu Success");
+					else
+						zt_trace(TPERI,"fangyu Fail");
+					break;
+			#endif	
 				default:
 					break;
 			}
@@ -1511,6 +1625,10 @@ kal_bool zt_controller_proc(kal_uint8* buf, kal_uint16 len)
 			controller.actual.zhuli = buf[10];
 			controller.actual.dy = buf[11];
 			controller.actual.xf = buf[12];
+		#ifdef __CHAOWEI__			
+			controller.actual.acc = buf[13];
+			controller.actual.fy = buf[14];
+		#endif	
 			zt_trace(TPERI,"Recv Upload tiaosu=%d,qy=%d,zhuli=%d,dianyuan=%d,xiufu=%d",controller.actual.tiaosu,controller.actual.qianya,
 				controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 			zt_write_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
