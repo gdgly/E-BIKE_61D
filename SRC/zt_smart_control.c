@@ -1087,6 +1087,8 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		send_error_cmd(cmd,2);
 		return;
 	}
+
+#ifndef __CHAOWEI__	
 	/*1433088000-20150601, 1420041600-20150101*/
 	if(abs(timestamp1-timestamp2)>300 && (timestamp1>1433088000||timestamp1<1420041600))
 	{
@@ -1094,6 +1096,7 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		send_error_cmd(cmd,3);
 		return;
 	}
+#endif
 
 	switch(cmd)
 	{
