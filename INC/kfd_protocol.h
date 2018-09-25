@@ -1,7 +1,7 @@
 #ifndef __ZT_PROTOCOL_H__
 #define __ZT_PROTOCOL_H__
 #include "global_types_def.h"
-
+#include "zt_trace.h"
 
 #define MAX_GT_DEV_ID_BYTE_LEN 		8
 #define MAX_GT_VER_STR_LEN 			16

@@ -1574,6 +1574,7 @@ void kfd_connect_service(void)
 	kfd_network_para.parse_callback = kfd_protocol_parse;
 	
 	kfd_soc_app_id = zt_socket_get_app_id();
+	zt_trace(TSOC,"connect type:%d,%s:%d",kfd_network_para.network_info.ym_type,kfd_network_para.network_info.domain,kfd_network_para.network_info.port);
 	zt_socket_launch(kfd_soc_app_id,&kfd_network_para);
 }
 

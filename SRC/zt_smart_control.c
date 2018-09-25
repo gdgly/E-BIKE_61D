@@ -555,7 +555,7 @@ kal_uint32 adc_convert_mv(kal_uint16 adc_mv)
 	kal_uint32 result;
 
 	result = adc_mv*34;
-	zt_trace(TPERI,"adc_mv=%d,Vol=%dmv",adc_mv,result);
+//	zt_trace(TPERI,"adc_mv=%d,Vol=%dmv",adc_mv,result);
 	return result;
 }
 
@@ -1322,7 +1322,7 @@ void zt_smart_check_lundong(void)
 	 zhendong_count_1sec = curr_zhendong_tmp-pre_zhendong;
 	 pre_zhendong = curr_zhendong_tmp;
 
-	 zt_trace(TPERI,"zhendong=%d,count=%d,alarm_flag=%d,zd_alarm=%d",zhendong_count_1sec,curr_zhendong_tmp,alarm_flag,default_set.zd_alarm);
+//	 zt_trace(TPERI,"zhendong=%d,count=%d,alarm_flag=%d,zd_alarm=%d",zhendong_count_1sec,curr_zhendong_tmp,alarm_flag,default_set.zd_alarm);
 #endif	 
 
 	curr_hall_tmp = curr_hall;
