@@ -146,6 +146,7 @@ typedef struct
 	kal_uint32 timestamp;
 #endif	
 	kal_uint8 zd_alarm;
+	kal_uint8 zd_sen;	//Õğ¶¯ÁéÃô¶È
 }default_setting_struct;
 
 typedef enum

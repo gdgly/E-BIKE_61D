@@ -230,9 +230,13 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				{
 					default_set.zd_alarm = 1;
 				}
-				else
+				else if(cmd->para[0]==0)
 				{
 					default_set.zd_alarm = 0;
+				}
+				else	//Õð¶¯ÁéÃô¶È
+				{
+					default_set.zd_sen = cmd->para[0];
 				}
 				zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 				break;
@@ -1297,7 +1301,8 @@ kal_bool check_zhendong(void)
 
 kal_bool check_sharp_zhendong(void)
 {
-	if(zhendong_count_1sec>200)
+	zt_trace(TPERI,"sharp=%d",default_set.zd_sen);
+	if(zhendong_count_1sec>default_set.zd_sen)
 		return KAL_TRUE;
 	else
 		return KAL_FALSE;
@@ -1951,6 +1956,8 @@ void zt_smart_init(void)
 #ifdef __HW_2018__
 	bluetooth_reset();
 	zuche_stamptime = default_set.timestamp;
+	if(default_set.zd_sen==0)
+		default_set.zd_sen=100;
 #endif	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
