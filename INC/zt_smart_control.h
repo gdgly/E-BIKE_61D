@@ -190,7 +190,7 @@ typedef struct
 	kal_uint8 status;
 	kal_uint16 fault;
 	kal_uint16 times;
-	kal_uint8 reserve;
+	kal_uint8 reserve[5];
 	kal_uint8 checksum;
 	kal_uint8 tail;
 }bat_cw_struct;

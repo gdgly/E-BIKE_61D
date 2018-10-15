@@ -47,6 +47,7 @@ kal_uint32 zhendong_count_1sec=0;
 
 #ifdef __BAT_PROT__
 bat_cw_struct g_bat_cw;
+void zt_bat_send(void);
 #endif
 
 void restartSystem(void);
@@ -522,6 +523,11 @@ void zt_smart_pre_uart_data(void)
 	if(controller.require.fy!= controller.actual.fy&& index==7)
 	{
 		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,7,controller.require.fy);
+	}
+#elif defined(__BAT_PROT__)	
+	if(index==6)
+	{
+		zt_bat_send();
 	}
 #endif	
 /*	zt_controller_send(ADDR_BAT, bat_temp, 0x00, 0x00);
@@ -1301,7 +1307,7 @@ kal_bool check_zhendong(void)
 
 kal_bool check_sharp_zhendong(void)
 {
-	zt_trace(TPERI,"sharp=%d",default_set.zd_sen);
+//	zt_trace(TPERI,"sharp=%d",default_set.zd_sen);
 	if(zhendong_count_1sec>default_set.zd_sen)
 		return KAL_TRUE;
 	else
@@ -1364,7 +1370,11 @@ void zt_smart_check_lundong(void)
 	if(zt_gsensor_check_is_shake_sharp()&& !get_electric_gate_status() && alarm_flag==0)
 	{
 		kfd_upload_alarm_package();
+	#ifdef __CHAOWEI__
+		if(gps_tracker_config.vibr2_thr==1)
+	#else
 		if(default_set.zd_alarm == 1)
+	#endif
 		{
 			zt_voice_play(VOICE_ALARM);
 		}
@@ -1383,7 +1393,7 @@ void zt_smart_check_lundong(void)
 		kfd_upload_ebike_package();
 		bat_flag = 0;
 	}
-		
+
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
 }
 
@@ -1790,7 +1800,7 @@ void zt_bat_send(void)
 	
 	send_data[5] =check_sum&0xff;
 
-	zt_trace(TPERI,"zt_bat_send check_sum=%x",check_sum);
+	zt_trace(TPERI,"zt_bat_send check_sum=%x,data[5]=%x",check_sum,send_data[5]);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
 }
 
@@ -1805,7 +1815,7 @@ void zt_bat_send_hand(void)
 
 	tea = get_crc16(key, 10);
 	send_data[3]=tea&0xff;
-	send_data[4]=tea>>8;
+	send_data[4]=(tea>>8)&0xff;
 
 	for(i=0; i<5;i++)
 		check_sum += send_data[i];
@@ -1814,6 +1824,29 @@ void zt_bat_send_hand(void)
 
 	zt_trace(TPERI,"zt_bat_send tea=%x,check_sum=%x",tea,check_sum);
 	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
+}
+
+void parse_uart2_bat(kal_uint8* buf, kal_uint16 len)
+{
+	kal_uint16 i;
+	kal_uint8 checksum=0;
+
+//累加和校验，包头到校验的前一个字节累加
+	for(i=0; i<len-2; i++)
+	{
+		checksum += buf[i];
+	}
+
+	zt_trace(TPERI,"checksum1=%d,checksum2=%d",checksum,buf[len-2]);
+	if(checksum == buf[len-2])	
+	{
+	//通讯协议04
+		if(buf[1]==0x02)
+		{
+			memcpy(&g_bat_cw,buf,len);
+			zt_bat_send_hand();	//发送请求大电流的防盗协议
+		}
+	}
 }
 
 kal_bool zt_bat_parse(kal_uint8* buf, kal_uint16 len)
@@ -1834,9 +1867,9 @@ kal_bool zt_bat_parse(kal_uint8* buf, kal_uint16 len)
 			else
 			{
 				tail = buf+i;
-				if(tail-head==34)
+				if(tail-head==33)
 				{
-					memcpy(&g_bat_cw,head,tail-head+1);
+					parse_uart2_bat(head,tail-head+1);
 					ret = KAL_TRUE;
 				}
 					
@@ -1859,7 +1892,7 @@ kal_uint8 parse_uart2_hdlr(void* info)
 
 	len = uart2_msg->dataLen;
 	buf = uart2_msg->data;
-//	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
+	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
 	for(i=0; i<len; i++)
 	{
 		if(buf[i]==0x3a)
