@@ -5,11 +5,11 @@
 #include "zt_gsensor.h"
 #include "zt_agps.h"
 #include "zt_interface.h"
-
+#include "time.h"
 
 #define HB_INTERVAL 50	// 50s	
 #define DATA_INTERVAL 5	//5s	
-#define GT_VER "SW2.0.11_" 
+#define GT_VER "SW2.0.12_" 
 #define PACKET_FRAME_LEN (sizeof(gps_tracker_msg_head_struct) + sizeof(gps_tracker_msg_tail_struct))
 
 
@@ -270,7 +270,11 @@ void kfd_reconnect_service(void)
 #endif		
 	{
 		kfd_connect_times = 0;
+#ifdef __HW_2018__
+		StopTimer(GetTimerID(ZT_BT_UART_HEART_TIMER));
+#else	
 		zt_reset_system();
+#endif
 	}
 	else
 	{
@@ -1331,7 +1335,6 @@ void kfd_srv_data_req_proc(gps_tracker_data_content_struct* data)
 {
 	kal_uint8* date_time;
 	applib_time_struct date;
-	static kal_bool has_calibration = KAL_FALSE;
 
 	date_time = ((kal_uint8*)buf + sizeof(gps_tracker_msg_head_struct) - 6);
 	date.nYear= date_time[0] + YEARFORMATE;
@@ -1343,6 +1346,27 @@ void kfd_srv_data_req_proc(gps_tracker_data_content_struct* data)
 
 	mmi_dt_set_rtc_dt((MYTIME *)&date);
 }
+
+kal_uint32 GetPkgTimestamp(kal_uint8* buf, struct tm* when)
+{
+	kal_uint8* date_time;
+	kal_uint32 timeSecs=0;
+
+	date_time = ((kal_uint8*)buf + sizeof(gps_tracker_msg_head_struct) - 6);
+
+	when->tm_sec = date_time[5];
+	when->tm_min = date_time[4];
+	when->tm_hour = date_time[3];
+	when->tm_mday = date_time[2];
+	when->tm_mon =date_time[1]-1;
+	when->tm_year = date_time[0]+100;
+	when->tm_isdst = 0;
+	timeSecs = (kal_uint32) mktime(when)-60*60*8;
+
+	zt_trace(TPROT,"%d_%d_%d %d:%d:%d,pkg_stamp=%d",when->tm_year,when->tm_mon,when->tm_mday,when->tm_hour,when->tm_min,when->tm_sec,timeSecs);
+	return timeSecs;
+}
+
 void kfd_dev_data_proc(gps_tracker_data_content_struct* data)
 {
 	S16 error;
@@ -1375,6 +1399,8 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 	gps_tracker_msg_head_struct* head;
 	kal_uint8 out[256];
 	kal_uint16 crc1,crc2;
+	kal_uint32 timestamp;
+	struct tm when;
 
 	if (buf == NULL)
 		return KAL_FALSE;
@@ -1394,7 +1420,8 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 		zt_trace(TPROT,"check sum error");
 		return KAL_FALSE;
 	}
-
+	timestamp = GetPkgTimestamp(buf,&when);
+	
 	kfd_hb_send_times = 0;
 	switch(head->prot_type)
 	{
@@ -1426,6 +1453,11 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 		case EN_GT_PT_HB: 
 		{	
 			zt_trace(TPROT, "HB rsp sn ok");
+			
+			if(when.tm_hour==0 && abs(timestamp-GetTimeStamp())>10)
+			{
+				kfd_calibration_time(buf);
+			}
 			break; 
 		}
 		case EN_GT_PT_ALARM: 					
@@ -1467,7 +1499,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 					case 0x1c:	
 					case 0x1d:	
 					{
-						zt_smart_proc_network_data(control_data->value_len,control_data->value);
+						zt_smart_proc_network_data(control_data->value_len,control_data->value,timestamp);
 						break;
 					}	
 					default:

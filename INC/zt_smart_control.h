@@ -251,7 +251,7 @@ typedef struct
 #pragma pack ()
 
 extern kal_uint8 gps_delay_off_flag;
-extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data);
+extern void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_uint32 timestamp);
 extern void zt_smart_update_network_data(gps_tracker_control_data_struct* package);
 extern kal_bool zt_get_bat_connect_status(void);
 extern void zt_smart_init(void);

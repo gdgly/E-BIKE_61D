@@ -191,7 +191,7 @@ void zt_smart_delay_gps_off(void)
 	gps_delay_off_flag = 0;
 }
 
-void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
+void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_uint32 timestamp)
 {
 	S16 error;
 	command_struct* cmd; 
@@ -218,11 +218,14 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data)
 				}
 				else if(cmd->para[0]==0)	//½âËø
 				{
-					if(!who_open_electric_gate)
+					if(abs(timestamp-GetTimeStamp())<=10)
 					{
-						gprs_open_dianmen();
-						kfd_upload_ebike_package();
-						zt_voice_play(VOICE_UNLOCK);
+						if(!who_open_electric_gate)
+						{
+							gprs_open_dianmen();
+							kfd_upload_ebike_package();
+							zt_voice_play(VOICE_UNLOCK);
+						}
 					}
 				}
 				break;
@@ -862,7 +865,7 @@ kal_uint32 GetTimeStamp(void)
     when.tm_mon =rtc.rtc_mon-1;
     when.tm_year = rtc.rtc_year+100;
     when.tm_isdst = 0;
-    timeSecs = (kal_uint32) mktime(&when);
+    timeSecs = (kal_uint32) mktime(&when);	
     return timeSecs-60*60*8;
 }
 
