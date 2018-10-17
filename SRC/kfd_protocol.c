@@ -1456,6 +1456,7 @@ kal_int32 kfd_protocol_proc(kal_uint8* buf ,kal_uint16 len)
 			
 			if(when.tm_hour==0 && abs(timestamp-GetTimeStamp())>10)
 			{
+				zt_trace(TPROT,"check time");
 				kfd_calibration_time(buf);
 			}
 			break; 

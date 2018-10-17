@@ -951,7 +951,7 @@ void bt_uart_send_heart(void)
 	zt_trace(TPERI,"send BT heart");
 	bt_prepare_send_heart_data(BT_UART_HEART, 0, NULL);
 
-	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),30*1000,bt_uart_send_heart);
+	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),10*1000,bt_uart_send_heart);
 }
 
 void bt_disconnect_callback(void)
