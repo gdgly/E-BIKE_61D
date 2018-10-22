@@ -510,7 +510,7 @@ void zt_smart_pre_uart_data(void)
 
 	if(controller.require.xf != controller.actual.xf && index==4)
 	{
-		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,4,controller.require.xf);
+//		zt_controller_send(ADDR_CONTROL, CMD_CONTROL,4,controller.require.xf);
 	}
 
 	if(controller.require.dy != controller.actual.dy && index==5)

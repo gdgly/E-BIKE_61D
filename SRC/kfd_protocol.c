@@ -704,15 +704,14 @@ void kfd_upload_hb_package(void)
 {
 	zt_trace(TPROT,"%s,kfd_hb_send_times=%d",__func__,kfd_hb_send_times);
 	
-	kfd_send_package(EN_GT_PT_HB,NULL,0);
-
-	if(kfd_hb_send_times>=2)
+	if(kfd_hb_send_times>=2||kfd_work_state==EN_INIT_STATE)
 	{
 		kfd_hb_send_times = 0;
 		kfd_reconnect_service();
 	}
 	else
 	{
+		kfd_send_package(EN_GT_PT_HB,NULL,0);
 		kfd_hb_send_times++;
 		StartTimer(GetTimerID(ZT_HB_TIMER), HB_INTERVAL*1000, kfd_upload_hb_package);
 	}
@@ -1070,6 +1069,9 @@ void kfd_upload_ebike_package(void)
 {
 	gps_tracker_control_data_struct control_package;
 	kal_uint8 package_len;
+
+	if(kfd_work_state != EN_WORKING_STATE)
+		return;
 	
 	//zt_trace(TPROT, "%s",__func__);
 	zt_smart_update_network_data(&control_package);
