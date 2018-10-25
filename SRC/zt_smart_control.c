@@ -223,7 +223,9 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 				}
 				else if(cmd->para[0]==0)	//½âËø
 				{
+				#ifndef __CHAOWEI__
 					if(abs(timestamp-GetTimeStamp())<=10)
+				#endif		
 					{
 						if(!who_open_electric_gate)
 						{
@@ -1418,7 +1420,7 @@ void zt_smart_key_detect_proc(void)
 	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
 #endif
 
-	if(!lundong_is_locking && !tangze_is_locking)
+	if(!lundong_is_locking && !tangze_is_locking && !IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)))
 	{
 		if(!value &&(!(who_open_electric_gate&BT_OPEN) && !(who_open_electric_gate&KEY_OPEN) && !(who_open_electric_gate&GPRS_OPEN)))
 		{
