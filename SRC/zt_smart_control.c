@@ -955,7 +955,7 @@ void bt_uart_send_heart(void)
 {
 	zt_trace(TPERI,"send BT heart,bt_heart_rsp_times=%d",bt_heart_rsp_times);
 	bt_prepare_send_heart_data(BT_UART_HEART, 0, NULL);
-
+#ifdef __WAIMAI__
 	if(bt_heart_rsp_times>=3)
 	{
 		bluetooth_reset();
@@ -965,6 +965,7 @@ void bt_uart_send_heart(void)
 	{
 		bt_heart_rsp_times++;
 	}
+#endif
 	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),10*1000,bt_uart_send_heart);
 }
 
@@ -1175,21 +1176,8 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		case BT_SEARCH:
 		{
-		#ifdef __HW_2018__
-		zt_trace(TPERI,"buf[1]=%d",buf[1]);
-			if(buf[1]==2)	//新的蓝牙芯片有心跳指令，需兼容协议
-			{
-				if(buf[4]==0)
-					zt_trace(TPERI,"BT_UART_HEART2 success");
-				else
-					zt_trace(TPERI,"BT_UART_HEART2 fail");
-			}
-			else
-		#endif
-			{
-				zt_voice_play(VOICE_SEARCH);
-				send_ok_cmd(cmd);
-			}
+			zt_voice_play(VOICE_SEARCH);
+			send_ok_cmd(cmd);
 			break;
 		}
 		case BT_READ_DATA:
