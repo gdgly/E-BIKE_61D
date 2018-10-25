@@ -1420,7 +1420,7 @@ void zt_smart_key_detect_proc(void)
 	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
 #endif
 
-	if(!lundong_is_locking && !tangze_is_locking && !IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)))
+	if(!lundong_is_locking && !tangze_is_locking && !IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)) && !GPIO_ReadIO(DIANMEN_PIN))
 	{
 		if(!value &&(!(who_open_electric_gate&BT_OPEN) && !(who_open_electric_gate&KEY_OPEN) && !(who_open_electric_gate&GPRS_OPEN)))
 		{
@@ -2018,7 +2018,6 @@ void zt_smart_init(void)
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
 
-//	zt_smart_key_detect_proc();	
 
 /*×ÜÀï³Ì*/
 	zt_smart_read_hall();
