@@ -8,7 +8,11 @@
 #include "kfd_protocol.h"
 
 #define DIANMEN_PIN (44|0x80)
+#ifdef __CHAOWEI__
+#define KEY_DETECT_PIN (50|0x80)
+#else
 #define KEY_DETECT_PIN (8|0x80)
+#endif
 #define LOCK_A_PIN (28|0x80)
 #define LOCK_B_PIN (27|0x80)
 #define CONTROL_PIN (54|0x80)
@@ -43,6 +47,7 @@ default_setting_struct default_set={0};
 kal_uint32 zuche_stamptime=0;
 kal_uint8 bt_connect_status=0;
 kal_uint32 zhendong_count_1sec=0;
+kal_uint8 bt_heart_rsp_times=0;
 #endif
 
 #ifdef __BAT_PROT__
@@ -948,9 +953,18 @@ void bt_prepare_send_heart_data(kal_uint8 operate, kal_uint8 param_len, kal_uint
 
 void bt_uart_send_heart(void)
 {
-	zt_trace(TPERI,"send BT heart");
+	zt_trace(TPERI,"send BT heart,bt_heart_rsp_times=%d",bt_heart_rsp_times);
 	bt_prepare_send_heart_data(BT_UART_HEART, 0, NULL);
 
+	if(bt_heart_rsp_times>=3)
+	{
+		bluetooth_reset();
+		bt_heart_rsp_times=0;
+	}
+	else
+	{
+		bt_heart_rsp_times++;
+	}
 	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),10*1000,bt_uart_send_heart);
 }
 
@@ -1010,9 +1024,14 @@ void uart1_parse_proc(kal_uint8* buf, kal_uint16 len)
 			break;
 		case BT_UART_HEART:
 			if(buf[4]==0)
-				zt_trace(TPERI,"BT_UART_HEART success");
+			{
+				bt_heart_rsp_times=0;
+				zt_trace(TPERI,"BT_UART_HEART success,bt_heart_rsp_times=0");
+			}
 			else
+			{
 				zt_trace(TPERI,"BT_UART_HEART fail");
+			}
 			break;
 		case BT_UART_LOCK:
 			zt_trace(TPERI,"BT_UART_LOCK, buf[4]=%d,who_open_electric_gate=%d",buf[4],who_open_electric_gate);
@@ -1404,8 +1423,12 @@ void zt_smart_key_detect_proc(void)
 {
 	char value;
 	static kal_uint8 key_detect_num = 0;
-	
+
+#ifdef __CHAOWEI__
+	value = !GPIO_ReadIO(KEY_DETECT_PIN);	// 1 open, 0 close
+#else	
 	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
+#endif
 
 	if(!lundong_is_locking && !tangze_is_locking)
 	{
@@ -1994,6 +2017,12 @@ void zt_smart_init(void)
 	zuche_stamptime = default_set.timestamp;
 	if(default_set.zd_sen==0)
 		default_set.zd_sen=100;
+
+#ifdef __CHAOWEI__
+	GPIO_ModeSetup(KEY_DETECT_PIN,0);
+	GPIO_InitIO(0,KEY_DETECT_PIN);
+	zt_smart_key_detect_proc();
+#endif
 #endif	
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
