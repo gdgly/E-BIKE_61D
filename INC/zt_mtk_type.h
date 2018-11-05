@@ -1,6 +1,7 @@
 #ifndef __ZT_MTK_TYPE_H__
 #define __ZT_MTK_TYPE_H__
 #include "global_types_def.h"
+#include "zt_trace.h"
 
 
 typedef enum
@@ -176,6 +177,14 @@ typedef struct
     kal_int8 nSec;
 } GPSDATETIME;
 
+#ifdef __HW_2018__	
+typedef struct
+{
+	kal_uint8 sat_num[32];
+	kal_uint8 sat_db[32];
+}GPSGSV;
+#endif
+
 typedef struct 
 {
 	GPSDATETIME dt;
@@ -195,6 +204,10 @@ typedef struct
 	double hdop;	//精度
 
 	kal_uint8 sat_view;	//可见卫星
+	kal_uint8 type;
+#ifdef __HW_2018__	
+	GPSGSV gsv;
+#endif	
 }gps_info_struct;
 
 typedef struct{

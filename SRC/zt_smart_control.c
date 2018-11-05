@@ -255,7 +255,11 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 				if(cmd->para[0]==1)
 				{
 					open_dianchi_lock();
+				#ifdef __HW_2018__
+					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),800,close_dianchi_lock);
+				#else
 					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
+				#endif
 					pre_adc = 0;	//更换电池时，电量上报当前电池的电量值，所以把上一个电量清零
 				}
 				break;
@@ -1221,14 +1225,40 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		case BT_SIGNAL:
 		{
 			gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
-			char param[6]={0}; 
+			char param[8]={0}; 
 
 			param[0] = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
 			param[1] = curr_gps_data->sat_view;
 			param[2] = curr_gps_data->sat_uesd;
 			param[3] = GetConnectTimes();
 			zt_trace(TPERI,"sig=%d,view=%d,used=%d,connect_times=%d",param[0],param[1],param[2],param[3]);
+
+		#ifdef __HW_2018__
+		{
+			kal_uint8 i,j,t,tmp[32];
+			memcpy(tmp,curr_gps_data->gsv.sat_db,32);
+			 for(i=0;i<32-1;i++)
+			 {
+				for(j=0;j<32-i-1;j++)
+				{
+					if(tmp[j]<tmp[j+1])
+					{
+				               t=tmp[j+1];
+				               tmp[j+1]=tmp[j];
+				               tmp[j]=t;
+					}
+				}
+			 }
+
+			param[4] = tmp[0];
+			param[5] = tmp[1];
+			param[6] = tmp[2];
+			param[7] = tmp[3];
+			bt_prepare_send_data(cmd, 8, param);
+		}
+		#else
 			bt_prepare_send_data(cmd, 4, param);
+		#endif
 			break;
 		}
 		default:
