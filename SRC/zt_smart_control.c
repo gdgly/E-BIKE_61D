@@ -8,7 +8,7 @@
 #include "kfd_protocol.h"
 
 #define DIANMEN_PIN (44|0x80)
-#ifdef __CHAOWEI__
+#if defined(__CHAOWEI__)|| defined(__KEY_DETECT__)
 #define KEY_DETECT_PIN (50|0x80)
 #else
 #define KEY_DETECT_PIN (8|0x80)
@@ -49,6 +49,8 @@ kal_uint8 bt_connect_status=0;
 kal_uint32 zhendong_count_1sec=0;
 kal_uint8 bt_heart_rsp_times=0;
 #endif
+
+kal_uint8 zuche_flag = 0;
 
 #ifdef __BAT_PROT__
 bat_cw_struct g_bat_cw;
@@ -161,6 +163,17 @@ void unlock_bike(void)
 	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/195);
 
 	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),900,clear_tangze_lock_flag);
+}
+
+void DetectLock(void)
+{
+	if(!zuche_flag)
+	{
+		if(!lock_bike())
+		{
+			StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
+		}
+	}
 }
 void gprs_open_dianmen(void)
 {
@@ -290,6 +303,8 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 					{
 		//				zt_gps_power_off();
 					}
+					zuche_flag = 0;
+					StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
 				}
 				break;
 			case 0x08:	//租车成功指令
@@ -301,6 +316,7 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 						zt_gps_power_on();
 						StartTimer(GetTimerID(ZT_GPS_DELAY_OFF_TIMER), 900*1000, zt_smart_delay_gps_off);
 					}
+					zuche_flag = 1;
 				}
 				break;
 			case 0x09:	//报警开关指令
@@ -1444,7 +1460,7 @@ void zt_smart_key_detect_proc(void)
 	char value;
 	static kal_uint8 key_detect_num = 0;
 
-#ifdef __CHAOWEI__
+#if defined(__CHAOWEI__) || defined(__KEY_DETECT__)
 	value = !GPIO_ReadIO(KEY_DETECT_PIN);	// 1 open, 0 close
 #else	
 	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
@@ -2038,7 +2054,7 @@ void zt_smart_init(void)
 	if(default_set.zd_sen==0)
 		default_set.zd_sen=100;
 
-#ifdef __CHAOWEI__
+#if defined(__CHAOWEI__) || defined(__KEY_DETECT__)
 	GPIO_ModeSetup(KEY_DETECT_PIN,0);
 	GPIO_InitIO(0,KEY_DETECT_PIN);
 	zt_smart_key_detect_proc();
