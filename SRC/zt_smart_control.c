@@ -744,7 +744,7 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 	buffer[0] = 0x3a;
 #endif
 
-#ifdef __WAIMAI__
+#if 0//def __WAIMAI__
 	buffer[1] = 0x01;
 #else	
 	buffer[1] = 0x02;
@@ -776,7 +776,7 @@ void bt_prepare_send_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* par
 /*	for(i=0;i<12+param_len;i++)
 		zt_trace(TPERI,"%x",buffer[i]);*/
 
-#ifdef __WAIMAI__
+#if 0//def __WAIMAI__
 	zt_uart_write_data(uart_port1,buffer,12+param_len);
 #else	
 	bt_send_data(buffer,12+param_len);
@@ -941,6 +941,18 @@ kal_bool judge_zuche_valid(void)
 	else
 		return KAL_FALSE;
 }
+#ifdef __WAIMAI__
+void check_zuche_valid_task(void)
+{
+	if(!judge_zuche_valid())
+	{
+		zt_trace(TPERI,"zuche Time limit, Lock bike");
+		lock_bike();		
+	}
+	
+	StartTimer(GetTimerID(ZT_CHECK_ZUCHE_VALID_TIMER), 30*1000, check_zuche_valid_task);
+}
+#endif
 
 void bt_prepare_send_heart_data(kal_uint8 operate, kal_uint8 param_len, kal_uint8* param)
 {
@@ -1183,7 +1195,11 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		case BT_UNLOCK:
 		{
 			zt_trace(TPERI,"bluetooth unlock");
+		#ifdef __WAIMAI__
+			if(!who_open_electric_gate && judge_zuche_valid())
+		#else
 			if(!who_open_electric_gate)
+		#endif
 			{
 				bt_open_dianmen();
 				kfd_upload_ebike_package();
@@ -1316,7 +1332,7 @@ kal_uint8 bt_parse_actual_data_hdlr(void* info)
 			if(head && tail-head==buf[3]+12)
 			{
 				memcpy(req, head, tail-head);
-			#ifdef __WAIMAI__
+			#if 0//def __WAIMAI__
 				uart1_parse_proc(req,tail-head);
 			#else
 				bt_parse_proc(req,tail-head);
@@ -2053,6 +2069,10 @@ void zt_smart_init(void)
 	zuche_stamptime = default_set.timestamp;
 	if(default_set.zd_sen==0)
 		default_set.zd_sen=100;
+
+#ifdef __WAIMAI__
+	check_zuche_valid_task();
+#endif
 
 #if defined(__CHAOWEI__) || defined(__KEY_DETECT__)
 	GPIO_ModeSetup(KEY_DETECT_PIN,0);
