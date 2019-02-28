@@ -989,7 +989,7 @@ void bt_uart_send_heart(void)
 {
 	zt_trace(TPERI,"send BT heart,bt_heart_rsp_times=%d",bt_heart_rsp_times);
 	bt_prepare_send_heart_data(BT_UART_HEART, 0, NULL);
-#ifdef __WAIMAI__
+#if 0//def __WAIMAI__
 	if(bt_heart_rsp_times>=3)
 	{
 		bluetooth_reset();
