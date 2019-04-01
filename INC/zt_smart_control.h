@@ -147,6 +147,7 @@ typedef struct
 #endif	
 	kal_uint8 zd_alarm;
 	kal_uint8 zd_sen;	//Õğ¶¯ÁéÃô¶È
+	kal_int8 search_times;
 }default_setting_struct;
 
 typedef enum

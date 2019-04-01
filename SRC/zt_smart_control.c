@@ -49,7 +49,7 @@ kal_uint8 bt_connect_status=0;
 kal_uint32 zhendong_count_1sec=0;
 kal_uint8 bt_heart_rsp_times=0;
 #endif
-
+kal_int8 voice_search_times;
 kal_uint8 zuche_flag = 0;
 
 #ifdef __BAT_PROT__
@@ -209,6 +209,16 @@ void zt_smart_delay_gps_off(void)
 	gps_delay_off_flag = 0;
 }
 
+void zt_smart_search(void)
+{
+	if(voice_search_times > 0)
+	{
+		zt_voice_play(VOICE_SEARCH);
+		StartTimer(GetTimerID(ZT_VOICE_SEARCH_TIMER),300,zt_smart_search);
+		voice_search_times--;
+	}
+}
+
 void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_uint32 timestamp)
 {
 	S16 error;
@@ -223,7 +233,8 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 		switch(cmd->type)
 		{
 			case 0x01:	//Ñ°³µ
-				zt_voice_play(VOICE_SEARCH);
+				voice_search_times = default_set.search_times;
+				zt_smart_search();
 				break;
 			case 0x02:	
 				if(cmd->para[0]==1)	//Ëø³µ
@@ -505,6 +516,15 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 					break;
 				}
 		#endif		
+			case 0x24:
+				{
+					if(cmd->para[0]>0)
+					{
+						default_set.search_times = cmd->para[0];
+						zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
+					}
+					break;
+				}
 			default:
 				break;
 		}	
@@ -684,6 +704,8 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 	ebike.bat.temp = curr_bat.temp;
 	if(curr_bat.voltage>0)	
 		ebike.bat.voltage = curr_bat.voltage/10;
+	else if(!zt_get_bat_connect_status())
+		ebike.bat.voltage = 0;
 	else
 		ebike.bat.voltage = (kal_uint16)(adc_convert_mv(zt_adc_get_aver_value())/10);
 
@@ -1214,7 +1236,8 @@ void bt_parse_proc(kal_uint8* buf, kal_uint16 len)
 		}
 		case BT_SEARCH:
 		{
-			zt_voice_play(VOICE_SEARCH);
+			voice_search_times = default_set.search_times;
+			zt_smart_search();
 			send_ok_cmd(cmd);
 			break;
 		}
@@ -2064,6 +2087,8 @@ void zt_smart_init(void)
 
 	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
+	if(default_set.search_times==0)
+		default_set.search_times = 3;
 #ifdef __HW_2018__
 	bluetooth_reset();
 	zuche_stamptime = default_set.timestamp;
