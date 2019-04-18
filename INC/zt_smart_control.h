@@ -148,6 +148,10 @@ typedef struct
 	kal_uint8 zd_alarm;
 	kal_uint8 zd_sen;	//震动灵敏度
 	kal_int8 search_times;
+	kal_uint8 gb_alarm;	//国标达速报音
+	kal_uint8 lunjing;	//轮径
+	kal_uint8 cigang;	//磁钢片
+	kal_uint8 gb_speed;
 }default_setting_struct;
 
 typedef enum
@@ -213,6 +217,7 @@ typedef struct
 #else
 	kal_uint16 zd_alarm:1;
 #endif
+	kal_uint16 gb_alarm:1;
 }status_struct;
 
 typedef struct
@@ -262,4 +267,5 @@ extern kal_bool zt_gps_valid(void);
 #ifdef __HW_2018__
 extern void bt_uart_send_heart(void);
 #endif
+extern void parse_imsi_package(kal_uint8* data, kal_uint8 len);
 #endif

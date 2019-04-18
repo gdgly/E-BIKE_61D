@@ -1345,6 +1345,7 @@ void kfd_srv_data_req_proc(gps_tracker_data_content_struct* data)
 	date.nHour= date_time[3];
 	date.nMin= date_time[4];
 	date.nSec= date_time[5];
+	date.DayIndex = 0;
 
 	mmi_dt_set_rtc_dt((MYTIME *)&date);
 }
@@ -1381,6 +1382,9 @@ void kfd_dev_data_proc(gps_tracker_data_content_struct* data)
 	{					
 		case EN_GT_DT_VER:
 			parse_ver_package(data->value,data->value_len);
+			break;
+		case EN_GT_DT_IMSI:
+			parse_imsi_package(data->value,data->value_len);
 			break;
 		default:
 			break;

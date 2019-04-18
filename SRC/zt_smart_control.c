@@ -525,6 +525,14 @@ void zt_smart_proc_network_data(kal_uint8 value_len, kal_uint8* value_data,kal_u
 					}
 					break;
 				}
+			case 0x25:
+				{
+					default_set.gb_alarm = cmd->para[0];
+					default_set.gb_speed = cmd->para[1];
+					zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
+					zt_trace(TPERI,"gb_alarm=%d,gb_speed=%d",default_set.gb_alarm,default_set.gb_speed);
+					break;
+				}
 			default:
 				break;
 		}	
@@ -693,6 +701,11 @@ void zt_smart_update_network_data(gps_tracker_control_data_struct* package)
 		ebike.status.zd_alarm = 0;
 #endif
 
+	if(default_set.gb_alarm == 1)
+		ebike.status.gb_alarm = 1;
+	else
+		ebike.status.gb_alarm = 0;
+	
 #ifdef __MEILING__
 	ebike.hall = curr_lundong/8;
 #else
@@ -1417,6 +1430,48 @@ void zt_alarm_period_callback(void)
 	alarm_flag = 0;
 }
 
+double getPerimeter(int n)
+{
+	switch(n){
+		   case 14:
+			   return 1.12;
+		   case 10:
+			   return 1.27;
+		   case 12:
+			   return 1.44;
+		   case 16:
+			   return 1.27;
+		   case 18:
+			   return 1.43;
+		   case 20:
+			   return 1.59;
+		   case 22:
+			   return 1.75;
+		  default:
+			   return 1.91;
+		}
+}
+/*算出时速在1秒的霍尔数量*/
+kal_uint32 get_hall_for_speed(kal_uint32 speed)
+{
+	return  (kal_uint32)(speed*default_set.cigang)/(getPerimeter(default_set.lunjing)*16*3600);
+}
+kal_bool zt_smart_check_gb_speed(kal_uint32 hall_1sec)
+{
+	if(hall_1sec > get_hall_for_speed(default_set.gb_speed*1000))
+		return KAL_TRUE;
+	else
+		return KAL_FALSE;
+}
+
+void zt_smart_proce_gb(kal_uint32 hall_1sec)
+{
+	if(zt_smart_check_gb_speed(hall_1sec) && default_set.gb_alarm)
+	{
+		zt_voice_play(VOICE_SEARCH);
+	}
+}
+
 void zt_smart_check_lundong(void)
 {
 	 static kal_uint32 pre_count=0;
@@ -1424,6 +1479,7 @@ void zt_smart_check_lundong(void)
 	 static kal_uint32 pre_hall = 0;
 	 kal_uint32 curr_hall_tmp = 0;
 	 static kal_uint8 bat_flag = 0;
+	 static kal_uint8 index = 0;
 
 #ifdef __HW_2018__
 	 static kal_uint32 pre_zhendong = 0;
@@ -1490,6 +1546,13 @@ void zt_smart_check_lundong(void)
 		kfd_upload_ebike_package();
 		bat_flag = 0;
 	}
+
+	index++;
+	if(index>=252)
+		index=0;
+	
+	if(index%3==0)
+		zt_smart_proce_gb(hall_count_1sec);
 
 	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
 }
@@ -1631,7 +1694,16 @@ kal_uint8 parse_lundong_hdlr(void* info)
 	curr_lundong = eint_msg->data;
 	return 1;
 }
-
+void parse_imsi_package(kal_uint8* data, kal_uint8 len)
+{
+	if(default_set.lunjing != data[0] ||default_set.cigang != data[1])
+	{
+		default_set.lunjing = data[0];
+		default_set.cigang = data[1];
+		zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
+	}
+	zt_trace(TPERI,"lunjin=%d,cigang=%d",default_set.lunjing,default_set.cigang);
+}
 /*****************************************************************************
  * FUNCTION
  *  zt_controller_send
@@ -2086,9 +2158,16 @@ void zt_smart_init(void)
 	zt_smart_dianmen_init();
 
 	zt_read_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
-	zt_trace(TPERI,"default_set.motor=%d",default_set.motor);
+	zt_trace(TPERI,"default_set.motor=%d,lunjin=%d,cigang=%d,gb_speed=%d",default_set.motor,default_set.lunjing,default_set.cigang,default_set.gb_speed);
 	if(default_set.search_times==0)
 		default_set.search_times = 3;
+	if(default_set.cigang==0)
+		default_set.cigang=46;
+	if(default_set.lunjing==0)
+		default_set.lunjing=14;
+	if(default_set.gb_speed==0)
+		default_set.gb_speed=15;
+	
 #ifdef __HW_2018__
 	bluetooth_reset();
 	zuche_stamptime = default_set.timestamp;
@@ -2105,6 +2184,7 @@ void zt_smart_init(void)
 	zt_smart_key_detect_proc();
 #endif
 #endif	
+	zt_write_config_in_fs(SETTING_FILE,(kal_uint8*)&default_set,sizeof(default_setting_struct));
 	zt_read_config_in_fs(CONTROLLER_FILE,(kal_uint8*)&controller,sizeof(config_struct));
 	zt_trace(TPERI,"control req: %d %d %d %d %d",controller.require.tiaosu,controller.require.qianya,controller.require.zhuli,controller.require.dy,controller.require.xf);
 	zt_trace(TPERI,"control staus: %d %d %d %d %d",controller.actual.tiaosu,controller.actual.qianya,controller.actual.zhuli,controller.actual.dy,controller.actual.xf);
