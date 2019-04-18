@@ -1454,7 +1454,7 @@ double getPerimeter(int n)
 /*算出时速在1秒的霍尔数量*/
 kal_uint32 get_hall_for_speed(kal_uint32 speed)
 {
-	return  (kal_uint32)(speed*default_set.cigang)/(getPerimeter(default_set.lunjing)*16*3600);
+	return  (kal_uint32)(speed*default_set.cigang)/(getPerimeter(default_set.lunjing)*2*3600);
 }
 kal_bool zt_smart_check_gb_speed(kal_uint32 hall_1sec)
 {
