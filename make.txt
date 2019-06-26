@@ -1,0 +1,640 @@
+"D:\ARM\RVCT\Programs\3.1\569\win_32-pentium"/armcc -c -O2 -D__MTK__ -apcs /ropi/rwpi/interwork -I. -I./INC -I./INC/C_h -I../../INC -I../COMMON/INC -I../../../COMMON/INC -D_MAP_BROWSE_SUPPORT_  SRC/zt_smart_control.c -o OBJ/zt_smart_control.o
+Warning: C3910W: Old syntax, please use '--apcs'.
+"SRC/zt_smart_control.c", line 90: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(0, DIANMEN_PIN);	
+  	^
+"SRC/zt_smart_control.c", line 96: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(1, DIANMEN_PIN);	
+  	^
+"SRC/zt_smart_control.c", line 101: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(0, LOCK_A_PIN);
+  	^
+"SRC/zt_smart_control.c", line 111: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(1, LOCK_A_PIN);
+  	^
+"SRC/zt_smart_control.c", line 113: Warning:  #223-D: function "zt_start_timer" declared implicitly
+  	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/195);
+  	^
+"SRC/zt_smart_control.c", line 114: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 900, clear_tangze_lock_flag);
+  	^
+"SRC/zt_smart_control.c", line 114: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER), 900, clear_tangze_lock_flag);
+  	           ^
+"SRC/zt_smart_control.c", line 120: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(0, CONTROL_PIN);
+  	^
+"SRC/zt_smart_control.c", line 128: Warning:  #223-D: function "ztDelayms" declared implicitly
+  	ztDelayms(10);
+  	^
+"SRC/zt_smart_control.c", line 129: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(1, CONTROL_PIN);
+  	^
+"SRC/zt_smart_control.c", line 131: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_LOCK_DELAY_TIMER),6000,controller_lock_bike_callback);
+  	^
+"SRC/zt_smart_control.c", line 131: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_LOCK_DELAY_TIMER),6000,controller_lock_bike_callback);
+  	           ^
+"SRC/zt_smart_control.c", line 138: Warning:  #223-D: function "IsMyTimerExist" declared implicitly
+  	if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN))&&!IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)))
+  	                                                                                      ^
+"SRC/zt_smart_control.c", line 138: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	if(!(who_open_electric_gate&KEY_OPEN)&&(who_open_electric_gate&(BT_OPEN|GPRS_OPEN))&&!IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)))
+  	                                                                                                     ^
+"SRC/zt_smart_control.c", line 150: Warning:  #223-D: function "WriteRecord" declared implicitly
+  			WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  			^
+"SRC/zt_smart_control.c", line 150: Warning:  #223-D: function "GetNvramID" declared implicitly
+  			WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  			            ^
+"SRC/zt_smart_control.c", line 155: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"gate=%d,timer=%d",who_open_electric_gate,IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)));
+  	^
+"SRC/zt_smart_control.c", line 161: Warning:  #223-D: function "GPIO_WriteIO" declared implicitly
+  	GPIO_WriteIO(0, LOCK_A_PIN);
+  	^
+"SRC/zt_smart_control.c", line 163: Warning:  #223-D: function "zt_start_timer" declared implicitly
+  	zt_start_timer(clear_tangze_lock, /*KAL_TICKS_500_MSEC*/195);
+  	^
+"SRC/zt_smart_control.c", line 165: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),900,clear_tangze_lock_flag);
+  	^
+"SRC/zt_smart_control.c", line 165: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_TANGZE_LOCK_TIMER),900,clear_tangze_lock_flag);
+  	           ^
+"SRC/zt_smart_control.c", line 174: Warning:  #223-D: function "StartTimer" declared implicitly
+  			StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
+  			^
+"SRC/zt_smart_control.c", line 174: Warning:  #223-D: function "GetTimerID" declared implicitly
+  			StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
+  			           ^
+"SRC/zt_smart_control.c", line 184: Warning:  #223-D: function "WriteRecord" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  	^
+"SRC/zt_smart_control.c", line 184: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  	            ^
+"SRC/zt_smart_control.c", line 185: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);
+  	^
+"SRC/zt_smart_control.c", line 185: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);
+  	           ^
+"SRC/zt_smart_control.c", line 200: Warning:  #223-D: function "open_led2" declared implicitly
+  	open_led2();
+  	^
+"SRC/zt_smart_control.c", line 204: Warning:  #223-D: function "close_led2" declared implicitly
+  	close_led2();
+  	^
+"SRC/zt_smart_control.c", line 216: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  		zt_voice_play(VOICE_SEARCH);
+  		^
+"SRC/zt_smart_control.c", line 217: Warning:  #223-D: function "StartTimer" declared implicitly
+  		StartTimer(GetTimerID(ZT_VOICE_SEARCH_TIMER),300,zt_smart_search);
+  		^
+"SRC/zt_smart_control.c", line 217: Warning:  #223-D: function "GetTimerID" declared implicitly
+  		StartTimer(GetTimerID(ZT_VOICE_SEARCH_TIMER),300,zt_smart_search);
+  		           ^
+"SRC/zt_smart_control.c", line 230: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"%s,len=%d,type=%d,para=%d",__func__,value_len,cmd->type,cmd->para[0]);
+  	^
+"SRC/zt_smart_control.c", line 245: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  						zt_voice_play(VOICE_LOCK);
+  						^
+"SRC/zt_smart_control.c", line 251: Warning:  #223-D: function "abs" declared implicitly
+  					if(abs(timestamp-GetTimeStamp())<=10)
+  					   ^
+"SRC/zt_smart_control.c", line 258: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  							zt_voice_play(VOICE_UNLOCK);
+  							^
+"SRC/zt_smart_control.c", line 283: Warning:  #223-D: function "StartTimer" declared implicitly
+  					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),800,close_dianchi_lock);
+  					^
+"SRC/zt_smart_control.c", line 283: Warning:  #223-D: function "GetTimerID" declared implicitly
+  					StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),800,close_dianchi_lock);
+  					           ^
+"SRC/zt_smart_control.c", line 293: Warning:  #223-D: function "zt_reset_system" declared implicitly
+  					zt_reset_system();
+  					^
+"SRC/zt_smart_control.c", line 299: Warning:  #223-D: function "bluetooth_reset" declared implicitly
+  					bluetooth_reset();
+  					^
+"SRC/zt_smart_control.c", line 307: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  						zt_voice_play(VOICE_LOCK);
+  						^
+"SRC/zt_smart_control.c", line 313: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  					if(zt_gps_get_pwr_status())
+  					   ^
+"SRC/zt_smart_control.c", line 318: Warning:  #223-D: function "StartTimer" declared implicitly
+  					StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
+  					^
+"SRC/zt_smart_control.c", line 318: Warning:  #223-D: function "GetTimerID" declared implicitly
+  					StartTimer(GetTimerID(ZT_GIVEBACK_LOCK_TIMER), 30*1000, DetectLock);
+  					           ^
+"SRC/zt_smart_control.c", line 324: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  					if(!zt_gps_get_pwr_status())
+  					    ^
+"SRC/zt_smart_control.c", line 327: Warning:  #223-D: function "zt_gps_power_on" declared implicitly
+  						zt_gps_power_on();
+  						^
+"SRC/zt_smart_control.c", line 328: Warning:  #223-D: function "StartTimer" declared implicitly
+  						StartTimer(GetTimerID(ZT_GPS_DELAY_OFF_TIMER), 900*1000, zt_smart_delay_gps_off);
+  						^
+"SRC/zt_smart_control.c", line 328: Warning:  #223-D: function "GetTimerID" declared implicitly
+  						StartTimer(GetTimerID(ZT_GPS_DELAY_OFF_TIMER), 900*1000, zt_smart_delay_gps_off);
+  						           ^
+"SRC/zt_smart_control.c", line 335: Warning:  #223-D: function "WriteRecord" declared implicitly
+  				WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
+  				^
+"SRC/zt_smart_control.c", line 335: Warning:  #223-D: function "GetNvramID" declared implicitly
+  				WriteRecord(GetNvramID(NVRAM_EF_GT_TEMP_THR_LID), 1, &gps_tracker_config.vibr2_thr, sizeof(gps_tracker_config.vibr2_thr),&error);
+  				            ^
+"SRC/zt_smart_control.c", line 490: Warning:  #223-D: function "memcpy" declared implicitly
+  					memcpy(bt_name,cmd->para,6);
+  					^
+"SRC/zt_smart_control.c", line 491: Warning:  #223-D: function "sprintf" declared implicitly
+  					sprintf(param,"CC90%s",bt_name);
+  					^
+"SRC/zt_smart_control.c", line 494: Warning:  #223-D: function "strlen" declared implicitly
+  					bt_prepare_send_data(BT_UART_NAME,strlen(param),param);
+  					                                  ^
+"SRC/zt_smart_control.c", line 494: Warning:  #167-D: argument of type "char *" is incompatible with parameter of type "kal_uint8 *"
+  					bt_prepare_send_data(BT_UART_NAME,strlen(param),param);
+  					                                                ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                 ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                  ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                   ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                            ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                             ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                              ^
+"SRC/zt_smart_control.c", line 503: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"开锁rssi:%d,锁车rssi:%d",param[0],param[1]);
+  					                               ^
+"SRC/zt_smart_control.c", line 504: Warning:  #167-D: argument of type "char *" is incompatible with parameter of type "kal_uint8 *"
+  					bt_prepare_send_data(BT_UART_RSSI,2,param);
+  					                                    ^
+"SRC/zt_smart_control.c", line 511: Warning:  #223-D: function "memcpy" declared implicitly
+  					memcpy(param,cmd->para,4);
+  					^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                 ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                  ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                   ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                    ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                     ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                      ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                       ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                        ^
+"SRC/zt_smart_control.c", line 514: Warning:  #870-D: invalid multibyte character sequence
+  					zt_trace(TPERI,"租车有效期%d,%d %d %d %d",zuche_stamptime,cmd->para[0],cmd->para[1],cmd->para[2],cmd->para[3]);
+  					                         ^
+"SRC/zt_smart_control.c", line 226: Warning:  #177-D: variable "result" was declared but never referenced
+  	kal_uint8 result =1;
+  	          ^
+"SRC/zt_smart_control.c", line 604: Warning:  #223-D: function "StopTimer" declared implicitly
+  		StopTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER));
+  		^
+"SRC/zt_smart_control.c", line 604: Warning:  #223-D: function "GetTimerID" declared implicitly
+  		StopTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER));
+  		          ^
+"SRC/zt_smart_control.c", line 609: Warning:  #223-D: function "StartTimer" declared implicitly
+  		StartTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER),500,zt_smart_pre_uart_data);
+  		^
+"SRC/zt_smart_control.c", line 609: Warning:  #223-D: function "GetTimerID" declared implicitly
+  		StartTimer(GetTimerID(ZT_UART_INTERVAL_SEND_TIMER),500,zt_smart_pre_uart_data);
+  		           ^
+"SRC/zt_smart_control.c", line 630: Warning:  #223-D: function "zt_gps_get_curr_gps" declared implicitly
+  	gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
+  	                                                    ^
+"SRC/zt_smart_control.c", line 633: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"Get pwr data");
+  	^
+"SRC/zt_smart_control.c", line 704: Error:  #65: expected a ";"
+  	else
+  	^
+"SRC/zt_smart_control.c", line 730: Warning:  #223-D: function "srv_nw_info_get_signal_strength_in_percentage" declared implicitly
+  	ebike.sig.gsm_signal = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
+  	                           ^
+"SRC/zt_smart_control.c", line 734: Warning:  #223-D: function "memcpy" declared implicitly
+  	memcpy(package->value,&ebike,sizeof(ebike_struct));
+  	^
+"SRC/zt_smart_control.c", line 788: Warning:  #223-D: function "memcpy" declared implicitly
+  		memcpy(buffer+4, param, param_len);
+  		^
+"SRC/zt_smart_control.c", line 815: Warning:  #223-D: function "bt_send_data" declared implicitly
+  	bt_send_data(buffer,12+param_len);
+  	^
+"SRC/zt_smart_control.c", line 772: Warning:  #177-D: variable "i" was declared but never referenced
+  	kal_uint8 i;
+  	          ^
+"SRC/zt_smart_control.c", line 834: Warning:  #223-D: function "memcpy" declared implicitly
+  		memcpy(buffer+3, param, param_len);
+  		^
+"SRC/zt_smart_control.c", line 857: Warning:  #223-D: function "bt_send_data" declared implicitly
+  	bt_send_data(buffer,11+param_len);
+  	^
+"SRC/zt_smart_control.c", line 824: Warning:  #177-D: variable "i" was declared but never referenced
+  	kal_uint8 i;
+  	          ^
+"SRC/zt_smart_control.c", line 888: Warning:  #167-D: argument of type "char *" is incompatible with parameter of type "kal_uint8 *"
+  	bt_prepare_send_data(operate, 1, param);
+  	                                 ^
+"SRC/zt_smart_control.c", line 895: Warning:  #167-D: argument of type "char *" is incompatible with parameter of type "kal_uint8 *"
+  	bt_prepare_send_data(operate, 1, param);
+  	                                 ^
+"SRC/zt_smart_control.c", line 903: Warning:  #223-D: function "WriteRecord" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  	^
+"SRC/zt_smart_control.c", line 903: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &who_open_electric_gate, 1, &error);
+  	            ^
+"SRC/zt_smart_control.c", line 904: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);	
+  	^
+"SRC/zt_smart_control.c", line 904: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER), 1000,open_dianmen);	
+  	           ^
+"SRC/zt_smart_control.c", line 920: Warning:  #223-D: function "RTC_GetTime_" declared implicitly
+      RTC_GetTime_(&rtc);
+      ^
+"SRC/zt_smart_control.c", line 1002: Warning:  #223-D: function "memcpy" declared implicitly
+  		memcpy(buffer+4, param, param_len);
+  		^
+"SRC/zt_smart_control.c", line 1018: Warning:  #223-D: function "zt_uart_write_data" declared implicitly
+  	zt_uart_write_data(uart_port1,buffer,12+param_len);
+  	^
+"SRC/zt_smart_control.c", line 995: Warning:  #177-D: variable "i" was declared but never referenced
+  	kal_uint8 i;
+  	          ^
+"SRC/zt_smart_control.c", line 1023: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"send BT heart,bt_heart_rsp_times=%d",bt_heart_rsp_times);
+  	^
+"SRC/zt_smart_control.c", line 1036: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),10*1000,bt_uart_send_heart);
+  	^
+"SRC/zt_smart_control.c", line 1036: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_BT_UART_HEART_TIMER),10*1000,bt_uart_send_heart);
+  	           ^
+"SRC/zt_smart_control.c", line 1045: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  			zt_voice_play(VOICE_LOCK);
+  			^
+"SRC/zt_smart_control.c", line 1061: Warning:  #223-D: function "zt_trace" declared implicitly
+  	 zt_trace(TPERI,"bt_recv_uart1=%s,len=%d",out,len);
+  	 ^
+"SRC/zt_smart_control.c", line 1072: Warning:  #223-D: function "abs" declared implicitly
+  	if(abs(timestamp1-timestamp2)>300)
+  	   ^
+"SRC/zt_smart_control.c", line 1116: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  						zt_voice_play(VOICE_LOCK);
+  						^
+"SRC/zt_smart_control.c", line 1134: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  					zt_voice_play(VOICE_UNLOCK);
+  					^
+"SRC/zt_smart_control.c", line 1148: Warning:  #223-D: function "StopTimer" declared implicitly
+  				StopTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER));
+  				^
+"SRC/zt_smart_control.c", line 1148: Warning:  #223-D: function "GetTimerID" declared implicitly
+  				StopTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER));
+  				          ^
+"SRC/zt_smart_control.c", line 1154: Warning:  #223-D: function "StartTimer" declared implicitly
+  				StartTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER),3*1000,bt_disconnect_callback);
+  				^
+"SRC/zt_smart_control.c", line 1154: Warning:  #223-D: function "GetTimerID" declared implicitly
+  				StartTimer(GetTimerID(ZT_BT_DISCONNECT_TIMER),3*1000,bt_disconnect_callback);
+  				           ^
+"SRC/zt_smart_control.c", line 1052: Warning:  #177-D: variable "error" was declared but never referenced
+  	S16 error;
+  	    ^
+"SRC/zt_smart_control.c", line 1054: Warning:  #177-D: variable "i" was declared but never referenced
+  	kal_uint16 i,crc1,crc2;
+  	           ^
+"SRC/zt_smart_control.c", line 1056: Warning:  #177-D: variable "para_len" was declared but never referenced
+  	kal_uint8 para_len = buf[3];
+  	          ^
+"SRC/zt_smart_control.c", line 1176: Warning:  #223-D: function "zt_trace" declared implicitly
+  	 zt_trace(TPERI,"bt_recv=%s,len=%d",out,len);
+  	 ^
+"SRC/zt_smart_control.c", line 1193: Warning:  #223-D: function "abs" declared implicitly
+  	if(abs(timestamp1-timestamp2)>300 && (timestamp1>1433088000||timestamp1<1420041600))
+  	   ^
+"SRC/zt_smart_control.c", line 1214: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  					zt_voice_play(VOICE_LOCK);
+  					^
+"SRC/zt_smart_control.c", line 1239: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  				zt_voice_play(VOICE_UNLOCK);
+  				^
+"SRC/zt_smart_control.c", line 1263: Warning:  #223-D: function "StartTimer" declared implicitly
+  			StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
+  			^
+"SRC/zt_smart_control.c", line 1263: Warning:  #223-D: function "GetTimerID" declared implicitly
+  			StartTimer(GetTimerID(ZT_CLOSE_DIANCHI_LOCK_TIMER),500,close_dianchi_lock);
+  			           ^
+"SRC/zt_smart_control.c", line 1271: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  				zt_voice_play(VOICE_LOCK);
+  				^
+"SRC/zt_smart_control.c", line 1278: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  			if(zt_gps_get_pwr_status())
+  			   ^
+"SRC/zt_smart_control.c", line 1288: Warning:  #223-D: function "StartTimer" declared implicitly
+  			StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  			^
+"SRC/zt_smart_control.c", line 1288: Warning:  #223-D: function "GetTimerID" declared implicitly
+  			StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  			           ^
+"SRC/zt_smart_control.c", line 1293: Warning:  #223-D: function "zt_gps_get_curr_gps" declared implicitly
+  			gps_info_struct* curr_gps_data = (gps_info_struct* )zt_gps_get_curr_gps();
+  			                                                    ^
+"SRC/zt_smart_control.c", line 1296: Warning:  #223-D: function "srv_nw_info_get_signal_strength_in_percentage" declared implicitly
+  			param[0] = (U8)srv_nw_info_get_signal_strength_in_percentage(MMI_SIM1);
+  			               ^
+"SRC/zt_smart_control.c", line 1305: Warning:  #223-D: function "memcpy" declared implicitly
+  			memcpy(tmp,curr_gps_data->gsv.sat_db,32);
+  			^
+"SRC/zt_smart_control.c", line 1323: Warning:  #167-D: argument of type "char *" is incompatible with parameter of type "kal_uint8 *"
+  			bt_prepare_send_data(cmd, 8, param);
+  			                             ^
+"SRC/zt_smart_control.c", line 1167: Warning:  #177-D: variable "error" was declared but never referenced
+  	S16 error;
+  	    ^
+"SRC/zt_smart_control.c", line 1169: Warning:  #177-D: variable "i" was declared but never referenced
+  	kal_uint16 i,crc1,crc2;
+  	           ^
+"SRC/zt_smart_control.c", line 1171: Warning:  #177-D: variable "para_len" was declared but never referenced
+  	kal_uint8 para_len = buf[3];
+  	          ^
+"SRC/zt_smart_control.c", line 1368: Warning:  #223-D: function "memcpy" declared implicitly
+  				memcpy(req, head, tail-head);
+  				^
+"SRC/zt_smart_control.c", line 1378: Warning:  #940-D: missing return statement at end of non-void function "bt_parse_actual_data_hdlr"
+  }
+  ^
+"SRC/zt_smart_control.c", line 1469: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  		zt_voice_play(VOICE_ALARM);
+  		^
+"SRC/zt_smart_control.c", line 1486: Warning:  #223-D: function "zt_lundong_get_curr_count" declared implicitly
+  	 curr_zhendong_tmp = zt_lundong_get_curr_count();
+  	                     ^
+"SRC/zt_smart_control.c", line 1496: Warning:  #223-D: function "abs" declared implicitly
+  	hall_count_1sec = abs(curr_hall_tmp - pre_hall);
+  	                  ^
+"SRC/zt_smart_control.c", line 1515: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  				zt_voice_play(VOICE_ALARM);
+  				^
+"SRC/zt_smart_control.c", line 1530: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  			zt_voice_play(VOICE_ALARM);
+  			^
+"SRC/zt_smart_control.c", line 1533: Warning:  #223-D: function "StartTimer" declared implicitly
+  		StartTimer(GetTimerID(ZT_ALARM_PERIOD_TIMER),6000,zt_alarm_period_callback);
+  		^
+"SRC/zt_smart_control.c", line 1533: Warning:  #223-D: function "GetTimerID" declared implicitly
+  		StartTimer(GetTimerID(ZT_ALARM_PERIOD_TIMER),6000,zt_alarm_period_callback);
+  		           ^
+"SRC/zt_smart_control.c", line 1555: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
+  	^
+"SRC/zt_smart_control.c", line 1555: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 1000, zt_smart_check_lundong);
+  	           ^
+"SRC/zt_smart_control.c", line 1566: Warning:  #223-D: function "GPIO_ReadIO" declared implicitly
+  	value = GPIO_ReadIO(KEY_DETECT_PIN);	//0 open, 1 close
+  	        ^
+"SRC/zt_smart_control.c", line 1569: Warning:  #223-D: function "IsMyTimerExist" declared implicitly
+  	if(!lundong_is_locking && !tangze_is_locking && !IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)) && !GPIO_ReadIO(DIANMEN_PIN))
+  	                                                 ^
+"SRC/zt_smart_control.c", line 1569: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	if(!lundong_is_locking && !tangze_is_locking && !IsMyTimerExist(GetTimerID(ZT_DIANMEN_UNLOCK_TIMER)) && !GPIO_ReadIO(DIANMEN_PIN))
+  	                                                                ^
+"SRC/zt_smart_control.c", line 1579: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  				zt_voice_play(VOICE_UNLOCK);
+  				^
+"SRC/zt_smart_control.c", line 1589: Warning:  #223-D: function "zt_voice_play" declared implicitly
+  				zt_voice_play(VOICE_LOCK);
+  				^
+"SRC/zt_smart_control.c", line 1598: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_KEY_DETECT_TIMER),200,zt_smart_key_detect_proc);
+  	^
+"SRC/zt_smart_control.c", line 1602: Warning:  #223-D: function "zt_gps_get_curr_gps" declared implicitly
+  	gps_info_struct* gps_info = (gps_info_struct*)zt_gps_get_curr_gps();
+  	                                              ^
+"SRC/zt_smart_control.c", line 1611: Warning:  #223-D: function "zt_lbs_get_curr_lbs_info" declared implicitly
+  	lbs_info_struct* lbs_info = (lbs_info_struct*)zt_lbs_get_curr_lbs_info();
+  	                                              ^
+"SRC/zt_smart_control.c", line 1620: Warning:  #223-D: function "GetTimeSec" declared implicitly
+  	kal_uint32 real_time = (kal_uint32)GetTimeSec();
+  	                                   ^
+"SRC/zt_smart_control.c", line 1629: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  	if(zt_time_expiry()&&(kal_bool)zt_gps_get_pwr_status()&&!zt_gps_valid()&&GetNetworkService()&&zt_lbs_valid())
+  	                               ^
+"SRC/zt_smart_control.c", line 1631: Warning:  #223-D: function "GetTimeSec" declared implicitly
+  		pre_time = (kal_uint32)GetTimeSec();
+  		                       ^
+"SRC/zt_smart_control.c", line 1632: Warning:  #223-D: function "zt_trace" declared implicitly
+  		zt_trace(TPERI,"LBS REQ, time:%d",pre_time);
+  		^
+"SRC/zt_smart_control.c", line 1641: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  		if(!zt_gps_get_pwr_status())
+  		    ^
+"SRC/zt_smart_control.c", line 1644: Warning:  #223-D: function "zt_gps_power_on" declared implicitly
+  			zt_gps_power_on();
+  			^
+"SRC/zt_smart_control.c", line 1649: Warning:  #223-D: function "zt_gps_get_pwr_status" declared implicitly
+  		if(zt_gps_get_pwr_status())
+  		   ^
+"SRC/zt_smart_control.c", line 1656: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
+  	^
+"SRC/zt_smart_control.c", line 1656: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_GPS_PWR_CHECK_TIMER),3000,zt_smart_check_gps_pwr);
+  	           ^
+"SRC/zt_smart_control.c", line 1664: Warning:  #223-D: function "ReadRecord" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &dianmen, 1, &error);
+  	^
+"SRC/zt_smart_control.c", line 1664: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_DIANMEN_LID), 1, &dianmen, 1, &error);
+  	           ^
+"SRC/zt_smart_control.c", line 1703: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"lunjin=%d,cigang=%d",default_set.lunjing,default_set.cigang);
+  	^
+"SRC/zt_smart_control.c", line 1736: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"uart2 send addr=%x,cmd=%x,data1=%x,data2=%x",addr,cmd,data1,data2);
+  	^
+"SRC/zt_smart_control.c", line 1737: Warning:  #223-D: function "zt_uart_write_data" declared implicitly
+  	zt_uart_write_data(uart_port2, send_data, sizeof(send_data));
+  	^
+"SRC/zt_smart_control.c", line 1748: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"checksum=%x",checksum);
+  	^
+"SRC/zt_smart_control.c", line 1812: Warning:  #188-D: enumerated type mixed with another type
+  			controller.actual.tiaosu = buf[8];
+  			                         ^
+"SRC/zt_smart_control.c", line 1813: Warning:  #188-D: enumerated type mixed with another type
+  			controller.actual.qianya = buf[9];
+  			                         ^
+"SRC/zt_smart_control.c", line 1814: Warning:  #188-D: enumerated type mixed with another type
+  			controller.actual.zhuli = buf[10];
+  			                        ^
+"SRC/zt_smart_control.c", line 1815: Warning:  #188-D: enumerated type mixed with another type
+  			controller.actual.dy = buf[11];
+  			                     ^
+"SRC/zt_smart_control.c", line 1816: Warning:  #188-D: enumerated type mixed with another type
+  			controller.actual.xf = buf[12];
+  			                     ^
+"SRC/zt_smart_control.c", line 1867: Warning:  #223-D: function "strstr" declared implicitly
+  	tail = (kal_uint8*)strstr(head,".");
+  	                   ^
+"SRC/zt_smart_control.c", line 1868: Warning:  #223-D: function "memset" declared implicitly
+  	memset(tmp,0,sizeof(tmp));
+  	^
+"SRC/zt_smart_control.c", line 1869: Warning:  #223-D: function "memcpy" declared implicitly
+  	memcpy(tmp,head,tail-head);
+  	^
+"SRC/zt_smart_control.c", line 1870: Warning:  #223-D: function "atoi" declared implicitly
+  	*ip1 = atoi(tmp);
+  	       ^
+"SRC/zt_smart_control.c", line 1893: Warning:  #223-D: function "zt_reset_system" declared implicitly
+  	zt_reset_system();
+  	^
+"SRC/zt_smart_control.c", line 1904: Warning:  #223-D: function "strstr" declared implicitly
+  	head = (kal_uint8*)strstr(buf,"type:");
+  	                   ^
+"SRC/zt_smart_control.c", line 1908: Warning:  #223-D: function "zt_trace" declared implicitly
+  		zt_trace(TPERI,"%s",buf);
+  		^
+"SRC/zt_smart_control.c", line 1909: Warning:  #223-D: function "strlen" declared implicitly
+  		head += strlen("type:");
+  		        ^
+"SRC/zt_smart_control.c", line 1911: Warning:  #223-D: function "memcpy" declared implicitly
+  		memcpy(tmp, head,tail-head);
+  		^
+"SRC/zt_smart_control.c", line 1912: Warning:  #223-D: function "atoi" declared implicitly
+  		network.ym_type = atoi(tmp);
+  		                  ^
+"SRC/zt_smart_control.c", line 1926: Warning:  #223-D: function "memset" declared implicitly
+  				memset(tmp,0,sizeof(tmp));
+  				^
+"SRC/zt_smart_control.c", line 1930: Warning:  #223-D: function "sprintf" declared implicitly
+  				sprintf(tmp,"OK type:%d,%s,%d\r\n",network.ym_type,network.domain,network.port);
+  				^
+"SRC/zt_smart_control.c", line 1931: Warning:  #223-D: function "zt_uart_write_data" declared implicitly
+  				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
+  				^
+"SRC/zt_smart_control.c", line 1933: Warning:  #223-D: function "StartTimer" declared implicitly
+  				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  				^
+"SRC/zt_smart_control.c", line 1933: Warning:  #223-D: function "GetTimerID" declared implicitly
+  				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  				           ^
+"SRC/zt_smart_control.c", line 1949: Warning:  #223-D: function "memset" declared implicitly
+  				memset(tmp,0,sizeof(tmp));
+  				^
+"SRC/zt_smart_control.c", line 1953: Warning:  #223-D: function "sprintf" declared implicitly
+  				sprintf(tmp,"OK type:%d,%d:%d:%d:%d,%d",network.ym_type,network.ip[0],network.ip[1],network.ip[2],network.ip[3],network.port);
+  				^
+"SRC/zt_smart_control.c", line 1954: Warning:  #223-D: function "zt_uart_write_data" declared implicitly
+  				zt_uart_write_data(uart_port2, tmp,strlen(tmp));
+  				^
+"SRC/zt_smart_control.c", line 1957: Warning:  #223-D: function "StartTimer" declared implicitly
+  				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  				^
+"SRC/zt_smart_control.c", line 1957: Warning:  #223-D: function "GetTimerID" declared implicitly
+  				StartTimer(GetTimerID(ZT_DELAY_RESTART_TIMER),1000,restartSystem);
+  				           ^
+"SRC/zt_smart_control.c", line 1902: Warning:  #177-D: variable "error" was declared but never referenced
+  	S16 error;
+  	    ^
+"SRC/zt_smart_control.c", line 2066: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"Uart 2 Recv len =%d",len);
+  	^
+"SRC/zt_smart_control.c", line 2079: Warning:  #223-D: function "memset" declared implicitly
+  				memset(req,0,sizeof(req));
+  				^
+"SRC/zt_smart_control.c", line 2080: Warning:  #223-D: function "memcpy" declared implicitly
+  				memcpy(req, head+1, len2);
+  				^
+"SRC/zt_smart_control.c", line 2097: Warning:  #940-D: missing return statement at end of non-void function "parse_uart2_hdlr"
+  }
+  ^
+"SRC/zt_smart_control.c", line 2102: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TLBS,"parse_lbs_hdlr num=%d",lbs_msg->lbs.lbs_nbr_num);
+  	^
+"SRC/zt_smart_control.c", line 2106: Warning:  #940-D: missing return statement at end of non-void function "parse_lbs_hdlr"
+  }
+  ^
+"SRC/zt_smart_control.c", line 2122: Warning:  #223-D: function "WriteRecord" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_HALL_LID), 1, hall_array, 4, &error);
+  	^
+"SRC/zt_smart_control.c", line 2122: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_HALL_LID), 1, hall_array, 4, &error);
+  	            ^
+"SRC/zt_smart_control.c", line 2129: Warning:  #223-D: function "ReadRecord" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_HALL_LID), 1, hall_array, 4, &error);
+  	^
+"SRC/zt_smart_control.c", line 2129: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_HALL_LID), 1, hall_array, 4, &error);
+  	           ^
+"SRC/zt_smart_control.c", line 2143: Warning:  #223-D: function "WriteRecord" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+  	^
+"SRC/zt_smart_control.c", line 2143: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	WriteRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+  	            ^
+"SRC/zt_smart_control.c", line 2150: Warning:  #223-D: function "ReadRecord" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+  	^
+"SRC/zt_smart_control.c", line 2150: Warning:  #223-D: function "GetNvramID" declared implicitly
+  	ReadRecord(GetNvramID(NVRAM_EF_ZT_LUNDONG_LID), 1, lundong_array, 4, &error);
+  	           ^
+"SRC/zt_smart_control.c", line 2159: Warning:  #223-D: function "zt_trace" declared implicitly
+  	zt_trace(TPERI,"default_set.motor=%d,lunjin=%d,cigang=%d",default_set.motor,default_set.lunjing,default_set.cigang);
+  	^
+"SRC/zt_smart_control.c", line 2163: Warning:  #223-D: function "bluetooth_reset" declared implicitly
+  	bluetooth_reset();
+  	^
+"SRC/zt_smart_control.c", line 2194: Warning:  #223-D: function "StartTimer" declared implicitly
+  	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 8000, zt_smart_check_lundong);
+  	^
+"SRC/zt_smart_control.c", line 2194: Warning:  #223-D: function "GetTimerID" declared implicitly
+  	StartTimer(GetTimerID(ZT_SMART_LUNDONG_CHECK_TIMER), 8000, zt_smart_check_lundong);
+  	           ^
+"SRC/zt_smart_control.c", line 2200: Warning:  #223-D: function "mmi_frm_set_protocol_event_handler" declared implicitly
+  	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BT_SEND_TO_MMI_REQ), (PsIntFuncPtr)bt_parse_actual_data_hdlr,  KAL_FALSE);
+  	^
+"SRC/zt_smart_control.c", line 2200: Warning:  #223-D: function "GetMsgID" declared implicitly
+  	mmi_frm_set_protocol_event_handler((U16)GetMsgID(MSG_ID_BT_SEND_TO_MMI_REQ), (PsIntFuncPtr)bt_parse_actual_data_hdlr,  KAL_FALSE);
+  	                                        ^
+SRC/zt_smart_control.c: 211 warnings, 1 error
+make: *** [OBJ/zt_smart_control.o] Error 1

@@ -1458,6 +1458,7 @@ kal_uint32 get_hall_for_speed(kal_uint32 speed)
 }
 kal_bool zt_smart_check_gb_speed(kal_uint32 hall_1sec)
 {
+zt_trace(TPERI,"SP=%d,hll=%d,hall_1sec=%d",default_set.gb_speed, get_hall_for_speed(default_set.gb_speed*1000),hall_1sec);
 	if(hall_1sec > get_hall_for_speed(default_set.gb_speed*1000))
 		return KAL_TRUE;
 	else

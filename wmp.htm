@@ -1,0 +1,2781 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [E:\work\E-BIKE\OTA_HW2.0.0_zuche\wmp.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image E:\work\E-BIKE\OTA_HW2.0.0_zuche\wmp.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT3.1 [Build 569]: Last Updated: Sun Apr 28 10:59:09 2019
+<BR><P>
+<H3>Maximum Stack Usage =         24 bytes + Unknown(Functions without stacksize, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+kfd_reconnect_service &rArr; kfd_connect_service
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[224af40]">WriteLogFile</a>
+ <LI><a href="#[224aef8]">zt_trace</a>
+ <LI><a href="#[224aeb0]">zt_trace_set</a>
+ <LI><a href="#[224ae68]">zt_socket_launch</a>
+ <LI><a href="#[224ae20]">zt_socket_get_app_id</a>
+ <LI><a href="#[224add8]">zt_socket_free</a>
+ <LI><a href="#[224ad90]">zt_socket_send</a>
+ <LI><a href="#[224ad48]">zt_lis3dh_get_acce_xyz</a>
+ <LI><a href="#[224ad00]">zt_mma_get_acce_xyz</a>
+ <LI><a href="#[224acb8]">zt_mma_acce_get_tilt</a>
+ <LI><a href="#[224ac70]">zt_voice_play</a>
+ <LI><a href="#[224ac28]">zt_reset_system</a>
+ <LI><a href="#[224abe0]">ztDelayms</a>
+ <LI><a href="#[224ab98]">ztDelayus</a>
+ <LI><a href="#[224ab50]">ReadRecord</a>
+ <LI><a href="#[224ab08]">WriteRecord</a>
+ <LI><a href="#[224aac0]">GetNvramID</a>
+ <LI><a href="#[224aa78]">StartTimer</a>
+ <LI><a href="#[224aa30]">StopTimer</a>
+ <LI><a href="#[224a9e8]">GetTimerID</a>
+ <LI><a href="#[224a9a0]">srv_nw_info_get_service_availability</a>
+ <LI><a href="#[224a958]">zt_lbs_req</a>
+ <LI><a href="#[224a910]">zt_lbs_get_curr_lbs_info</a>
+ <LI><a href="#[224a8c8]">applib_dt_increase_time</a>
+ <LI><a href="#[224a880]">applib_dt_decrease_time</a>
+ <LI><a href="#[224a838]">RTC_GetTime_</a>
+ <LI><a href="#[224a7f0]">mmi_dt_set_rtc_dt</a>
+ <LI><a href="#[224a7a8]">zt_gps_get_curr_gps</a>
+ <LI><a href="#[224a760]">zt_gps_power_off</a>
+ <LI><a href="#[224a718]">zt_gps_power_on</a>
+ <LI><a href="#[224a6d0]">zt_gps_get_pwr_status</a>
+ <LI><a href="#[224a688]">srv_imei_get_imei</a>
+ <LI><a href="#[224a640]">open_led2</a>
+ <LI><a href="#[224a5f8]">close_led2</a>
+ <LI><a href="#[224a5b0]">zt_led_open_gsm_led</a>
+ <LI><a href="#[224a568]">zt_led_close_gsm_led</a>
+ <LI><a href="#[224a520]">zt_led_open_gps_led</a>
+ <LI><a href="#[224a4d8]">zt_led_close_gps_led</a>
+ <LI><a href="#[224a490]">GPIO_ModeSetup</a>
+ <LI><a href="#[224a448]">GPIO_InitIO</a>
+ <LI><a href="#[224a400]">GPIO_WriteIO</a>
+ <LI><a href="#[224a3b8]">GPIO_ReadIO</a>
+ <LI><a href="#[224a370]">GetMsgID</a>
+ <LI><a href="#[224a328]">ConstructMsgBuf</a>
+ <LI><a href="#[224a2e0]">SendMsg</a>
+ <LI><a href="#[224a298]">Get_MMI_MOD</a>
+ <LI><a href="#[224a250]">Get_BT_MOD</a>
+ <LI><a href="#[224a208]">mmi_frm_set_protocol_event_handler</a>
+ <LI><a href="#[224a1c0]">mmi_frm_clear_protocol_event_handler</a>
+ <LI><a href="#[224a178]">zt_trace_ota</a>
+ <LI><a href="#[224a130]">bt_send_data</a>
+ <LI><a href="#[224a0e8]">parse_ver_package</a>
+ <LI><a href="#[224a0a0]">zt_start_timer</a>
+ <LI><a href="#[224a058]">zt_hall_get_curr_count</a>
+ <LI><a href="#[224a010]">zt_lundong_get_curr_count</a>
+ <LI><a href="#[2249fc8]">bluetooth_reset</a>
+ <LI><a href="#[2249f80]">GetHWVersion</a>
+ <LI><a href="#[2249f38]">FS_Open</a>
+ <LI><a href="#[2249ef0]">FS_Close</a>
+ <LI><a href="#[2249ea8]">FS_Read</a>
+ <LI><a href="#[2249e60]">FS_Write</a>
+ <LI><a href="#[2249e18]">FS_Seek</a>
+ <LI><a href="#[2249dd0]">FS_Commit</a>
+ <LI><a href="#[2249d88]">FS_GetFilePosition</a>
+ <LI><a href="#[2249d40]">FS_SetAttributes</a>
+ <LI><a href="#[2249cf8]">FS_GetAttributes</a>
+ <LI><a href="#[2249cb0]">FS_GetFileSize</a>
+ <LI><a href="#[2249c68]">FS_Rename</a>
+ <LI><a href="#[2249c20]">FS_Delete</a>
+ <LI><a href="#[2249bd8]">FS_CreateDir</a>
+ <LI><a href="#[2249b90]">FS_FindFirst</a>
+ <LI><a href="#[2249b48]">FS_FindNext</a>
+ <LI><a href="#[2249b00]">FS_FindClose</a>
+ <LI><a href="#[2249ab8]">kal_wsprintf</a>
+ <LI><a href="#[2249a70]">zt_uart_init_port</a>
+ <LI><a href="#[2249a28]">zt_uart_write_data</a>
+ <LI><a href="#[22499e0]">IsMyTimerExist</a>
+ <LI><a href="#[2249998]">GetTimeSec</a>
+ <LI><a href="#[2249950]">zt_Malloc</a>
+ <LI><a href="#[2249908]">zt_Free</a>
+ <LI><a href="#[22498c0]">srv_nw_info_get_signal_strength_in_percentage</a>
+ <LI><a href="#[2249878]">zt_get_imsi</a>
+ <LI><a href="#[2249830]">zt_get_imsi_request</a>
+ <LI><a href="#[22497e8]">TK_dll_set_sb</a>
+</UL>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[2247f70]">Service_Entry</a>
+ <LI><a href="#[2248e10]">$Super$$WriteLogFile</a>
+ <LI><a href="#[22481f8]">$Super$$zt_trace</a>
+ <LI><a href="#[2248168]">$Super$$zt_trace_set</a>
+ <LI><a href="#[22482d0]">$Super$$zt_socket_launch</a>
+ <LI><a href="#[2248318]">$Super$$zt_socket_get_app_id</a>
+ <LI><a href="#[2248360]">$Super$$zt_socket_free</a>
+ <LI><a href="#[2248288]">$Super$$zt_socket_send</a>
+ <LI><a href="#[22484c8]">$Super$$zt_lis3dh_get_acce_xyz</a>
+ <LI><a href="#[22483f0]">$Super$$zt_mma_get_acce_xyz</a>
+ <LI><a href="#[2248438]">$Super$$zt_mma_acce_get_tilt</a>
+ <LI><a href="#[2248090]">$Super$$zt_voice_play</a>
+ <LI><a href="#[22483a8]">$Super$$zt_reset_system</a>
+ <LI><a href="#[2248990]">$Super$$ztDelayms</a>
+ <LI><a href="#[2248948]">$Super$$ztDelayus</a>
+ <LI><a href="#[2248f30]">$Super$$ReadRecord</a>
+ <LI><a href="#[2248dc8]">$Super$$WriteRecord</a>
+ <LI><a href="#[2249128]">$Super$$GetNvramID</a>
+ <LI><a href="#[2248ea0]">$Super$$StartTimer</a>
+ <LI><a href="#[2248e58]">$Super$$StopTimer</a>
+ <LI><a href="#[2249098]">$Super$$GetTimerID</a>
+ <LI><a href="#[2248a20]">$Super$$srv_nw_info_get_service_availability</a>
+ <LI><a href="#[2248630]">$Super$$zt_lbs_req</a>
+ <LI><a href="#[2248678]">$Super$$zt_lbs_get_curr_lbs_info</a>
+ <LI><a href="#[2248d38]">$Super$$applib_dt_increase_time</a>
+ <LI><a href="#[2248d80]">$Super$$applib_dt_decrease_time</a>
+ <LI><a href="#[2248f78]">$Super$$RTC_GetTime_</a>
+ <LI><a href="#[2248bd0]">$Super$$mmi_dt_set_rtc_dt</a>
+ <LI><a href="#[22487e0]">$Super$$zt_gps_get_curr_gps</a>
+ <LI><a href="#[2248750]">$Super$$zt_gps_power_off</a>
+ <LI><a href="#[2248708]">$Super$$zt_gps_power_on</a>
+ <LI><a href="#[2248798]">$Super$$zt_gps_get_pwr_status</a>
+ <LI><a href="#[2248a68]">$Super$$srv_imei_get_imei</a>
+ <LI><a href="#[2248af8]">$Super$$open_led2</a>
+ <LI><a href="#[2248c60]">$Super$$close_led2</a>
+ <LI><a href="#[2248510]">$Super$$zt_led_open_gsm_led</a>
+ <LI><a href="#[22485a0]">$Super$$zt_led_close_gsm_led</a>
+ <LI><a href="#[2248558]">$Super$$zt_led_open_gps_led</a>
+ <LI><a href="#[22485e8]">$Super$$zt_led_close_gps_led</a>
+ <LI><a href="#[2249290]">$Super$$GPIO_ModeSetup</a>
+ <LI><a href="#[22492d8]">$Super$$GPIO_InitIO</a>
+ <LI><a href="#[2249200]">$Super$$GPIO_WriteIO</a>
+ <LI><a href="#[2249248]">$Super$$GPIO_ReadIO</a>
+ <LI><a href="#[2249170]">$Super$$GetMsgID</a>
+ <LI><a href="#[22497a0]">$Super$$ConstructMsgBuf</a>
+ <LI><a href="#[2248ee8]">$Super$$SendMsg</a>
+ <LI><a href="#[2249008]">$Super$$Get_MMI_MOD</a>
+ <LI><a href="#[2249050]">$Super$$Get_BT_MOD</a>
+ <LI><a href="#[2248b40]">$Super$$mmi_frm_set_protocol_event_handler</a>
+ <LI><a href="#[2248b88]">$Super$$mmi_frm_clear_protocol_event_handler</a>
+ <LI><a href="#[22481b0]">$Super$$zt_trace_ota</a>
+ <LI><a href="#[2248ca8]">$Super$$bt_send_data</a>
+ <LI><a href="#[2248ab0]">$Super$$parse_ver_package</a>
+ <LI><a href="#[2248240]">$Super$$zt_start_timer</a>
+ <LI><a href="#[22486c0]">$Super$$zt_hall_get_curr_count</a>
+ <LI><a href="#[2248480]">$Super$$zt_lundong_get_curr_count</a>
+ <LI><a href="#[2248cf0]">$Super$$bluetooth_reset</a>
+ <LI><a href="#[22491b8]">$Super$$GetHWVersion</a>
+ <LI><a href="#[2249488]">$Super$$FS_Open</a>
+ <LI><a href="#[2249758]">$Super$$FS_Close</a>
+ <LI><a href="#[2249440]">$Super$$FS_Read</a>
+ <LI><a href="#[2249320]">$Super$$FS_Write</a>
+ <LI><a href="#[22493b0]">$Super$$FS_Seek</a>
+ <LI><a href="#[2249710]">$Super$$FS_Commit</a>
+ <LI><a href="#[2249518]">$Super$$FS_GetFilePosition</a>
+ <LI><a href="#[2249368]">$Super$$FS_SetAttributes</a>
+ <LI><a href="#[2249560]">$Super$$FS_GetAttributes</a>
+ <LI><a href="#[22494d0]">$Super$$FS_GetFileSize</a>
+ <LI><a href="#[22493f8]">$Super$$FS_Rename</a>
+ <LI><a href="#[2249680]">$Super$$FS_Delete</a>
+ <LI><a href="#[22496c8]">$Super$$FS_CreateDir</a>
+ <LI><a href="#[22495f0]">$Super$$FS_FindFirst</a>
+ <LI><a href="#[22495a8]">$Super$$FS_FindNext</a>
+ <LI><a href="#[2249638]">$Super$$FS_FindClose</a>
+ <LI><a href="#[2248c18]">$Super$$kal_wsprintf</a>
+ <LI><a href="#[2248120]">$Super$$zt_uart_init_port</a>
+ <LI><a href="#[22480d8]">$Super$$zt_uart_write_data</a>
+ <LI><a href="#[2248fc0]">$Super$$IsMyTimerExist</a>
+ <LI><a href="#[22490e0]">$Super$$GetTimeSec</a>
+ <LI><a href="#[22488b8]">$Super$$zt_Malloc</a>
+ <LI><a href="#[2248900]">$Super$$zt_Free</a>
+ <LI><a href="#[22489d8]">$Super$$srv_nw_info_get_signal_strength_in_percentage</a>
+ <LI><a href="#[2248870]">$Super$$zt_get_imsi</a>
+ <LI><a href="#[2248828]">$Super$$zt_get_imsi_request</a>
+ <LI><a href="#[2247650]">kfd_reconnect_service</a>
+ <LI><a href="#[29531b8]">_sputc</a>
+ <LI><a href="#[294fb28]">_printf_outstr_char</a>
+ <LI><a href="#[294f9b0]">_printf_input_char</a>
+ <LI><a href="#[294e778]">_get_lc_ctype</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[2248e10]"></a>$Super$$WriteLogFile</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22481f8]"></a>$Super$$zt_trace</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248168]"></a>$Super$$zt_trace_set</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22482d0]"></a>$Super$$zt_socket_launch</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248318]"></a>$Super$$zt_socket_get_app_id</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248360]"></a>$Super$$zt_socket_free</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248288]"></a>$Super$$zt_socket_send</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22484c8]"></a>$Super$$zt_lis3dh_get_acce_xyz</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22483f0]"></a>$Super$$zt_mma_get_acce_xyz</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248438]"></a>$Super$$zt_mma_acce_get_tilt</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248090]"></a>$Super$$zt_voice_play</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22483a8]"></a>$Super$$zt_reset_system</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248990]"></a>$Super$$ztDelayms</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248948]"></a>$Super$$ztDelayus</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248f30]"></a>$Super$$ReadRecord</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248dc8]"></a>$Super$$WriteRecord</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249128]"></a>$Super$$GetNvramID</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248ea0]"></a>$Super$$StartTimer</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248e58]"></a>$Super$$StopTimer</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249098]"></a>$Super$$GetTimerID</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248a20]"></a>$Super$$srv_nw_info_get_service_availability</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248630]"></a>$Super$$zt_lbs_req</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248678]"></a>$Super$$zt_lbs_get_curr_lbs_info</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248d38]"></a>$Super$$applib_dt_increase_time</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248d80]"></a>$Super$$applib_dt_decrease_time</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248f78]"></a>$Super$$RTC_GetTime_</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248bd0]"></a>$Super$$mmi_dt_set_rtc_dt</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22487e0]"></a>$Super$$zt_gps_get_curr_gps</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248750]"></a>$Super$$zt_gps_power_off</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248708]"></a>$Super$$zt_gps_power_on</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248798]"></a>$Super$$zt_gps_get_pwr_status</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248a68]"></a>$Super$$srv_imei_get_imei</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248af8]"></a>$Super$$open_led2</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248c60]"></a>$Super$$close_led2</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248510]"></a>$Super$$zt_led_open_gsm_led</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22485a0]"></a>$Super$$zt_led_close_gsm_led</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248558]"></a>$Super$$zt_led_open_gps_led</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22485e8]"></a>$Super$$zt_led_close_gps_led</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249290]"></a>$Super$$GPIO_ModeSetup</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22492d8]"></a>$Super$$GPIO_InitIO</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249200]"></a>$Super$$GPIO_WriteIO</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249248]"></a>$Super$$GPIO_ReadIO</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249170]"></a>$Super$$GetMsgID</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22497a0]"></a>$Super$$ConstructMsgBuf</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248ee8]"></a>$Super$$SendMsg</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249008]"></a>$Super$$Get_MMI_MOD</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249050]"></a>$Super$$Get_BT_MOD</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248b40]"></a>$Super$$mmi_frm_set_protocol_event_handler</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248b88]"></a>$Super$$mmi_frm_clear_protocol_event_handler</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22481b0]"></a>$Super$$zt_trace_ota</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248ca8]"></a>$Super$$bt_send_data</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248ab0]"></a>$Super$$parse_ver_package</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248240]"></a>$Super$$zt_start_timer</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22486c0]"></a>$Super$$zt_hall_get_curr_count</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248480]"></a>$Super$$zt_lundong_get_curr_count</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248cf0]"></a>$Super$$bluetooth_reset</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22491b8]"></a>$Super$$GetHWVersion</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249488]"></a>$Super$$FS_Open</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249758]"></a>$Super$$FS_Close</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249440]"></a>$Super$$FS_Read</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249320]"></a>$Super$$FS_Write</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22493b0]"></a>$Super$$FS_Seek</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249710]"></a>$Super$$FS_Commit</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249518]"></a>$Super$$FS_GetFilePosition</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249368]"></a>$Super$$FS_SetAttributes</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249560]"></a>$Super$$FS_GetAttributes</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22494d0]"></a>$Super$$FS_GetFileSize</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22493f8]"></a>$Super$$FS_Rename</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249680]"></a>$Super$$FS_Delete</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22496c8]"></a>$Super$$FS_CreateDir</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22495f0]"></a>$Super$$FS_FindFirst</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22495a8]"></a>$Super$$FS_FindNext</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2249638]"></a>$Super$$FS_FindClose</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248c18]"></a>$Super$$kal_wsprintf</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248120]"></a>$Super$$zt_uart_init_port</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22480d8]"></a>$Super$$zt_uart_write_data</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248fc0]"></a>$Super$$IsMyTimerExist</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22490e0]"></a>$Super$$GetTimeSec</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22488b8]"></a>$Super$$zt_Malloc</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248900]"></a>$Super$$zt_Free</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[22489d8]"></a>$Super$$srv_nw_info_get_signal_strength_in_percentage</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248870]"></a>$Super$$zt_get_imsi</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[2248828]"></a>$Super$$zt_get_imsi_request</STRONG> (ARM, 0 bytes, Stack size 0 bytes, wmp.sym(ABSOLUTE))
+<BR>[Address Reference Count : 1]<UL><LI> wmp.o(ServiceHeader)
+</UL>
+<P><STRONG><a name="[224af40]"></a>WriteLogFile</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224aef8]"></a>zt_trace</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package
+<LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+<LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2243ed0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPkgTimestamp
+<LI><a href="#[2243f18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ver_package
+<LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package
+<LI><a href="#[2243fa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_hb_package
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2244fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_request
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_lbs_hdlr
+<LI><a href="#[2245880]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_uart2_hdlr
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_proc
+<LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+<LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+<LI><a href="#[2245d48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gb_speed
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_send
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+<LI><a href="#[22476e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_connect_service
+<LI><a href="#[2247728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_uart_send_heart
+<LI><a href="#[22477b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_wait_full_service
+<LI><a href="#[2247800]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_full_service
+<LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[224aeb0]"></a>zt_trace_set</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[224ae68]"></a>zt_socket_launch</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2244fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_request
+<LI><a href="#[22476e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_connect_service
+</UL>
+
+<P><STRONG><a name="[224ae20]"></a>zt_socket_get_app_id</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2244fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_request
+<LI><a href="#[22476e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_connect_service
+</UL>
+
+<P><STRONG><a name="[224add8]"></a>zt_socket_free</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+</UL>
+
+<P><STRONG><a name="[224ad90]"></a>zt_socket_send</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22436a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_login_package
+<LI><a href="#[2243cd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_command_rsp_package
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+</UL>
+
+<P><STRONG><a name="[224ad48]"></a>zt_lis3dh_get_acce_xyz</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224ad00]"></a>zt_mma_get_acce_xyz</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244a10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_shake_change
+</UL>
+
+<P><STRONG><a name="[224acb8]"></a>zt_mma_acce_get_tilt</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224ac70]"></a>zt_voice_play</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245c70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_key_detect_proc
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2245d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proce_gb
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246018]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_disconnect_callback
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246528]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_search
+</UL>
+
+<P><STRONG><a name="[224ac28]"></a>zt_reset_system</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245f88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;restartSystem
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[224abe0]"></a>ztDelayms</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22467f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike
+</UL>
+
+<P><STRONG><a name="[224ab98]"></a>ztDelayus</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224ab50]"></a>ReadRecord</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22457a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_lundong
+<LI><a href="#[22457f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_hall
+<LI><a href="#[2245ac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_dianmen_init
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[224ab08]"></a>WriteRecord</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244308]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_srv_data_req_proc
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[22462e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_hall
+<LI><a href="#[2246330]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_lundong
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[224aac0]"></a>GetNvramID</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244308]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_srv_data_req_proc
+<LI><a href="#[22457a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_lundong
+<LI><a href="#[22457f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_hall
+<LI><a href="#[2245ac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_dianmen_init
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[22462e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_hall
+<LI><a href="#[2246330]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_lundong
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[224aa78]"></a>StartTimer</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2243fa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_hb_package
+<LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2244980]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_shake_detect_timer_proc
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+<LI><a href="#[2245c70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_key_detect_proc
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246528]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_search
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+<LI><a href="#[2246690]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DetectLock
+<LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[22467f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike
+<LI><a href="#[2246888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tangze_lock_bike
+<LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+<LI><a href="#[2247608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_init
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[2247728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_uart_send_heart
+<LI><a href="#[22477b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_wait_full_service
+<LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[224aa30]"></a>StopTimer</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2243df8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_free_connect
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+</UL>
+
+<P><STRONG><a name="[224a9e8]"></a>GetTimerID</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2243df8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_free_connect
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2243fa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_hb_package
+<LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2244980]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_shake_detect_timer_proc
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+<LI><a href="#[2245c70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_key_detect_proc
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246528]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_search
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+<LI><a href="#[2246690]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DetectLock
+<LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[22467f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike
+<LI><a href="#[2246888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tangze_lock_bike
+<LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+<LI><a href="#[2247608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_init
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[2247728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_uart_send_heart
+<LI><a href="#[22477b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_wait_full_service
+<LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[224a9a0]"></a>srv_nw_info_get_service_availability</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2247770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNetworkService
+</UL>
+
+<P><STRONG><a name="[224a958]"></a>zt_lbs_req</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+</UL>
+
+<P><STRONG><a name="[224a910]"></a>zt_lbs_get_curr_lbs_info</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22436a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_login_package
+<LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[2245be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_valid
+</UL>
+
+<P><STRONG><a name="[224a8c8]"></a>applib_dt_increase_time</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a880]"></a>applib_dt_decrease_time</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a838]"></a>RTC_GetTime_</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22441e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_format_cb_to_buffer
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+</UL>
+
+<P><STRONG><a name="[224a7f0]"></a>mmi_dt_set_rtc_dt</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_calibration_time
+</UL>
+
+<P><STRONG><a name="[224a7a8]"></a>zt_gps_get_curr_gps</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_valid
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[224a760]"></a>zt_gps_power_off</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a718]"></a>zt_gps_power_on</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[224a6d0]"></a>zt_gps_get_pwr_status</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+<LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[224a688]"></a>srv_imei_get_imei</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package
+</UL>
+
+<P><STRONG><a name="[224a640]"></a>open_led2</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246600]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;open_dianchi_lock
+</UL>
+
+<P><STRONG><a name="[224a5f8]"></a>close_led2</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22465b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;close_dianchi_lock
+</UL>
+
+<P><STRONG><a name="[224a5b0]"></a>zt_led_open_gsm_led</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[224a568]"></a>zt_led_close_gsm_led</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243df8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_free_connect
+</UL>
+
+<P><STRONG><a name="[224a520]"></a>zt_led_open_gps_led</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a4d8]"></a>zt_led_close_gps_led</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a490]"></a>GPIO_ModeSetup</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a448]"></a>GPIO_InitIO</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a400]"></a>GPIO_WriteIO</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245ac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_dianmen_init
+<LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[22467f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike
+<LI><a href="#[2246840]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike_callback
+<LI><a href="#[2246888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tangze_lock_bike
+<LI><a href="#[2246918]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_tangze_lock
+<LI><a href="#[2246960]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;open_dianmen
+<LI><a href="#[22469a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;close_dianmen
+</UL>
+
+<P><STRONG><a name="[224a3b8]"></a>GPIO_ReadIO</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245c70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_key_detect_proc
+</UL>
+
+<P><STRONG><a name="[224a370]"></a>GetMsgID</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[224a328]"></a>ConstructMsgBuf</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a2e0]"></a>SendMsg</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a298]"></a>Get_MMI_MOD</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a250]"></a>Get_BT_MOD</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a208]"></a>mmi_frm_set_protocol_event_handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[224a1c0]"></a>mmi_frm_clear_protocol_event_handler</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a178]"></a>zt_trace_ota</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a130]"></a>bt_send_data</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+
+<P><STRONG><a name="[224a0e8]"></a>parse_ver_package</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22442c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_dev_data_proc
+</UL>
+
+<P><STRONG><a name="[224a0a0]"></a>zt_start_timer</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[2246888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tangze_lock_bike
+</UL>
+
+<P><STRONG><a name="[224a058]"></a>zt_hall_get_curr_count</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[224a010]"></a>zt_lundong_get_curr_count</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+</UL>
+
+<P><STRONG><a name="[2249fc8]"></a>bluetooth_reset</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[2249f80]"></a>GetHWVersion</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[2249f38]"></a>FS_Open</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+</UL>
+
+<P><STRONG><a name="[2249ef0]"></a>FS_Close</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+</UL>
+
+<P><STRONG><a name="[2249ea8]"></a>FS_Read</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+</UL>
+
+<P><STRONG><a name="[2249e60]"></a>FS_Write</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+</UL>
+
+<P><STRONG><a name="[2249e18]"></a>FS_Seek</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+</UL>
+
+<P><STRONG><a name="[2249dd0]"></a>FS_Commit</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249d88]"></a>FS_GetFilePosition</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249d40]"></a>FS_SetAttributes</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249cf8]"></a>FS_GetAttributes</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249cb0]"></a>FS_GetFileSize</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249c68]"></a>FS_Rename</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249c20]"></a>FS_Delete</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249bd8]"></a>FS_CreateDir</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249b90]"></a>FS_FindFirst</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249b48]"></a>FS_FindNext</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249b00]"></a>FS_FindClose</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249ab8]"></a>kal_wsprintf</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249a70]"></a>zt_uart_init_port</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+
+<P><STRONG><a name="[2249a28]"></a>zt_uart_write_data</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[2246450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_send
+</UL>
+
+<P><STRONG><a name="[22499e0]"></a>IsMyTimerExist</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245c70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_key_detect_proc
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+</UL>
+
+<P><STRONG><a name="[2249998]"></a>GetTimeSec</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+<LI><a href="#[2245b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_time_expiry
+</UL>
+
+<P><STRONG><a name="[2249950]"></a>zt_Malloc</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+</UL>
+
+<P><STRONG><a name="[2249908]"></a>zt_Free</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+</UL>
+
+<P><STRONG><a name="[22498c0]"></a>srv_nw_info_get_signal_strength_in_percentage</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[2249878]"></a>zt_get_imsi</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package
+</UL>
+
+<P><STRONG><a name="[2249830]"></a>zt_get_imsi_request</STRONG> (ARM, 4 bytes, Stack size unknown bytes, wmp.o(ServiceHeader), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[22497e8]"></a>TK_dll_set_sb</STRONG> (ARM, 0 bytes, Stack size unknown bytes, wmp.o(ServiceHeader))
+<BR><BR>[Called By]<UL><LI><a href="#[2247b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DLL_init_SB
+<LI><a href="#[2247f70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Service_Entry
+</UL>
+
+<P><STRONG><a name="[2247be0]"></a>dll_test_entry</STRONG> (ARM, 4 bytes, Stack size 0 bytes, main.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
+<LI>Call Chain = dll_test_entry &rArr; zt_ota_main &rArr; bt_uart_send_heart &rArr; bt_prepare_send_heart_data &rArr; GetTimeStamp &rArr; mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2247b98]"></a>DLL_init_SB</STRONG> (ARM, 16 bytes, Stack size 0 bytes, main.o(.text), UNUSED, KEPT)
+<BR><BR>[Calls]<UL><LI><a href="#[22497e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TK_dll_set_sb
+</UL>
+
+<P><STRONG><a name="[2247f70]"></a>Service_Entry</STRONG> (ARM, 108 bytes, Stack size 8 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = Service_Entry
+</UL>
+<BR>[Calls]<UL><LI><a href="#[22497e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TK_dll_set_sb
+</UL>
+
+<P><STRONG><a name="[2247800]"></a>zt_main_full_service</STRONG> (ARM, 32 bytes, Stack size 8 bytes, zt_main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22476e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_connect_service
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[22477b8]"></a>zt_main_wait_full_service</STRONG> (ARM, 76 bytes, Stack size 8 bytes, zt_main.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = zt_main_wait_full_service &rArr; GetNetworkService
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2247770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNetworkService
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2247b50]"></a>zt_ota_main</STRONG> (ARM, 84 bytes, Stack size 8 bytes, zt_main.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 280 + Unknown Stack Size
+<LI>Call Chain = zt_ota_main &rArr; bt_uart_send_heart &rArr; bt_prepare_send_heart_data &rArr; GetTimeStamp &rArr; mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+<LI><a href="#[2247608]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_init
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+<LI><a href="#[2247728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_uart_send_heart
+<LI><a href="#[22477b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_wait_full_service
+<LI><a href="#[2249830]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_imsi_request
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aeb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace_set
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;dll_test_entry
+</UL>
+
+<P><STRONG><a name="[2246ac8]"></a>zt_adc_get_aver_value</STRONG> (ARM, 16 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2246a80]"></a>adc_convert_mv</STRONG> (ARM, 12 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2246a38]"></a>zt_get_bat_connect_status</STRONG> (ARM, 56 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244080]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_gps_upload_valid
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[22469f0]"></a>get_electric_gate_status</STRONG> (ARM, 16 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244080]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_gps_upload_valid
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+</UL>
+
+<P><STRONG><a name="[22469a8]"></a>close_dianmen</STRONG> (ARM, 12 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+</UL>
+
+<P><STRONG><a name="[2246960]"></a>open_dianmen</STRONG> (ARM, 12 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+</UL>
+
+<P><STRONG><a name="[2246918]"></a>clear_tangze_lock</STRONG> (ARM, 32 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+</UL>
+
+<P><STRONG><a name="[22468d0]"></a>clear_tangze_lock_flag</STRONG> (ARM, 20 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2246888]"></a>tangze_lock_bike</STRONG> (ARM, 64 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a0a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_start_timer
+<LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+</UL>
+
+<P><STRONG><a name="[2246840]"></a>controller_lock_bike_callback</STRONG> (ARM, 52 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+</UL>
+
+<P><STRONG><a name="[22467f8]"></a>controller_lock_bike</STRONG> (ARM, 60 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224abe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ztDelayms
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+</UL>
+
+<P><STRONG><a name="[22467b0]"></a>zt_smart_check_lundong_is_run</STRONG> (ARM, 72 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+</UL>
+
+<P><STRONG><a name="[2246768]"></a>zt_smart_check_hall_is_run</STRONG> (ARM, 28 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+</UL>
+
+<P><STRONG><a name="[2246720]"></a>lock_bike</STRONG> (ARM, 220 bytes, Stack size 24 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246768]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_hall_is_run
+<LI><a href="#[22467b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong_is_run
+<LI><a href="#[2246888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tangze_lock_bike
+<LI><a href="#[22499e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IsMyTimerExist
+<LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246018]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_disconnect_callback
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246690]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DetectLock
+</UL>
+
+<P><STRONG><a name="[22466d8]"></a>unlock_bike</STRONG> (ARM, 64 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a0a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_start_timer
+<LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+</UL>
+
+<P><STRONG><a name="[2246690]"></a>DetectLock</STRONG> (ARM, 68 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+
+<P><STRONG><a name="[2246648]"></a>gprs_open_dianmen</STRONG> (ARM, 92 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[2246600]"></a>open_dianchi_lock</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;open_led2
+</UL>
+
+<P><STRONG><a name="[22465b8]"></a>close_dianchi_lock</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a5f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;close_led2
+</UL>
+
+<P><STRONG><a name="[2246570]"></a>zt_smart_delay_gps_off</STRONG> (ARM, 20 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2246528]"></a>zt_smart_search</STRONG> (ARM, 72 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[22464e0]"></a>GetTimeStamp</STRONG> (ARM, 108 bytes, Stack size 48 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 112 + Unknown Stack Size
+<LI>Call Chain = GetTimeStamp &rArr; mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[223fc30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mktime (via Veneer)
+<LI><a href="#[224a838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetTime_
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[22460a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;judge_zuche_valid
+<LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+
+<P><STRONG><a name="[2246498]"></a>bt_prepare_send_data</STRONG> (ARM, 228 bytes, Stack size 152 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[224a130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_send_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2246180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_error_cmd
+<LI><a href="#[22461c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_ok_cmd
+<LI><a href="#[2246210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[2246450]"></a>zt_controller_send</STRONG> (ARM, 160 bytes, Stack size 40 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2249a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_uart_write_data
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[2246408]"></a>zt_smart_proc_network_data</STRONG> (ARM, 2072 bytes, Stack size 72 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen (via Veneer)
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22413d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__1sprintf (via Veneer)
+<LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+<LI><a href="#[2246450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_send
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[2246528]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_search
+<LI><a href="#[2246648]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gprs_open_dianmen
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[2249fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bluetooth_reset
+<LI><a href="#[224a640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;open_led2
+<LI><a href="#[224a6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_pwr_status
+<LI><a href="#[224a718]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_power_on
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+<LI><a href="#[224ac28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_reset_system
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[22463c0]"></a>zt_smart_pre_uart_data</STRONG> (ARM, 384 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246450]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_send
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StopTimer
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2244158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_pre_ebike_package_data
+</UL>
+
+<P><STRONG><a name="[2246378]"></a>zt_convert_adc</STRONG> (ARM, 48 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[223f8a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+</UL>
+
+<P><STRONG><a name="[2246330]"></a>zt_smart_write_lundong</STRONG> (ARM, 84 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[22462e8]"></a>zt_smart_write_hall</STRONG> (ARM, 84 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[22462a0]"></a>zt_smart_update_network_data</STRONG> (ARM, 840 bytes, Stack size 56 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22462e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_hall
+<LI><a href="#[2246330]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_write_lundong
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+<LI><a href="#[22498c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srv_nw_info_get_signal_strength_in_percentage
+<LI><a href="#[224a7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_curr_gps
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+</UL>
+
+<P><STRONG><a name="[2246258]"></a>bt_prepare_send_data_ext</STRONG> (ARM, 184 bytes, Stack size 152 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[224a130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_send_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+</UL>
+
+<P><STRONG><a name="[2246210]"></a>read_data</STRONG> (ARM, 140 bytes, Stack size 24 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+</UL>
+
+<P><STRONG><a name="[22461c8]"></a>send_ok_cmd</STRONG> (ARM, 44 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+</UL>
+
+<P><STRONG><a name="[2246180]"></a>send_error_cmd</STRONG> (ARM, 40 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+</UL>
+
+<P><STRONG><a name="[2246138]"></a>bt_open_dianmen</STRONG> (ARM, 96 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22466d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;unlock_bike
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+</UL>
+
+<P><STRONG><a name="[22460f0]"></a>bt_giveback_package</STRONG> (ARM, 164 bytes, Stack size 56 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2240268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uread4
+<LI><a href="#[22451c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_best_hdop_gps_data
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+</UL>
+
+<P><STRONG><a name="[22460a8]"></a>judge_zuche_valid</STRONG> (ARM, 40 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+</UL>
+
+<P><STRONG><a name="[2246060]"></a>bt_prepare_send_heart_data</STRONG> (ARM, 192 bytes, Stack size 152 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 264 + Unknown Stack Size
+<LI>Call Chain = bt_prepare_send_heart_data &rArr; GetTimeStamp &rArr; mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[2249a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_uart_write_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247728]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_uart_send_heart
+</UL>
+
+<P><STRONG><a name="[2247728]"></a>bt_uart_send_heart</STRONG> (ARM, 68 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 272 + Unknown Stack Size
+<LI>Call Chain = bt_uart_send_heart &rArr; bt_prepare_send_heart_data &rArr; GetTimeStamp &rArr; mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2246018]"></a>bt_disconnect_callback</STRONG> (ARM, 52 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+</UL>
+
+<P><STRONG><a name="[2245fd0]"></a>uart1_parse_proc</STRONG> (ARM, 840 bytes, Stack size 72 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2244ea8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_hex_convert_str
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[2246180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_error_cmd
+<LI><a href="#[22461c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_ok_cmd
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StopTimer
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[2245f88]"></a>restartSystem</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224ac28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_reset_system
+</UL>
+
+<P><STRONG><a name="[2245f40]"></a>bt_parse_proc</STRONG> (ARM, 964 bytes, Stack size 80 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2244ea8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_hex_convert_str
+<LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[2245760]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetConnectTimes
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+<LI><a href="#[2246138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_open_dianmen
+<LI><a href="#[2246180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_error_cmd
+<LI><a href="#[22461c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_ok_cmd
+<LI><a href="#[2246210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_data
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[2246528]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_search
+<LI><a href="#[2246720]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lock_bike
+<LI><a href="#[22498c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srv_nw_info_get_signal_strength_in_percentage
+<LI><a href="#[224a640]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;open_led2
+<LI><a href="#[224a6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_pwr_status
+<LI><a href="#[224a7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_curr_gps
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245ef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_actual_data_hdlr
+</UL>
+
+<P><STRONG><a name="[2245ef8]"></a>bt_parse_actual_data_hdlr</STRONG> (ARM, 260 bytes, Stack size 96 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+</UL>
+
+<P><STRONG><a name="[2245eb0]"></a>check_zhendong</STRONG> (ARM, 28 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_moving
+</UL>
+
+<P><STRONG><a name="[2245e68]"></a>check_sharp_zhendong</STRONG> (ARM, 40 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244ef0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_shake_sharp
+</UL>
+
+<P><STRONG><a name="[2245e20]"></a>zt_alarm_period_callback</STRONG> (ARM, 20 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2245dd8]"></a>getPerimeter</STRONG> (ARM, 124 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+</UL>
+
+<P><STRONG><a name="[2245d90]"></a>get_hall_for_speed</STRONG> (ARM, 84 bytes, Stack size 24 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ccb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
+<LI><a href="#[223dd40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[223df98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[223e418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<LI><a href="#[223e7d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[2245dd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getPerimeter
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245d48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gb_speed
+</UL>
+
+<P><STRONG><a name="[2245d48]"></a>zt_smart_check_gb_speed</STRONG> (ARM, 88 bytes, Stack size 24 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proce_gb
+</UL>
+
+<P><STRONG><a name="[2245d00]"></a>zt_smart_proce_gb</STRONG> (ARM, 48 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2245d48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gb_speed
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+</UL>
+
+<P><STRONG><a name="[2245cb8]"></a>zt_smart_check_lundong</STRONG> (ARM, 480 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[2244ef0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_shake_sharp
+<LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245d00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proce_gb
+<LI><a href="#[22467b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong_is_run
+<LI><a href="#[22467f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;controller_lock_bike
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+<LI><a href="#[224a010]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lundong_get_curr_count
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+</UL>
+
+<P><STRONG><a name="[2245c70]"></a>zt_smart_key_detect_proc</STRONG> (ARM, 220 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22499e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IsMyTimerExist
+<LI><a href="#[224a3b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadIO
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224ac70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_voice_play
+</UL>
+
+<P><STRONG><a name="[2245c28]"></a>zt_gps_valid</STRONG> (ARM, 32 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_curr_gps
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+</UL>
+
+<P><STRONG><a name="[2245be0]"></a>zt_lbs_valid</STRONG> (ARM, 28 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_get_curr_lbs_info
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+</UL>
+
+<P><STRONG><a name="[2245b98]"></a>zt_time_expiry</STRONG> (ARM, 44 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2249998]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeSec
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+</UL>
+
+<P><STRONG><a name="[2245b50]"></a>zt_agps_process</STRONG> (ARM, 112 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_request
+<LI><a href="#[2245b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_time_expiry
+<LI><a href="#[2245be0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_valid
+<LI><a href="#[2245c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_valid
+<LI><a href="#[2247770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNetworkService
+<LI><a href="#[2249998]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeSec
+<LI><a href="#[224a6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_pwr_status
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[2245b08]"></a>zt_smart_check_gps_pwr</STRONG> (ARM, 96 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_moving
+<LI><a href="#[2244f80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_motionless
+<LI><a href="#[224a6d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_pwr_status
+<LI><a href="#[224a718]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_power_on
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+
+<P><STRONG><a name="[2245ac0]"></a>zt_smart_dianmen_init</STRONG> (ARM, 76 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = zt_smart_dianmen_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224a400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteIO
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[2245a78]"></a>parse_adc_hdlr</STRONG> (ARM, 32 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[2245a30]"></a>parse_hall_hdlr</STRONG> (ARM, 24 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[22459e8]"></a>parse_lundong_hdlr</STRONG> (ARM, 24 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+
+<P><STRONG><a name="[22459a0]"></a>parse_imsi_package</STRONG> (ARM, 96 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22442c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_dev_data_proc
+</UL>
+
+<P><STRONG><a name="[2245958]"></a>zt_controller_proc</STRONG> (ARM, 892 bytes, Stack size 32 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245880]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_uart2_hdlr
+</UL>
+
+<P><STRONG><a name="[2245910]"></a>get_int_num</STRONG> (ARM, 384 bytes, Stack size 40 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223fde8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr (via Veneer)
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22411d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+</UL>
+
+<P><STRONG><a name="[22458c8]"></a>modify_service_address</STRONG> (ARM, 824 bytes, Stack size 184 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223fde8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr (via Veneer)
+<LI><a href="#[2240420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen (via Veneer)
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22411d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi (via Veneer)
+<LI><a href="#[22413d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__1sprintf (via Veneer)
+<LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2245910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_num
+<LI><a href="#[2249a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_uart_write_data
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245880]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_uart2_hdlr
+</UL>
+
+<P><STRONG><a name="[2245880]"></a>parse_uart2_hdlr</STRONG> (ARM, 208 bytes, Stack size 88 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_proc
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[2245838]"></a>parse_lbs_hdlr</STRONG> (ARM, 16 bytes, Stack size 0 bytes, zt_smart_control.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[22457f0]"></a>zt_smart_read_hall</STRONG> (ARM, 88 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = zt_smart_read_hall
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[22457a8]"></a>zt_smart_read_lundong</STRONG> (ARM, 88 bytes, Stack size 16 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = zt_smart_read_lundong
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[22475c0]"></a>zt_smart_init</STRONG> (ARM, 828 bytes, Stack size 24 bytes, zt_smart_control.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
+<LI>Call Chain = zt_smart_init &rArr; zt_write_config_in_fs
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+<LI><a href="#[22457a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_lundong
+<LI><a href="#[22457f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_read_hall
+<LI><a href="#[2245ac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_dianmen_init
+<LI><a href="#[2249fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bluetooth_reset
+<LI><a href="#[224a208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mmi_frm_set_protocol_event_handler
+<LI><a href="#[224a370]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetMsgID
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2244ae8]"></a>abs_S8</STRONG> (ARM, 16 bytes, Stack size 0 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244a10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_shake_change
+</UL>
+
+<P><STRONG><a name="[2244aa0]"></a>zt_gsensor_get_curr_max_shake_value</STRONG> (ARM, 56 bytes, Stack size 0 bytes, zt_gsensor.o(.text), UNUSED)
+
+<P><STRONG><a name="[2244a58]"></a>zt_gsensor_get_shake_num</STRONG> (ARM, 68 bytes, Stack size 4 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244f80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_motionless
+</UL>
+
+<P><STRONG><a name="[2244ef0]"></a>zt_gsensor_check_is_shake_sharp</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2245e68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_sharp_zhendong
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+</UL>
+
+<P><STRONG><a name="[2244f38]"></a>zt_gsensor_check_is_moving</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2245eb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_zhendong
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244080]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_gps_upload_valid
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+</UL>
+
+<P><STRONG><a name="[2244f80]"></a>zt_gsensor_check_is_motionless</STRONG> (ARM, 36 bytes, Stack size 4 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244a58]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_shake_num
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245b08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_gps_pwr
+</UL>
+
+<P><STRONG><a name="[2244a10]"></a>zt_gsensor_get_shake_change</STRONG> (ARM, 300 bytes, Stack size 24 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244ae8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_S8
+<LI><a href="#[224ad00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_mma_get_acce_xyz
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244980]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_shake_detect_timer_proc
+<LI><a href="#[22449c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_curr_shake_value
+</UL>
+
+<P><STRONG><a name="[22449c8]"></a>zt_gsensor_get_curr_shake_value</STRONG> (ARM, 4 bytes, Stack size 0 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244a10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_shake_change
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+</UL>
+
+<P><STRONG><a name="[2244980]"></a>zt_gsensor_shake_detect_timer_proc</STRONG> (ARM, 80 bytes, Stack size 8 bytes, zt_gsensor.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244a10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_shake_change
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+
+<P><STRONG><a name="[2247608]"></a>zt_gsensor_init</STRONG> (ARM, 28 bytes, Stack size 8 bytes, zt_gsensor.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = zt_gsensor_init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2245298]"></a>get_crc16</STRONG> (ARM, 84 bytes, Stack size 4 bytes, kfd_protocol.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = get_crc16
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[22441e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_format_cb_to_buffer
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+
+<P><STRONG><a name="[2244ea8]"></a>zt_hex_convert_str</STRONG> (ARM, 116 bytes, Stack size 8 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+</UL>
+
+<P><STRONG><a name="[2247770]"></a>GetNetworkService</STRONG> (ARM, 32 bytes, Stack size 8 bytes, kfd_protocol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = GetNetworkService
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224a9a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srv_nw_info_get_service_availability
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[22477b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_wait_full_service
+</UL>
+
+<P><STRONG><a name="[2245760]"></a>GetConnectTimes</STRONG> (ARM, 16 bytes, Stack size 0 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+</UL>
+
+<P><STRONG><a name="[2244308]"></a>kfd_srv_data_req_proc</STRONG> (ARM, 364 bytes, Stack size 16 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[22442c0]"></a>kfd_dev_data_proc</STRONG> (ARM, 48 bytes, Stack size 0 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+<LI><a href="#[224a0e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_ver_package
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[2244278]"></a>kfd_calibration_time</STRONG> (ARM, 80 bytes, Stack size 16 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a7f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mmi_dt_set_rtc_dt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[2244230]"></a>kfd_get_sn</STRONG> (ARM, 28 bytes, Stack size 0 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22441e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_format_cb_to_buffer
+</UL>
+
+<P><STRONG><a name="[22441e8]"></a>kfd_format_cb_to_buffer</STRONG> (ARM, 220 bytes, Stack size 48 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2244230]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_sn
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[224a838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RTC_GetTime_
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+</UL>
+
+<P><STRONG><a name="[22441a0]"></a>kfd_send_package</STRONG> (ARM, 220 bytes, Stack size 536 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[22441e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_format_cb_to_buffer
+<LI><a href="#[2244ea8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_hex_convert_str
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[22498c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srv_nw_info_get_signal_strength_in_percentage
+<LI><a href="#[224ad90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_send
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package
+<LI><a href="#[2243f18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ver_package
+<LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package
+<LI><a href="#[2243fa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_hb_package
+<LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+</UL>
+
+<P><STRONG><a name="[2245130]"></a>kfd_upload_ebike_package</STRONG> (ARM, 72 bytes, Stack size 72 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[2244158]"></a>kfd_pre_ebike_package_data</STRONG> (ARM, 4 bytes, Stack size 0 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+</UL>
+
+<P><STRONG><a name="[2245178]"></a>kfd_upload_alarm_package</STRONG> (ARM, 716 bytes, Stack size 48 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223dd40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[223e418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[22449c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_curr_shake_value
+<LI><a href="#[2244ef0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_shake_sharp
+<LI><a href="#[22469f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_electric_gate_status
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+<LI><a href="#[224a7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_curr_gps
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+</UL>
+
+<P><STRONG><a name="[2244110]"></a>kfd_upload_lbs_package</STRONG> (ARM, 268 bytes, Stack size 72 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2244f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_moving
+<LI><a href="#[22469f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_electric_gate_status
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+<LI><a href="#[224a910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_get_curr_lbs_info
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+</UL>
+
+<P><STRONG><a name="[22440c8]"></a>kfd_lat_long_convert</STRONG> (ARM, 24 bytes, Stack size 8 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223dd40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[223e418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+</UL>
+
+<P><STRONG><a name="[2245208]"></a>kfd_convert_gps_data_for_protocol</STRONG> (ARM, 532 bytes, Stack size 32 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223dd40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<LI><a href="#[223e418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<LI><a href="#[223f8a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod
+<LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[22440c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_lat_long_convert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+</UL>
+
+<P><STRONG><a name="[2244080]"></a>check_gps_upload_valid</STRONG> (ARM, 56 bytes, Stack size 8 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2244f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_check_is_moving
+<LI><a href="#[22469f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_electric_gate_status
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+</UL>
+
+<P><STRONG><a name="[22451c0]"></a>kfd_get_best_hdop_gps_data</STRONG> (ARM, 124 bytes, Stack size 32 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223d110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdcmple
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+</UL>
+
+<P><STRONG><a name="[2244038]"></a>kfd_upload_gps_package</STRONG> (ARM, 448 bytes, Stack size 80 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2240268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uread4
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2244080]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_gps_upload_valid
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[22449c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gsensor_get_curr_shake_value
+<LI><a href="#[22451c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_best_hdop_gps_data
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[224a910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_get_curr_lbs_info
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+</UL>
+
+<P><STRONG><a name="[2243ff0]"></a>kfd_upload_data_package</STRONG> (ARM, 216 bytes, Stack size 16 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[2244110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_lbs_package
+<LI><a href="#[2245130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ebike_package
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245c28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_valid
+<LI><a href="#[22463c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_pre_uart_data
+<LI><a href="#[224a958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_req
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+</UL>
+
+<P><STRONG><a name="[2243fa8]"></a>kfd_upload_hb_package</STRONG> (ARM, 128 bytes, Stack size 8 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[2243f60]"></a>kfd_upload_imsi_package</STRONG> (ARM, 104 bytes, Stack size 24 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen (via Veneer)
+<LI><a href="#[22405e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy (via Veneer)
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2249878]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_imsi
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[2243f18]"></a>kfd_upload_ver_package</STRONG> (ARM, 104 bytes, Stack size 24 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22405e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy (via Veneer)
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[2243ed0]"></a>GetPkgTimestamp</STRONG> (ARM, 280 bytes, Stack size 32 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223fc30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mktime (via Veneer)
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[2243e88]"></a>kfd_protocol_proc</STRONG> (ARM, 784 bytes, Stack size 320 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223d448]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
+<LI><a href="#[223d7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
+<LI><a href="#[223db90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[2243ed0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPkgTimestamp
+<LI><a href="#[2243f18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ver_package
+<LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package
+<LI><a href="#[2244278]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_calibration_time
+<LI><a href="#[22442c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_dev_data_proc
+<LI><a href="#[2244308]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_srv_data_req_proc
+<LI><a href="#[2244ea8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_hex_convert_str
+<LI><a href="#[2245298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_crc16
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp
+<LI><a href="#[224a5b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_led_open_gsm_led
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StopTimer
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+</UL>
+
+<P><STRONG><a name="[2243e40]"></a>kfd_protocol_parse</STRONG> (ARM, 272 bytes, Stack size 1056 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240d88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+<LI><a href="#[2249908]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_Free
+<LI><a href="#[2249950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_Malloc
+</UL>
+
+<P><STRONG><a name="[2243df8]"></a>kfd_free_connect</STRONG> (ARM, 40 bytes, Stack size 8 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224a568]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_led_close_gsm_led
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StopTimer
+</UL>
+
+<P><STRONG><a name="[2243db0]"></a>hex_str_2_bytes</STRONG> (ARM, 152 bytes, Stack size 16 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package
+</UL>
+
+<P><STRONG><a name="[2243d68]"></a>kfd_upload_login_package</STRONG> (ARM, 192 bytes, Stack size 40 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2240420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen (via Veneer)
+<LI><a href="#[2243db0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;hex_str_2_bytes
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[224a688]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;srv_imei_get_imei
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[22476e0]"></a>kfd_connect_service</STRONG> (ARM, 92 bytes, Stack size 16 bytes, kfd_protocol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = kfd_connect_service
+</UL>
+<BR>[Calls]<UL><LI><a href="#[224ae20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_get_app_id
+<LI><a href="#[224ae68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_launch
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247650]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_reconnect_service
+<LI><a href="#[2247800]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_main_full_service
+</UL>
+
+<P><STRONG><a name="[2247650]"></a>kfd_reconnect_service</STRONG> (ARM, 124 bytes, Stack size 8 bytes, kfd_protocol.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = kfd_reconnect_service &rArr; kfd_connect_service
+</UL>
+<BR>[Calls]<UL><LI><a href="#[22476e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_connect_service
+<LI><a href="#[2247770]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNetworkService
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StopTimer
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224add8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_free
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243fa8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_hb_package
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> zt_main.o(.text)
+</UL>
+<P><STRONG><a name="[2243d20]"></a>kfd_get_gps_data_per_period</STRONG> (ARM, 324 bytes, Stack size 40 bytes, kfd_protocol.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 48 + Unknown Stack Size
+<LI>Call Chain = kfd_get_gps_data_per_period &rArr; __aeabi_memcpy4
+</UL>
+<BR>[Calls]<UL><LI><a href="#[223ebe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[2240b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[2243a50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_set_location
+<LI><a href="#[224a7a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_gps_get_curr_gps
+<LI><a href="#[224a9e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimerID
+<LI><a href="#[224aa78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartTimer
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[22450e8]"></a>kfd_upload_give_back_package</STRONG> (ARM, 440 bytes, Stack size 136 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22400b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uwrite4
+<LI><a href="#[2240268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uread4
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[2246a38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_get_bat_connect_status
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+</UL>
+
+<P><STRONG><a name="[2243cd8]"></a>kfd_upload_command_rsp_package</STRONG> (ARM, 132 bytes, Stack size 32 bytes, kfd_protocol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+<LI><a href="#[224ad90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_send
+</UL>
+
+<P><STRONG><a name="[2247698]"></a>kfd_protocol_init</STRONG> (ARM, 632 bytes, Stack size 112 bytes, kfd_protocol.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 160 + Unknown Stack Size
+<LI>Call Chain = kfd_protocol_init &rArr; kfd_get_gps_data_per_period &rArr; __aeabi_memcpy4
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[2240b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<LI><a href="#[22413d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__1sprintf (via Veneer)
+<LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2244e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_read_config_in_fs
+<LI><a href="#[2249f80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetHWVersion
+<LI><a href="#[224aac0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetNvramID
+<LI><a href="#[224ab08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;WriteRecord
+<LI><a href="#[224ab50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReadRecord
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2247b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_ota_main
+</UL>
+
+<P><STRONG><a name="[2243810]"></a>FindString</STRONG> (ARM, 104 bytes, Stack size 24 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223fde8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr (via Veneer)
+<LI><a href="#[2240420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen (via Veneer)
+<LI><a href="#[2240fc8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+</UL>
+
+<P><STRONG><a name="[22437c8]"></a>zt_agps_write</STRONG> (ARM, 256 bytes, Stack size 48 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223fde8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr (via Veneer)
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[22411d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi (via Veneer)
+<LI><a href="#[2243810]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FindString
+<LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2249a28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_uart_write_data
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+</UL>
+
+<P><STRONG><a name="[2243780]"></a>zt_agps_parse</STRONG> (ARM, 140 bytes, Stack size 16 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240d88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+<LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+<LI><a href="#[2244e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_write_config_in_fs
+<LI><a href="#[2249908]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_Free
+<LI><a href="#[2249950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_Malloc
+<LI><a href="#[224add8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_free
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+
+<P><STRONG><a name="[2243738]"></a>ftoa</STRONG> (ARM, 264 bytes, Stack size 8 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223db90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[223fde8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr (via Veneer)
+<LI><a href="#[22413d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__1sprintf (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package
+</UL>
+
+<P><STRONG><a name="[22436f0]"></a>zt_agps_req_package</STRONG> (ARM, 320 bytes, Stack size 288 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ff08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcat (via Veneer)
+<LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[22413d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__1sprintf (via Veneer)
+<LI><a href="#[2243738]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ftoa
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22436a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_login_package
+</UL>
+
+<P><STRONG><a name="[22436a8]"></a>zt_agps_login_package</STRONG> (ARM, 72 bytes, Stack size 520 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240888]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package
+<LI><a href="#[224a910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_lbs_get_curr_lbs_info
+<LI><a href="#[224ad90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_send
+</UL>
+
+<P><STRONG><a name="[2244fc8]"></a>zt_agps_request</STRONG> (ARM, 72 bytes, Stack size 8 bytes, zt_agps.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[224ae20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_get_app_id
+<LI><a href="#[224ae68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_socket_launch
+<LI><a href="#[224aef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_trace
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2245b50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_process
+</UL>
+
+<P><STRONG><a name="[2243a50]"></a>zt_agps_set_location</STRONG> (ARM, 20 bytes, Stack size 0 bytes, zt_agps.o(.text), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+</UL>
+
+<P><STRONG><a name="[2244e18]"></a>zt_write_config_in_fs</STRONG> (ARM, 96 bytes, Stack size 24 bytes, zt_interface.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = zt_write_config_in_fs
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2249e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Seek
+<LI><a href="#[2249e60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Write
+<LI><a href="#[2249ef0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Close
+<LI><a href="#[2249f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Open
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245958]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_controller_proc
+<LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+</UL>
+
+<P><STRONG><a name="[2244e60]"></a>zt_read_config_in_fs</STRONG> (ARM, 96 bytes, Stack size 24 bytes, zt_interface.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 24 + Unknown Stack Size
+<LI>Call Chain = zt_read_config_in_fs
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2249e18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Seek
+<LI><a href="#[2249ea8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Read
+<LI><a href="#[2249ef0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Close
+<LI><a href="#[2249f38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FS_Open
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22475c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_init
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[2242120]"></a>__printf</STRONG> (Thumb, 748 bytes, Stack size 48 bytes, __printf.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22416a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec
+<LI><a href="#[22418b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_longlong_hex
+<LI><a href="#[2241bf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str
+<LI><a href="#[2241d78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_wctomb (Weak Reference)
+<LI><a href="#[2241dc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_wc (Weak Reference)
+<LI><a href="#[2241e08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_mbtowc (Weak Reference)
+<LI><a href="#[2241e50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_longlong_oct (Weak Reference)
+<LI><a href="#[2241e98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_longlong_dec (Weak Reference)
+<LI><a href="#[2241ee0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_hex (Weak Reference)
+<LI><a href="#[2241f28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_charcount (Weak Reference)
+<LI><a href="#[2951be8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r3
+<LI><a href="#[2951c78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r2
+<LI><a href="#[2951d08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r1
+<LI><a href="#[2954758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2953400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
+</UL>
+
+<P><STRONG><a name="[22420d8]"></a>_printf_return_value</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, __printf.o(.text), UNUSED)
+
+<P><STRONG><a name="[2242090]"></a>_printf_percent</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, __printf.o(.text), UNUSED)
+
+<P><STRONG><a name="[2242048]"></a>_printf_sizespec</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, __printf.o(.text), UNUSED)
+
+<P><STRONG><a name="[2241bf8]"></a>_printf_str</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, _printf_str.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2241b68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding (Weak Reference)
+<LI><a href="#[2241bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding (Weak Reference)
+<LI><a href="#[2951be8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r3
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[22418b8]"></a>_printf_longlong_hex</STRONG> (Thumb, 182 bytes, Stack size 88 bytes, _printf_longlong_hex.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2241828]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_truncate_unsigned (Weak Reference)
+<LI><a href="#[2953a90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[22416a8]"></a>_printf_int_dec</STRONG> (Thumb, 98 bytes, Stack size 72 bytes, _printf_dec.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2241618]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_truncate_signed (Weak Reference)
+<LI><a href="#[2241828]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_truncate_unsigned (Weak Reference)
+<LI><a href="#[2952d40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_udiv10 (via Veneer)
+<LI><a href="#[2953a90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[2241420]"></a>__0sprintf</STRONG> (Thumb, 40 bytes, Stack size 32 bytes, __0sprintf.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29531b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<LI><a href="#[2953400]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
+</UL>
+
+<P><STRONG><a name="[22413d8]"></a>__1sprintf</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, __0sprintf.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __1sprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package (via Veneer)
+<LI><a href="#[2243738]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ftoa (via Veneer)
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address (via Veneer)
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data (via Veneer)
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init (via Veneer)
+</UL>
+
+<P><STRONG><a name="[22411d0]"></a>atoi</STRONG> (Thumb, 30 bytes, Stack size 16 bytes, atoi.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2953098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+<LI><a href="#[2954518]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write (via Veneer)
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address (via Veneer)
+<LI><a href="#[2245910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_num (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2240fc8]"></a>__aeabi_memcpy</STRONG> (ARM, 0 bytes, Stack size 0 bytes, rt_memcpy.o(.text), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243810]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FindString
+<LI><a href="#[2243cd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_command_rsp_package
+<LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+<LI><a href="#[22441e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_format_cb_to_buffer
+<LI><a href="#[2245880]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_uart2_hdlr
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_num
+<LI><a href="#[2245ef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_actual_data_hdlr
+<LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+</UL>
+
+<P><STRONG><a name="[2240f80]"></a>__rt_memcpy</STRONG> (ARM, 212 bytes, Stack size 0 bytes, rt_memcpy.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2240b48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+</UL>
+
+<P><STRONG><a name="[2240f38]"></a>_memcpy_lastbytes</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memcpy.o(.text), UNUSED)
+
+<P><STRONG><a name="[2240d88]"></a>__aeabi_memclr</STRONG> (ARM, 0 bytes, Stack size 0 bytes, rt_memclr.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243780]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_parse
+<LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+</UL>
+
+<P><STRONG><a name="[2240d40]"></a>__rt_memclr</STRONG> (ARM, 64 bytes, Stack size 0 bytes, rt_memclr.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[22407b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset_w
+</UL>
+
+<P><STRONG><a name="[2240cf8]"></a>_memset</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memclr.o(.text), UNUSED)
+
+<P><STRONG><a name="[2240b48]"></a>__aeabi_memcpy4</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_memcpy4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2240f80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memcpy
+<LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[2240b00]"></a>__aeabi_memcpy8</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[2240ab8]"></a>__rt_memcpy_w</STRONG> (ARM, 100 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[2240a70]"></a>_memcpy_lastbytes_aligned</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memcpy_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[2240888]"></a>__aeabi_memclr4</STRONG> (ARM, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = __aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22436a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_login_package
+<LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package
+<LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write
+<LI><a href="#[2243cd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_command_rsp_package
+<LI><a href="#[2243e40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_parse
+<LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[22441a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_send_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245880]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_uart2_hdlr
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address
+<LI><a href="#[2245ef8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_actual_data_hdlr
+<LI><a href="#[2245f40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_parse_proc
+<LI><a href="#[2245fd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart1_parse_proc
+<LI><a href="#[2246060]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_heart_data
+<LI><a href="#[2246258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data_ext
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+<LI><a href="#[2246498]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_prepare_send_data
+<LI><a href="#[2247698]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_init
+</UL>
+
+<P><STRONG><a name="[2240840]"></a>__aeabi_memclr8</STRONG> (ARM, 0 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[22407f8]"></a>__rt_memclr_w</STRONG> (ARM, 84 bytes, Stack size 4 bytes, rt_memclr_w.o(.text), UNUSED)
+
+<P><STRONG><a name="[22407b0]"></a>_memset_w</STRONG> (ARM, 0 bytes, Stack size unknown bytes, rt_memclr_w.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2240d40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_memclr
+</UL>
+
+<P><STRONG><a name="[22405e0]"></a>strcpy</STRONG> (Thumb, 74 bytes, Stack size 12 bytes, strcpy.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243f18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_ver_package (via Veneer)
+<LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2240420]"></a>strlen</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, strlen.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243810]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FindString (via Veneer)
+<LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package (via Veneer)
+<LI><a href="#[2243f60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_imsi_package (via Veneer)
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address (via Veneer)
+<LI><a href="#[2246408]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_proc_network_data (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2240268]"></a>__aeabi_uread4</STRONG> (ARM, 0 bytes, Stack size 0 bytes, uread4.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+</UL>
+
+<P><STRONG><a name="[2240220]"></a>__rt_uread4</STRONG> (ARM, 32 bytes, Stack size 0 bytes, uread4.o(.text), UNUSED)
+
+<P><STRONG><a name="[22400b8]"></a>__aeabi_uwrite4</STRONG> (ARM, 0 bytes, Stack size 0 bytes, uwrite4.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_login_package
+<LI><a href="#[2244038]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_gps_package
+<LI><a href="#[22450e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_give_back_package
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[22460f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bt_giveback_package
+<LI><a href="#[2246210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_data
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+</UL>
+
+<P><STRONG><a name="[2240070]"></a>__rt_uwrite4</STRONG> (ARM, 32 bytes, Stack size 0 bytes, uwrite4.o(.text), UNUSED)
+
+<P><STRONG><a name="[223ff08]"></a>strcat</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, strcat.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22436f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_req_package (via Veneer)
+</UL>
+
+<P><STRONG><a name="[223fde8]"></a>strstr</STRONG> (Thumb, 42 bytes, Stack size 8 bytes, strstr.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243738]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ftoa (via Veneer)
+<LI><a href="#[22437c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_agps_write (via Veneer)
+<LI><a href="#[2243810]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FindString (via Veneer)
+<LI><a href="#[22458c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;modify_service_address (via Veneer)
+<LI><a href="#[2245910]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_int_num (via Veneer)
+</UL>
+
+<P><STRONG><a name="[223fc30]"></a>mktime</STRONG> (Thumb, 350 bytes, Stack size 40 bytes, mktime.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = mktime &rArr; _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[223f8a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod (via Veneer)
+<LI><a href="#[223fc78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_tm_carry
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ed0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetPkgTimestamp (via Veneer)
+<LI><a href="#[22464e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetTimeStamp (via Veneer)
+</UL>
+
+<P><STRONG><a name="[223f8f0]"></a>__aeabi_idiv</STRONG> (ARM, 0 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED)
+
+<P><STRONG><a name="[223f8a8]"></a>__aeabi_idivmod</STRONG> (ARM, 384 bytes, Stack size 8 bytes, aeabi_sdiv.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_idivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223fc30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mktime (via Veneer)
+<LI><a href="#[223fc78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_tm_carry (via Veneer)
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[2246378]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_convert_adc
+<LI><a href="#[2950b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_etento (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2954518]"></a>__aeabi_errno_addr</STRONG> (ARM, 20 bytes, Stack size 0 bytes, rt_errno_addr.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22411d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi (via Veneer)
+<LI><a href="#[294f890]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul (via Veneer)
+<LI><a href="#[2953098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol (via Veneer)
+</UL>
+
+<P><STRONG><a name="[29544d0]"></a>__rt_errno_addr</STRONG> (ARM, 0 bytes, Stack size 0 bytes, rt_errno_addr.o(.text), UNUSED)
+
+<P><STRONG><a name="[2953a90]"></a>_printf_int_common</STRONG> (Thumb, 168 bytes, Stack size 40 bytes, _printf_intcommon.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2241b68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding (Weak Reference)
+<LI><a href="#[2241bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding (Weak Reference)
+<LI><a href="#[2951c78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22416a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec
+<LI><a href="#[22418b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_longlong_hex
+</UL>
+
+<P><STRONG><a name="[2953880]"></a>__lib_sel_fp_printf</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, _printf_fp_dec.o(.text), UNUSED)
+
+<P><STRONG><a name="[2953838]"></a>_printf_fp_dec_real</STRONG> (Thumb, 696 bytes, Stack size 104 bytes, _printf_fp_dec.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2241b68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding (Weak Reference)
+<LI><a href="#[2241bb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding (Weak Reference)
+<LI><a href="#[294ed48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_classify (via Veneer)
+<LI><a href="#[2951428]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_locale (via Veneer)
+<LI><a href="#[2951c78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r2
+<LI><a href="#[2952d40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_udiv10 (via Veneer)
+<LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2954758]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2953400]"></a>_printf_char_common</STRONG> (Thumb, 44 bytes, Stack size 88 bytes, _printf_char_common.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2241420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0sprintf
+</UL>
+
+<P><STRONG><a name="[29531b8]"></a>_sputc</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _sputc.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[2241420]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0sprintf
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> __0sprintf.o(.text)
+</UL>
+<P><STRONG><a name="[2953098]"></a>strtol</STRONG> (Thumb, 112 bytes, Stack size 32 bytes, strtol.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f890]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul
+<LI><a href="#[2951680]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_ctype_table (via Veneer)
+<LI><a href="#[2954518]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[22411d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;atoi
+</UL>
+
+<P><STRONG><a name="[2952d40]"></a>__rt_udiv10</STRONG> (ARM, 44 bytes, Stack size 0 bytes, rtudiv10.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22416a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec (via Veneer)
+<LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2951d98]"></a>__ARM_call_via_r0</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951d50]"></a>__call_via_r0</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951d08]"></a>__ARM_call_via_r1</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[2951cc0]"></a>__call_via_r1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951c78]"></a>__ARM_call_via_r2</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+<LI><a href="#[294fb28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_outstr_char
+<LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real
+<LI><a href="#[2953a90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common
+</UL>
+
+<P><STRONG><a name="[2951c30]"></a>__call_via_r2</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951be8]"></a>__ARM_call_via_r3</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2241bf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str
+<LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+</UL>
+
+<P><STRONG><a name="[2951ba0]"></a>__call_via_r3</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951b58]"></a>__ARM_call_via_r4</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951b10]"></a>__call_via_r4</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951ac8]"></a>__ARM_call_via_r5</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951a80]"></a>__call_via_r5</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951a38]"></a>__ARM_call_via_r6</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[29519f0]"></a>__call_via_r6</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[29519a8]"></a>__ARM_call_via_r7</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951960]"></a>__call_via_r7</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, callvia.o(.text), UNUSED)
+
+<P><STRONG><a name="[2951680]"></a>__rt_ctype_table</STRONG> (ARM, 24 bytes, Stack size 8 bytes, rt_ctype_table.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2951428]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_locale
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2953098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2951428]"></a>__rt_locale</STRONG> (ARM, 20 bytes, Stack size 0 bytes, rt_locale.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2951680]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_ctype_table
+<LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2950e00]"></a>_ll_udiv10</STRONG> (ARM, 160 bytes, Stack size 12 bytes, lludiv10.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2950b98]"></a>_btod_etento</STRONG> (Thumb, 196 bytes, Stack size 72 bytes, bigflt0.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f8a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod (via Veneer)
+<LI><a href="#[29501f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_emul (via Veneer)
+<LI><a href="#[2950280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_ediv (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+</UL>
+
+<P><STRONG><a name="[294fb28]"></a>_printf_outstr_char</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, _printf_outstr_char.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16 + Unknown Stack Size
+<LI>Call Chain = _printf_outstr_char
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2951c78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_call_via_r2
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> _printf_char_common.o(.text)
+</UL>
+<P><STRONG><a name="[294f9b0]"></a>_printf_input_char</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, _printf_input_char.o(.text))
+<BR>[Address Reference Count : 1]<UL><LI> _printf_char_common.o(.text)
+</UL>
+<P><STRONG><a name="[294f890]"></a>_strtoul</STRONG> (Thumb, 166 bytes, Stack size 40 bytes, _strtoul.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294e9b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_chval
+<LI><a href="#[2954518]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_errno_addr (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2953098]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strtol
+</UL>
+
+<P><STRONG><a name="[294e9b8]"></a>_chval</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, _chval.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[294f890]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_strtoul
+</UL>
+
+<P><STRONG><a name="[294e1a0]"></a>strcmp</STRONG> (ARM, 156 bytes, Stack size 4 bytes, strcmp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = strcmp
+</UL>
+<BR>[Called By]<UL><LI><a href="#[294e778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_get_lc_ctype
+<LI><a href="#[294f4d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_get_lc_numeric
+</UL>
+
+<P><STRONG><a name="[223f860]"></a>__aeabi_uidiv</STRONG> (ARM, 0 bytes, Stack size 0 bytes, aeabi_sdiv.o(.text_udiv), UNUSED)
+
+<P><STRONG><a name="[223f818]"></a>__aeabi_uidivmod</STRONG> (ARM, 28 bytes, Stack size 0 bytes, aeabi_sdiv.o(.text_udiv), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223f938]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__arm_div_large
+<LI><a href="#[223f980]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__arm_div4
+<LI><a href="#[223f9c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__arm_div8
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2243ff0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_data_package
+<LI><a href="#[2245cb8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_check_lundong
+<LI><a href="#[2246210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_data
+<LI><a href="#[22462a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_smart_update_network_data
+<LI><a href="#[2246378]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;zt_convert_adc
+</UL>
+
+<P><STRONG><a name="[2950430]"></a>_btod_d2e</STRONG> (ARM, 56 bytes, Stack size 0 bytes, btod.o(CL$$btod_d2e), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29503a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2e_norm_op1
+</UL>
+<BR>[Called By]<UL><LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[29503e8]"></a>_d2e_denorm_low</STRONG> (ARM, 84 bytes, Stack size 0 bytes, btod.o(CL$$btod_d2e_denorm_low), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[29503a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2e_norm_op1
+</UL>
+
+<P><STRONG><a name="[29503a0]"></a>_d2e_norm_op1</STRONG> (ARM, 104 bytes, Stack size 0 bytes, btod.o(CL$$btod_d2e_norm_op1), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29503e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2e_denorm_low
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2950430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_d2e
+</UL>
+
+<P><STRONG><a name="[2950358]"></a>__btod_div_common</STRONG> (ARM, 716 bytes, Stack size 24 bytes, btod.o(CL$$btod_div_common), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2950280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_ediv
+</UL>
+
+<P><STRONG><a name="[29502c8]"></a>_e2e</STRONG> (ARM, 220 bytes, Stack size 24 bytes, btod.o(CL$$btod_e2e), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[29501f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_emul
+<LI><a href="#[2950280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_ediv
+</UL>
+
+<P><STRONG><a name="[2950280]"></a>_btod_ediv</STRONG> (ARM, 52 bytes, Stack size 24 bytes, btod.o(CL$$btod_ediv), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29502c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_e2e
+<LI><a href="#[2950358]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__btod_div_common
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2950b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_etento (via Veneer)
+<LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[29501f0]"></a>_btod_emul</STRONG> (ARM, 52 bytes, Stack size 24 bytes, btod.o(CL$$btod_emul), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2950160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__btod_mult_common
+<LI><a href="#[29502c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_e2e
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2950b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_etento (via Veneer)
+<LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2950160]"></a>__btod_mult_common</STRONG> (ARM, 616 bytes, Stack size 16 bytes, btod.o(CL$$btod_mult_common), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[29501f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_emul
+</UL>
+
+<P><STRONG><a name="[294e028]"></a>__ARM_fpclassify</STRONG> (ARM, 44 bytes, Stack size 0 bytes, fpclassify.o(i.__ARM_fpclassify), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[294ed48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_classify
+</UL>
+
+<P><STRONG><a name="[294ed48]"></a>__mathlib_classify</STRONG> (ARM, 56 bytes, Stack size 8 bytes, classify.o(i.__mathlib_classify), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294e028]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (via Veneer)
+</UL>
+
+<P><STRONG><a name="[294eb90]"></a>__support_dtoi</STRONG> (ARM, 96 bytes, Stack size 16 bytes, dtoi.o(i.__support_dtoi), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ccb0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[294f4d0]"></a>_get_lc_numeric</STRONG> (ARM, 80 bytes, Stack size 8 bytes, lc_numeric_c.o(locale$$code), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294e1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcmp
+</UL>
+
+<P><STRONG><a name="[294e778]"></a>_get_lc_ctype</STRONG> (ARM, 80 bytes, Stack size 8 bytes, lc_ctype_c.o(locale$$code))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = _get_lc_ctype &rArr; strcmp
+</UL>
+<BR>[Calls]<UL><LI><a href="#[294e1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcmp
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> rt_ctype_table.o(.text)
+</UL>
+<P><STRONG><a name="[223ebe0]"></a>__aeabi_d2f</STRONG> (ARM, 0 bytes, Stack size 0 bytes, d2f.o(x$fpl$d2f), UNUSED, KEPT)
+<BR><BR>[Called By]<UL><LI><a href="#[2243d20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_gps_data_per_period
+</UL>
+
+<P><STRONG><a name="[223eb98]"></a>_d2f</STRONG> (ARM, 168 bytes, Stack size 0 bytes, d2f.o(x$fpl$d2f), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN1
+</UL>
+
+<P><STRONG><a name="[223eb50]"></a>__fpl_inf_d2f</STRONG> (ARM, 0 bytes, Stack size unknown bytes, d2f.o(x$fpl$d2f), UNUSED)
+
+<P><STRONG><a name="[2952b00]"></a>__fpl_dcheck_NaN2</STRONG> (ARM, 12 bytes, Stack size 0 bytes, dcheck.o(x$fpl$dcheck), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_return_NaN
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul
+<LI><a href="#[223e788]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
+<LI><a href="#[29527e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcmp_InfNaN
+</UL>
+
+<P><STRONG><a name="[2952950]"></a>__fpl_dcheck_NaN1</STRONG> (ARM, 12 bytes, Stack size 0 bytes, dcheck1.o(x$fpl$dcheck1), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_return_NaN
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223cc68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;scalbn
+<LI><a href="#[223e3d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dfixu
+<LI><a href="#[223eb98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2f
+</UL>
+
+<P><STRONG><a name="[29527e8]"></a>__fpl_dcmp_InfNaN</STRONG> (ARM, 128 bytes, Stack size 4 bytes, dcmpin.o(x$fpl$dcmpinfnan), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[294f0b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_cmpreturn
+<LI><a href="#[2952b00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN2
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223d0c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dcmple
+</UL>
+
+<P><STRONG><a name="[29527a0]"></a>__fpl_inf_dcmp</STRONG> (ARM, 0 bytes, Stack size unknown bytes, dcmpin.o(x$fpl$dcmpinfnan), UNUSED)
+
+<P><STRONG><a name="[223e7d0]"></a>__aeabi_ddiv</STRONG> (ARM, 0 bytes, Stack size 16 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+</UL>
+
+<P><STRONG><a name="[223e788]"></a>_ddiv</STRONG> (ARM, 464 bytes, Stack size 16 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223e6f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv_mantissas
+<LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952b00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN2
+</UL>
+
+<P><STRONG><a name="[223e740]"></a>__fpl_inf_ddiv</STRONG> (ARM, 0 bytes, Stack size unknown bytes, ddiv.o(x$fpl$ddiv), UNUSED)
+
+<P><STRONG><a name="[223e6f8]"></a>_ddiv_mantissas</STRONG> (ARM, 608 bytes, Stack size 28 bytes, ddiv.o(x$fpl$ddiv), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223e788]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv
+</UL>
+
+<P><STRONG><a name="[223e418]"></a>__aeabi_d2uiz</STRONG> (ARM, 0 bytes, Stack size 8 bytes, dfixu.o(x$fpl$dfixu), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22440c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_lat_long_convert
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+</UL>
+
+<P><STRONG><a name="[223e3d0]"></a>_dfixu</STRONG> (ARM, 132 bytes, Stack size 8 bytes, dfixu.o(x$fpl$dfixu), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN1
+</UL>
+
+<P><STRONG><a name="[223e388]"></a>__fpl_inf_dfixu</STRONG> (ARM, 0 bytes, Stack size unknown bytes, dfixu.o(x$fpl$dfixu), UNUSED)
+
+<P><STRONG><a name="[223e070]"></a>__aeabi_i2d</STRONG> (ARM, 0 bytes, Stack size 0 bytes, dflt_noclz.o(x$fpl$dflt), UNUSED)
+
+<P><STRONG><a name="[223e028]"></a>_dflt</STRONG> (ARM, 88 bytes, Stack size 0 bytes, dflt_noclz.o(x$fpl$dflt), UNUSED)
+
+<P><STRONG><a name="[223dfe0]"></a>__dflt_normalise</STRONG> (ARM, 0 bytes, Stack size unknown bytes, dflt_noclz.o(x$fpl$dflt), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223df50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dfltu
+</UL>
+
+<P><STRONG><a name="[223df98]"></a>__aeabi_ui2d</STRONG> (ARM, 0 bytes, Stack size 0 bytes, dflt_noclz.o(x$fpl$dfltu), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+</UL>
+
+<P><STRONG><a name="[223df50]"></a>_dfltu</STRONG> (ARM, 12 bytes, Stack size 0 bytes, dflt_noclz.o(x$fpl$dfltu), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223dfe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__dflt_normalise
+</UL>
+
+<P><STRONG><a name="[223d110]"></a>__aeabi_cdcmple</STRONG> (ARM, 0 bytes, Stack size 0 bytes, dleqf.o(x$fpl$dleqf), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22451c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_get_best_hdop_gps_data
+</UL>
+
+<P><STRONG><a name="[223d0c8]"></a>_dcmple</STRONG> (ARM, 132 bytes, Stack size 0 bytes, dleqf.o(x$fpl$dleqf), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29527e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcmp_InfNaN
+</UL>
+
+<P><STRONG><a name="[223dd40]"></a>__aeabi_dmul</STRONG> (ARM, 0 bytes, Stack size 16 bytes, dmul.o(x$fpl$dmul), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22440c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_lat_long_convert
+<LI><a href="#[2245178]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_upload_alarm_package
+<LI><a href="#[2245208]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_convert_gps_data_for_protocol
+<LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+</UL>
+
+<P><STRONG><a name="[223dcf8]"></a>_dmul</STRONG> (ARM, 460 bytes, Stack size 16 bytes, dmul.o(x$fpl$dmul), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952b00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN2
+</UL>
+
+<P><STRONG><a name="[223dcb0]"></a>__fpl_inf_dmul</STRONG> (ARM, 0 bytes, Stack size unknown bytes, dmul.o(x$fpl$dmul), UNUSED)
+
+<P><STRONG><a name="[2952550]"></a>__dunder</STRONG> (ARM, 272 bytes, Stack size 4 bytes, dunder.o(x$fpl$dunder), UNUSED)
+
+<P><STRONG><a name="[2952508]"></a>__dunder_d</STRONG> (ARM, 4 bytes, Stack size 0 bytes, dunder.o(x$fpl$dunder), UNUSED)
+
+<P><STRONG><a name="[223db90]"></a>__aeabi_f2d</STRONG> (ARM, 0 bytes, Stack size 0 bytes, f2d.o(x$fpl$f2d), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243738]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ftoa
+<LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[223db48]"></a>_f2d</STRONG> (ARM, 96 bytes, Stack size 0 bytes, f2d.o(x$fpl$f2d), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952200]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fcheck_NaN1
+</UL>
+
+<P><STRONG><a name="[223db00]"></a>__fpl_inf_f2d</STRONG> (ARM, 0 bytes, Stack size unknown bytes, f2d.o(x$fpl$f2d), UNUSED)
+
+<P><STRONG><a name="[2952368]"></a>__fpl_fcheck_NaN2</STRONG> (ARM, 8 bytes, Stack size 0 bytes, fcheck.o(x$fpl$fcheck), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_return_NaN
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223d760]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fdiv
+</UL>
+
+<P><STRONG><a name="[2952200]"></a>__fpl_fcheck_NaN1</STRONG> (ARM, 8 bytes, Stack size 0 bytes, fcheck1.o(x$fpl$fcheck1), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_return_NaN
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223db48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d
+</UL>
+
+<P><STRONG><a name="[223d7a8]"></a>__aeabi_fdiv</STRONG> (ARM, 0 bytes, Stack size 4 bytes, fdiv.o(x$fpl$fdiv), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[223d760]"></a>_fdiv</STRONG> (ARM, 476 bytes, Stack size 4 bytes, fdiv.o(x$fpl$fdiv), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952368]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fcheck_NaN2
+</UL>
+
+<P><STRONG><a name="[223d718]"></a>__fpl_inf_fdiv</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fdiv.o(x$fpl$fdiv), UNUSED)
+
+<P><STRONG><a name="[223d448]"></a>__aeabi_i2f</STRONG> (ARM, 0 bytes, Stack size 0 bytes, fflt_noclz.o(x$fpl$fflt), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2243e88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;kfd_protocol_proc
+</UL>
+
+<P><STRONG><a name="[223d400]"></a>_fflt</STRONG> (ARM, 92 bytes, Stack size 0 bytes, fflt_noclz.o(x$fpl$fflt), UNUSED)
+
+<P><STRONG><a name="[223d3b8]"></a>__fflt_normalise</STRONG> (ARM, 0 bytes, Stack size unknown bytes, fflt_noclz.o(x$fpl$fflt), UNUSED)
+
+<P><STRONG><a name="[2952098]"></a>__fpl_normalise2</STRONG> (ARM, 148 bytes, Stack size 0 bytes, fnorm2_noclz.o(x$fpl$fnorm2), UNUSED)
+
+<P><STRONG><a name="[2951f28]"></a>__funder</STRONG> (ARM, 140 bytes, Stack size 0 bytes, funder.o(x$fpl$funder), UNUSED)
+
+<P><STRONG><a name="[2951ee0]"></a>__funder_d</STRONG> (ARM, 4 bytes, Stack size 0 bytes, funder.o(x$fpl$funder), UNUSED)
+
+<P><STRONG><a name="[294ef38]"></a>__ieee_status</STRONG> (ARM, 8 bytes, Stack size 0 bytes, istatus.o(x$fpl$ieeestatus), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[29538c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits (via Veneer)
+</UL>
+
+<P><STRONG><a name="[2954758]"></a>_printf_fp_dec</STRONG> (ARM, 4 bytes, Stack size 0 bytes, printf1.o(x$fpl$printf1), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (via Veneer)
+</UL>
+
+<P><STRONG><a name="[294f2b0]"></a>__fpl_return_NaN</STRONG> (ARM, 116 bytes, Stack size 0 bytes, retnan.o(x$fpl$retnan), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294f0b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_cmpreturn
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2952200]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fcheck_NaN1
+<LI><a href="#[2952368]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_fcheck_NaN2
+<LI><a href="#[2952950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN1
+<LI><a href="#[2952b00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN2
+</UL>
+
+<P><STRONG><a name="[223ccb0]"></a>__ARM_scalbn</STRONG> (ARM, 0 bytes, Stack size 0 bytes, scalbn_noclz.o(x$fpl$scalbn), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2245d90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_hall_for_speed
+<LI><a href="#[294eb90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__support_dtoi
+</UL>
+
+<P><STRONG><a name="[223cc68]"></a>scalbn</STRONG> (ARM, 108 bytes, Stack size 0 bytes, scalbn_noclz.o(x$fpl$scalbn), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[223ea30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_infinity (Weak Reference)
+<LI><a href="#[2952950]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcheck_NaN1
+</UL>
+
+<P><STRONG><a name="[223cc20]"></a>__fpl_inf_scalbn</STRONG> (ARM, 0 bytes, Stack size unknown bytes, scalbn_noclz.o(x$fpl$scalbn), UNUSED)
+
+<P><STRONG><a name="[294f0b0]"></a>__fpl_cmpreturn</STRONG> (ARM, 60 bytes, Stack size 0 bytes, trapv.o(x$fpl$trapveneer), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[294f2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_return_NaN
+<LI><a href="#[29527e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcmp_InfNaN
+</UL>
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[223fc78]"></a>_tm_carry</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, mktime.o(.text), UNUSED, KEPT)
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = _tm_carry &rArr; __aeabi_idivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[223f8a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_idivmod (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[223fc30]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mktime
+</UL>
+
+<P><STRONG><a name="[223f9c8]"></a>__arm_div8</STRONG> (ARM, 0 bytes, Stack size unknown bytes, aeabi_sdiv.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+</UL>
+
+<P><STRONG><a name="[223f980]"></a>__arm_div4</STRONG> (ARM, 0 bytes, Stack size unknown bytes, aeabi_sdiv.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+</UL>
+
+<P><STRONG><a name="[223f938]"></a>__arm_div_large</STRONG> (ARM, 0 bytes, Stack size unknown bytes, aeabi_sdiv.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223f818]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+</UL>
+
+<P><STRONG><a name="[29538c8]"></a>_fp_digits</STRONG> (Thumb, 486 bytes, Stack size 96 bytes, _printf_fp_dec.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[294eb90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__support_dtoi (via Veneer)
+<LI><a href="#[294ef38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee_status (via Veneer)
+<LI><a href="#[29501f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_emul (via Veneer)
+<LI><a href="#[2950280]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_ediv (via Veneer)
+<LI><a href="#[2950430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_d2e (via Veneer)
+<LI><a href="#[2950b98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_btod_etento
+<LI><a href="#[2950e00]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ll_udiv10 (via Veneer)
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real
+</UL>
+<P>
+<H3>
+Undefined Global Symbols
+</H3>
+<P><STRONG><a name="[223ea30]"></a>__fpl_infinity</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[223cc68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;scalbn (Weak Reference)
+<LI><a href="#[223d760]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fdiv (Weak Reference)
+<LI><a href="#[223db48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_f2d (Weak Reference)
+<LI><a href="#[223dcf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dmul (Weak Reference)
+<LI><a href="#[223e3d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dfixu (Weak Reference)
+<LI><a href="#[223e788]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_ddiv (Weak Reference)
+<LI><a href="#[223eb98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_d2f (Weak Reference)
+<LI><a href="#[29527e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__fpl_dcmp_InfNaN (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241f28]"></a>_printf_charcount</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241ee0]"></a>_printf_fp_hex</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241e98]"></a>_printf_longlong_dec</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241e50]"></a>_printf_longlong_oct</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241e08]"></a>_printf_mbtowc</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241bb0]"></a>_printf_post_padding</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2241bf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str (Weak Reference)
+<LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (Weak Reference)
+<LI><a href="#[2953a90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241b68]"></a>_printf_pre_padding</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2241bf8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_str (Weak Reference)
+<LI><a href="#[2953838]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real (Weak Reference)
+<LI><a href="#[2953a90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_common (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241618]"></a>_printf_truncate_signed</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22416a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241828]"></a>_printf_truncate_unsigned</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[22416a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_int_dec (Weak Reference)
+<LI><a href="#[22418b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_longlong_hex (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241dc0]"></a>_printf_wc</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+
+<P><STRONG><a name="[2241d78]"></a>_printf_wctomb</STRONG> (Unknown, 0 bytes, Stack size 0 bytes, UNDEFINED, UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2242120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf (Weak Reference)
+</UL>
+<HR></body></html>

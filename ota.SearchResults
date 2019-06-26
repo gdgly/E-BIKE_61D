@@ -1,0 +1,15 @@
+---- search_times Matches (6 in 2 files) ----
+Zt_smart_control.c (src):				voice_search_times = default_set.search_times;
+Zt_smart_control.c (src):						default_set.search_times = cmd->para[0];
+Zt_smart_control.c (src):			voice_search_times = default_set.search_times;
+Zt_smart_control.c (src):	if(default_set.search_times==0)
+Zt_smart_control.c (src):		default_set.search_times = 3;
+Zt_smart_control.h (inc):	kal_int8 search_times;
+---- parse_imsi_package Matches (7 in 4 files) ----
+Kfd_protocol.c (src):			parse_imsi_package(data->value,data->value_len);
+Wmp.htm:<LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+Wmp.htm:<P><STRONG><a name="[22459a0]"></a>parse_imsi_package</STRONG> (ARM, 96 bytes, Stack size 8 bytes, zt_smart_control.o(.text), UNUSED)
+Wmp.htm:<BR><BR>[Calls]<UL><LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+Wmp.htm:<LI><a href="#[22459a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;parse_imsi_package
+Zt_smart_control.c (src):void parse_imsi_package(kal_uint8* data, kal_uint8 len)
+Zt_smart_control.h (inc):extern void parse_imsi_package(kal_uint8* data, kal_uint8 len);
